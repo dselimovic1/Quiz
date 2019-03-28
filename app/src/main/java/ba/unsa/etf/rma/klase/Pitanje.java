@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.klase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Pitanje {
 
@@ -49,5 +50,11 @@ public class Pitanje {
 
     public void setTacan(String tacan) {
         this.tacan = tacan;
+    }
+
+    public ArrayList<String> dajRandomOdgovore() {
+        ArrayList<String> randomOdgovori = odgovori;
+        Collections.shuffle(randomOdgovori);
+        return randomOdgovori;
     }
 }
