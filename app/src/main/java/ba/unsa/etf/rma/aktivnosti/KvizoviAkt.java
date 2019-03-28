@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import ba.unsa.etf.rma.R;
 
-public class MainActivity extends AppCompatActivity {
+public class KvizoviAkt extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
