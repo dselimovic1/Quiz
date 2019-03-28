@@ -40,4 +40,8 @@ public class Kviz {
     public void setKategorija(Kategorija kategorija) {
         this.kategorija = kategorija;
     }
+
+    public void dodajPitanje(Pitanje pitanje) {
+        pitanja.add(pitanje);
+    }
 }
