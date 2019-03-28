@@ -1,7 +1,11 @@
 package ba.unsa.etf.rma.klase;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -17,5 +21,19 @@ public class KvizAdapter extends ArrayAdapter<Kviz> {
 
         this.context = context;
         this.kvizovi = kvizovi;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View listItem = convertView;
+        if(listItem == null)
+            listItem = LayoutInflater.from(context).inflate(R.layout.kviz, parent, false);
+
+        Kviz current = kvizovi.get(position);
+
+        TextView imeKviza = (TextView)listItem.findViewById(R.id.ime);
+        imeKviza.setText(current.getNaziv());
+
+        return listItem;
     }
 }

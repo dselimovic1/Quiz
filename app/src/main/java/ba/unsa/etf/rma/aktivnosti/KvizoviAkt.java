@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kviz;
+import ba.unsa.etf.rma.klase.KvizAdapter;
 
 
 public class KvizoviAkt extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class KvizoviAkt extends AppCompatActivity {
     private ArrayList<String> kategorije;
     private ArrayList<Kviz> kvizovi;
     private ArrayAdapter<String> adapterKategorije;
+    private KvizAdapter kvizAdapter;
     private Spinner spinner;
     private ListView list;
 
@@ -34,7 +36,9 @@ public class KvizoviAkt extends AppCompatActivity {
         kvizovi = new ArrayList<>();
 
         adapterKategorije = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item ,kategorije);
+        kvizAdapter = new KvizAdapter(this, kvizovi);
         spinner.setAdapter(adapterKategorije);
+        list.setAdapter(kvizAdapter);
     }
 
     private ArrayList<String> filterKategorije(String naziv) {
