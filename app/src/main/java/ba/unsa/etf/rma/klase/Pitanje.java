@@ -53,7 +53,7 @@ public class Pitanje {
     }
 
     public ArrayList<String> dajRandomOdgovore() {
-        ArrayList<String> randomOdgovori = odgovori;
+        ArrayList<String> randomOdgovori = new ArrayList<>(odgovori);
         Collections.shuffle(randomOdgovori);
         return randomOdgovori;
     }
