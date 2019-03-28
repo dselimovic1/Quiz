@@ -1,7 +1,7 @@
 package ba.unsa.etf.rma.aktivnosti;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -33,9 +33,19 @@ public class KvizoviAkt extends AppCompatActivity {
         kategorije.add("Svi");
         kvizovi = new ArrayList<>();
 
-        adapterKategorije = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorije);
+        adapterKategorije = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item ,kategorije);
         spinner.setAdapter(adapterKategorije);
     }
 
+    private ArrayList<String> filterKategorije(String naziv) {
+        if(naziv == null) return kategorije;
+        ArrayList<String> temp = new ArrayList();
 
+        for(int i = 0; i < kategorije.size(); i++) {
+            if(naziv.equals(kategorije.get(i))) {
+                temp.add(kategorije.get(i));
+            }
+        }
+        return temp;
+    }
 }
