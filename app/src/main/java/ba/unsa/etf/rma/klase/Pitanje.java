@@ -1,0 +1,53 @@
+package ba.unsa.etf.rma.klase;
+
+import java.util.ArrayList;
+
+public class Pitanje {
+
+    private String naziv;
+    private String tekstPitanja;
+    private ArrayList<String> odgovori = new ArrayList<>();
+    private String tacan;
+
+    public Pitanje() {
+    }
+
+    public Pitanje(String naziv, String tekstPitanja, ArrayList<String> odgovori, String tacan) {
+        this.naziv = naziv;
+        this.tekstPitanja = tekstPitanja;
+        this.odgovori = odgovori;
+        this.tacan = tacan;
+    }
+
+    public String getNaziv() {
+        return naziv;
+    }
+
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
+    }
+
+    public String getTekstPitanja() {
+        return tekstPitanja;
+    }
+
+    public void setTekstPitanja(String tekstPitanja) {
+        this.tekstPitanja = tekstPitanja;
+    }
+
+    public ArrayList<String> getOdgovori() {
+        return odgovori;
+    }
+
+    public void setOdgovori(ArrayList<String> odgovori) {
+        this.odgovori = odgovori;
+    }
+
+    public String getTacan() {
+        return tacan;
+    }
+
+    public void setTacan(String tacan) {
+        this.tacan = tacan;
+    }
+}
