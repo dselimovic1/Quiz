@@ -2,6 +2,8 @@ package ba.unsa.etf.rma.aktivnosti;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,5 +38,15 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         odgovori = new ArrayList<>();
         odgovoriAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
+
+        odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                odgovori.remove(i);
+                odgovoriAdapter.notifyDataSetChanged();
+            }
+        });
+
+
     }
 }
