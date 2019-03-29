@@ -139,4 +139,12 @@ public class DodajKvizAkt extends AppCompatActivity {
         return null;
     }
 
+    private boolean validirajNaslov(){
+        for(String s : kvizoviIme) {
+            if(s.equals(imeKviz.getText().toString()))
+                return false;
+        }
+        return true;
+    }
+
 }
