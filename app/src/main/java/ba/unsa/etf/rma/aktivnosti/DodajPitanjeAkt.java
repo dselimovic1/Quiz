@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.aktivnosti;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,6 +26,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
     private EditText odgovorText;
     private Button dodaj;
     private Button dodajTacan;
+    private Button sacuvajPitanje;
 
     private Pitanje p = new Pitanje();
 
@@ -37,6 +40,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         odgovorText = (EditText)findViewById(R.id.etOdgovor);
         dodaj = (Button)findViewById(R.id.btnDodajOdgovor);
         dodajTacan = (Button)findViewById(R.id.btnDodajTacan);
+        sacuvajPitanje = (Button)findViewById(R.id.btnDodajPitanje);
 
         odgovori = new ArrayList<>();
         odgovoriAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, odgovori);
@@ -75,5 +79,36 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                 odgovoriAdapter.notifyDataSetChanged();
             }
         });
+
+        sacuvajPitanje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(validirajNaziv() == false){
+                    nazivText.setBackgroundColor(Color.RED);
+                }
+                else if(odgovori.size() == 0 || p.getTacan() == null) {
+                    odgovorText.setBackgroundColor(Color.RED);
+                }
+                else {
+                    nazivText.setBackgroundColor(Color.WHITE);
+                    odgovorText.setBackgroundColor(Color.WHITE);
+                    Intent intent = new Intent(DodajPitanjeAkt.this, DodajKvizAkt.class);
+                    intent.putExtra("pitanje", p);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+
+            }
+        });
     }
+
+    private boolean validirajNaziv() {
+        for(String s : odgovori) {
+            if(s.equals(nazivText.getText().toString()))
+                return false;
+        }
+        return true;
+    }
+
+
 }
