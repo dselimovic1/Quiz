@@ -51,10 +51,12 @@ public class KvizoviAkt extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
                 if(position == kvizovi.size() - 1) {
+                    intent.putExtra("add", true);
                     startActivityForResult(intent, ADD_QUIZ);
                 }
                 else {
                     Kviz k = kvizovi.get(position);
+                    intent.putExtra("add", false);
                     intent.putExtra("updateKviz", k);
                     intent.putExtra("pozicija", position);
                     startActivityForResult(intent, UPDATE_QUIZ);
