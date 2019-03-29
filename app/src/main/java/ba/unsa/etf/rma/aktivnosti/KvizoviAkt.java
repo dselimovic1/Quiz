@@ -67,7 +67,7 @@ public class KvizoviAkt extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Kviz k = (Kviz)data.getSerializableExtra("noviKViz");
+        Kviz k = (Kviz)data.getSerializableExtra("noviKviz");
         if(requestCode == ADD_QUIZ) {
             kvizovi.add(k);
         }
