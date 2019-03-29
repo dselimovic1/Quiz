@@ -1,7 +1,10 @@
 package ba.unsa.etf.rma.aktivnosti;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -34,13 +37,27 @@ public class KvizoviAkt extends AppCompatActivity {
         kategorije = new ArrayList<>();
         kategorije.add("Svi");
         kvizovi = new ArrayList<>();
-        kvizovi.add(new Kviz("Dodaj kviz", null,null));
+        kvizovi.add(new Kviz("Dodaj Kviz", null,null));
 
         adapterKategorije = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorije);
         spinner.setAdapter(adapterKategorije);
 
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
+                if(position == kvizovi.size() - 1) {
+                    intent.putExtra("novi", true);
+                }
+                else {
+                    intent.putExtra("novi", false);
+
+                }
+            }
+        });
     }
 
 
