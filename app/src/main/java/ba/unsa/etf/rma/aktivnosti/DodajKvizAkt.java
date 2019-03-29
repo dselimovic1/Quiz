@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.aktivnosti;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -108,6 +109,28 @@ public class DodajKvizAkt extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        sacuvajKviz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(spinner.getSelectedItemPosition() == 0) {
+                    spinner.setBackgroundColor(Color.RED);
+                }
+                else if(validirajNaslov() == false) {
+                    imeKviz.setBackgroundColor(Color.RED);
+                }
+                else if (dodanaPitanja.size() == 1) {
+                    dodanaPitanjaList.setBackgroundColor(Color.RED);
+                }
+                else {
+                    spinner.setBackgroundColor(Color.WHITE);
+                    imeKviz.setBackgroundColor(Color.WHITE);
+                    dodanaPitanjaList.setBackgroundColor(Color.WHITE);
+
+                }
 
             }
         });
