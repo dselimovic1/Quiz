@@ -12,18 +12,16 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
-import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.KvizAdapter;
-import ba.unsa.etf.rma.klase.Pitanje;
 
 
 public class KvizoviAkt extends AppCompatActivity {
 
+    private static int ADD_QUIZ = 1;
+    private static int UPDATE_QUIZ = 2;
 
-    private ArrayList<Kategorija> kategorije;
     private ArrayList<Kviz> kvizovi;
-    private ArrayList<Pitanje> pitanja;
     private ArrayList<String> kategorijeIme;
     private ArrayAdapter<String> kategorijeAdapter;
     private KvizAdapter kvizAdapter;
@@ -38,10 +36,8 @@ public class KvizoviAkt extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
         list = (ListView) findViewById(R.id.lvKvizovi);
 
-        kategorije = new ArrayList<>();
         kvizovi = new ArrayList<>();
         kvizovi.add(new Kviz("Dodaj Kviz", null, null));
-        pitanja = new ArrayList<>();
 
         kategorijeIme = new ArrayList<>();
         kategorijeIme.add("Svi");
@@ -55,19 +51,16 @@ public class KvizoviAkt extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
                 if(position == kvizovi.size() - 1) {
-                    intent.putExtra("novi", true);
+                    startActivityForResult(intent, ADD_QUIZ);
                 }
                 else {
-                    ArrayList<Pitanje> temp = new ArrayList<>(pitanja);
-                    temp.removeAll(kvizovi.get(position).getPitanja());
-                    intent.putExtra("novi", false);
-                    intent.putExtra("dodanaPitanja", kvizovi.get(position).getPitanja());
-                    intent.putExtra("mogucaPitanja", temp);
-                    intent.putExtra("nazivKviza", kvizovi.get(position).getNaziv());
+                    Kviz k = kvizovi.get(position);
+                    intent.putExtra("updateKviz", k);
+                    startActivityForResult(intent, UPDATE_QUIZ);
                 }
-                startActivity(intent);
             }
         });
     }
+
 
 }
