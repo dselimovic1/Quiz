@@ -92,6 +92,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                 else {
                     nazivText.setBackgroundColor(Color.WHITE);
                     odgovorText.setBackgroundColor(Color.WHITE);
+                    p.setNaziv(nazivText.getText().toString());
                     Intent intent = new Intent(DodajPitanjeAkt.this, DodajKvizAkt.class);
                     intent.putExtra("pitanje", p);
                     setResult(RESULT_OK, intent);
