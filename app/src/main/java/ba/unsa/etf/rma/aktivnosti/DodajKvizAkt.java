@@ -68,7 +68,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                     startActivityForResult(intent, ADD_QUESTION);
                 }
                 else {
-                    mogucaPitanja.add(dodanaPitanja.get(i));
+                    mogucaPitanja.add(0, dodanaPitanja.get(i));
                     mogucaAdapter.notifyDataSetChanged();
                     dodanaPitanja.remove(i);
                     dodanaAdapter.notifyDataSetChanged();
@@ -79,7 +79,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         mogucaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                dodanaPitanja.add(mogucaPitanja.get(i));
+                dodanaPitanja.add(0, mogucaPitanja.get(i));
                 dodanaAdapter.notifyDataSetChanged();
                 mogucaPitanja.remove(i);
                 mogucaAdapter.notifyDataSetChanged();
