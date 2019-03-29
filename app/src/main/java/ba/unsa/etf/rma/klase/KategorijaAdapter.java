@@ -26,7 +26,7 @@ public class KategorijaAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if(convertView == null)
-            convertView = LayoutInflater.from(context).inflate(R.layout.kviz, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.kategorija, parent, false);
 
         Kategorija current = kategorije.get(position);
 
