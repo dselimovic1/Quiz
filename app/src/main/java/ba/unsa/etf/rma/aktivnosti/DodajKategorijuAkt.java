@@ -18,6 +18,7 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
     private Button iconDialogButton;
     private Button saveButton;
     private EditText icondID;
+    private EditText imeKategorije;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
         iconDialogButton = (Button)findViewById(R.id.btnDodajIkonu);
         saveButton = (Button)findViewById(R.id.btnDodajKategoriju);
         icondID = (EditText)findViewById(R.id.etIkona);
+        imeKategorije = (EditText)findViewById(R.id.etNaziv);
+
         iconDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
