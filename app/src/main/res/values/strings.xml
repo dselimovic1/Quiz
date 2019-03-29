@@ -3,4 +3,5 @@
     <string name="naziv">Naziva kviza - INPUT</string>
     <string name="pitanjaKViz">Pitanja u kvizu</string>
     <string name="mogucaKviz">Moguca pitanja</string>
+    <string name="dodajKViz">Dodaj Kviz</string>
 </resources>

@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="pitanjaKviz">#008000</color>
     <color name="mogucaKviz">#999900</color>
+    <color name="btn">#1E90FF</color>
 </resources>
