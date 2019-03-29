@@ -76,6 +76,16 @@ public class DodajKvizAkt extends AppCompatActivity {
             }
         });
 
+        mogucaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                dodanaPitanja.add(mogucaPitanja.get(i));
+                dodanaAdapter.notifyDataSetChanged();
+                mogucaPitanja.remove(i);
+                mogucaAdapter.notifyDataSetChanged();
+            }
+        });
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
