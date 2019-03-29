@@ -24,13 +24,16 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
     private Button saveButton;
     private EditText icondID;
     private EditText imeKategorije;
-    private ArrayList<Kategorija> kategorije = new ArrayList<>();
+
+    private ArrayList<String> kategorije;
+    private Kategorija k;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kategoriju_akt);
 
+        kategorije = new ArrayList<>();
 
         final IconDialog dialog = new IconDialog();
         iconDialogButton = (Button) findViewById(R.id.btnDodajIkonu);
@@ -56,7 +59,8 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                     icondID.setBackgroundColor(Color.RED);
                 }
                 else {
-                    kategorije.add(new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString()));
+                    k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
+                    kategorije.add(k.getNaziv());
                     imeKategorije.setBackgroundColor(Color.WHITE);
                     icondID.setBackgroundColor(Color.WHITE);
                     Intent intent = new Intent(DodajKategorijuAkt.this, DodajKvizAkt.class);
@@ -75,8 +79,8 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
     }
 
     private boolean provjeriNaziv() {
-        for(Kategorija k : kategorije) {
-            if(k.getNaziv().equals(imeKategorije.getText().toString()))
+        for(String s : kategorije) {
+            if(s.equals(imeKategorije.getText().toString()))
                 return false;
         }
         return true;
