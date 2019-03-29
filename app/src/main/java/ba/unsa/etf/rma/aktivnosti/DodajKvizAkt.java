@@ -12,12 +12,15 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.klase.Pitanje;
 
 
 public class DodajKvizAkt extends AppCompatActivity {
 
     private static int ADD_CATEGORY = 1;
     private static int ADD_QUESTION = 2;
+
+    private ArrayList<Pitanje> pitanja;
 
     private ArrayList<String> kategorijeIme;
     private ArrayAdapter<String> kategorijeAdapter;
@@ -34,6 +37,8 @@ public class DodajKvizAkt extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kviz_akt);
+
+        pitanja = new ArrayList<>();
 
         spinner = (Spinner)findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
@@ -87,6 +92,12 @@ public class DodajKvizAkt extends AppCompatActivity {
             kategorijeIme.add(1, data.getStringExtra("novaKategorija"));
             kategorijeAdapter.notifyDataSetChanged();
             spinner.setSelection(1);
+        }
+        else if(requestCode == ADD_QUESTION) {
+            Pitanje p = (Pitanje) data.getSerializableExtra("pitanje");
+            pitanja.add(p);
+            dodanaPitanja.add(0, p.getNaziv());
+            dodanaAdapter.notifyDataSetChanged();
         }
     }
 
