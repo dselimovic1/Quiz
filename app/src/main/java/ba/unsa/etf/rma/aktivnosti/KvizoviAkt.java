@@ -56,10 +56,24 @@ public class KvizoviAkt extends AppCompatActivity {
                 else {
                     Kviz k = kvizovi.get(position);
                     intent.putExtra("updateKviz", k);
+                    intent.putExtra("pozicija", position);
                     startActivityForResult(intent, UPDATE_QUIZ);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Kviz k = (Kviz)data.getSerializableExtra("noviKViz");
+        if(requestCode == ADD_QUIZ) {
+            kvizovi.add(k);
+        }
+        else if(requestCode == UPDATE_QUIZ) {
+            int pozicija = data.getIntExtra("pozicija", 0);
+            kvizovi.add(pozicija, k);
+        }
+        kvizAdapter.notifyDataSetChanged();
     }
 
 
