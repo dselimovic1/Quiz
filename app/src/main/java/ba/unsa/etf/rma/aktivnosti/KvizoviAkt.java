@@ -36,7 +36,7 @@ public class KvizoviAkt extends AppCompatActivity {
         kvizovi = new ArrayList<>();
 
         adapterKategorije = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorije);
-        list.setAdapter(adapterKategorije);
+        spinner.setAdapter(adapterKategorije);
 
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
