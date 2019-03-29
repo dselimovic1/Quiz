@@ -61,7 +61,8 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                     icondID.setBackgroundColor(Color.WHITE);
                     Intent intent = new Intent(DodajKategorijuAkt.this, DodajKvizAkt.class);
                     intent.putExtra("novaKategorija", imeKategorije.getText().toString());
-                    startActivity(intent);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         });
