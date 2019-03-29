@@ -30,7 +30,6 @@
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etNaziv"
-        android:inputType="none"
         android:enabled="false"/>
 
     <Button

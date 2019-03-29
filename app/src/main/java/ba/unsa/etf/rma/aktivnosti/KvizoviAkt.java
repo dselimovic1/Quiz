@@ -54,7 +54,7 @@ public class KvizoviAkt extends AppCompatActivity {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                    Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
+                    Intent intent = new Intent(KvizoviAkt.this, DodajKategorijuAkt.class);
                 if(position == kvizovi.size() - 1) {
                     intent.putExtra("novi", true);
                 }
