@@ -34,6 +34,7 @@ public class KvizoviAkt extends AppCompatActivity {
         kategorije = new ArrayList<>();
         kategorije.add("Svi");
         kvizovi = new ArrayList<>();
+        kvizovi.add(new Kviz("Dodaj kviz", null,null));
 
         adapterKategorije = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorije);
         spinner.setAdapter(adapterKategorije);
