@@ -1,7 +1,11 @@
 package ba.unsa.etf.rma.klase;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -16,5 +20,18 @@ public class KategorijaAdapter extends ArrayAdapter {
         super(context, R.layout.kategorija, kategorije);
         this.context = context;
         this.kategorije = kategorije;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if(convertView == null)
+            convertView = LayoutInflater.from(context).inflate(R.layout.kviz, parent, false);
+
+        Kategorija current = kategorije.get(position);
+
+        TextView ime = (TextView)convertView.findViewById(R.id.imeKategorije);
+        ime.setText(current.getNaziv());
+        return convertView;
     }
 }
