@@ -35,26 +35,25 @@ public class KvizoviAkt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
-            list = (ListView) findViewById(R.id.lvKvizovi);
+        spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
+        list = (ListView) findViewById(R.id.lvKvizovi);
 
-            kategorije = new ArrayList<>();
-            kvizovi = new ArrayList<>();
-            kvizovi.add(new Kviz("Dodaj Kviz", null, null));
-            pitanja = new ArrayList<>();
+        kategorije = new ArrayList<>();
+        kvizovi = new ArrayList<>();
+        kvizovi.add(new Kviz("Dodaj Kviz", null, null));
+        pitanja = new ArrayList<>();
 
-            kategorijeIme = new ArrayList<>();
-            kategorijeIme.add("Svi");
+        kategorijeIme = new ArrayList<>();
+        kategorijeIme.add("Svi");
+        kvizAdapter = new KvizAdapter(this, kvizovi);
+        list.setAdapter(kvizAdapter);
+        kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
+        spinner.setAdapter(kategorijeAdapter);
 
-            kvizAdapter = new KvizAdapter(this, kvizovi);
-            list.setAdapter(kvizAdapter);
-            kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
-            spinner.setAdapter(kategorijeAdapter);
-
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                    Intent intent = new Intent(KvizoviAkt.this, DodajKategorijuAkt.class);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
                 if(position == kvizovi.size() - 1) {
                     intent.putExtra("novi", true);
                 }
@@ -66,10 +65,9 @@ public class KvizoviAkt extends AppCompatActivity {
                     intent.putExtra("mogucaPitanja", temp);
                     intent.putExtra("nazivKviza", kvizovi.get(position).getNaziv());
                 }
-                intent.putExtra("kategorije", kategorije);
-                    startActivity(intent);
-                }
-            });
+                startActivity(intent);
+            }
+        });
     }
 
 }

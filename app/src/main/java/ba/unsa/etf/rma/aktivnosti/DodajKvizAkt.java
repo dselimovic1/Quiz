@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -20,7 +21,14 @@ public class DodajKvizAkt extends AppCompatActivity {
 
     private ArrayList<String> kategorijeIme;
     private ArrayAdapter<String> kategorijeAdapter;
+    private ArrayList<String> dodanaPitanja;
+    private ArrayAdapter<String> dodanaAdapter;
+    private ArrayList<String> mogucaPitanja;
+    private ArrayAdapter<String> mogucaAdapter;
+
     private Spinner spinner;
+    private ListView dodanaPitanjaList;
+    private ListView mogucaPitanjaList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,17 @@ public class DodajKvizAkt extends AppCompatActivity {
         setContentView(R.layout.activity_dodaj_kviz_akt);
 
         spinner = (Spinner)findViewById(R.id.spKategorije);
+        dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
+        mogucaPitanjaList = (ListView)findViewById(R.id.lvMogucaPitanja);
+
+        dodanaPitanja = new ArrayList<>();
+        dodanaPitanja.add("Dodaj Pitanje");
+        dodanaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dodanaPitanja);
+        dodanaPitanjaList.setAdapter(dodanaAdapter);
+
+        mogucaPitanja = new ArrayList<>();
+        mogucaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mogucaPitanja);
+        mogucaPitanjaList.setAdapter(mogucaAdapter);
 
         kategorijeIme = new ArrayList<>();
         kategorijeIme.add("Kategorije");
@@ -35,6 +54,16 @@ public class DodajKvizAkt extends AppCompatActivity {
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
+
+        dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i == dodanaPitanja.size() - 1){
+                    Intent intent = new Intent(DodajKvizAkt.this, DodajPitanjeAkt.class);
+                    startActivityForResult(intent, ADD_QUESTION);
+                }
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -57,6 +86,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         if(requestCode == ADD_CATEGORY){
             kategorijeIme.add(1, data.getStringExtra("novaKategorija"));
             kategorijeAdapter.notifyDataSetChanged();
+            spinner.setSelection(1);
         }
     }
 
