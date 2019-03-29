@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.klase.Kategorija;
+import ba.unsa.etf.rma.klase.KategorijaAdapter;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.KvizAdapter;
 
@@ -19,9 +20,9 @@ import ba.unsa.etf.rma.klase.KvizAdapter;
 public class KvizoviAkt extends AppCompatActivity {
 
 
-    private ArrayList<String> kategorije;
+    private ArrayList<Kategorija> kategorije;
     private ArrayList<Kviz> kvizovi;
-    private ArrayAdapter<String> adapterKategorije;
+    private KategorijaAdapter kategorijaAdapter;
     private KvizAdapter kvizAdapter;
     private Spinner spinner;
     private ListView list;
@@ -35,12 +36,12 @@ public class KvizoviAkt extends AppCompatActivity {
         list = (ListView)findViewById(R.id.lvKvizovi);
 
         kategorije = new ArrayList<>();
-        kategorije.add("Svi");
+        kategorije.add(new Kategorija("Svi" , null));
         kvizovi = new ArrayList<>();
         kvizovi.add(new Kviz("Dodaj Kviz", null,null));
 
-        adapterKategorije = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorije);
-        spinner.setAdapter(adapterKategorije);
+        kategorijaAdapter = new KategorijaAdapter(this, kategorije);
+        spinner.setAdapter(kategorijaAdapter);
 
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
