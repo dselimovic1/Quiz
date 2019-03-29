@@ -6,4 +6,6 @@
     <color name="pitanjaKviz">#008000</color>
     <color name="mogucaKviz">#999900</color>
     <color name="btn">#1E90FF</color>
+    <color name="saveBtn">#4682B4</color>
+    <color name="textBtn">#FFFFFF</color>
 </resources>
