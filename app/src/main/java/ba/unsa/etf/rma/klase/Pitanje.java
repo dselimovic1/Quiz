@@ -57,4 +57,8 @@ public class Pitanje {
         Collections.shuffle(randomOdgovori);
         return randomOdgovori;
     }
+
+    public void dodajOdgovor(String odgovor) {
+        odgovori.add(odgovor);
+    }
 }
