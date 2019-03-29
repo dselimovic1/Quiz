@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -30,10 +32,13 @@ public class DodajKvizAkt extends AppCompatActivity {
     private ArrayAdapter<String> dodanaAdapter;
     private ArrayList<String> mogucaPitanja;
     private ArrayAdapter<String> mogucaAdapter;
+    private ArrayList<String> kvizoviIme;
 
     private Spinner spinner;
     private ListView dodanaPitanjaList;
     private ListView mogucaPitanjaList;
+    private EditText imeKviz;
+    private Button sacuvajKviz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +47,13 @@ public class DodajKvizAkt extends AppCompatActivity {
 
         pitanja = new ArrayList<>();
         kategorije = new ArrayList<>();
+        kvizoviIme = new ArrayList<>();
 
         spinner = (Spinner)findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
         mogucaPitanjaList = (ListView)findViewById(R.id.lvMogucaPitanja);
+        imeKviz = (EditText)findViewById(R.id.etNaziv);
+        sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
 
         dodanaPitanja = new ArrayList<>();
         dodanaPitanja.add("Dodaj Pitanje");
@@ -115,11 +123,20 @@ public class DodajKvizAkt extends AppCompatActivity {
             spinner.setSelection(1);
         }
         else if(requestCode == ADD_QUESTION) {
-            Pitanje p = (Pitanje) data.getSerializableExtra("pitanje");
+            Pitanje p = (Pitanje)data.getSerializableExtra("pitanje");
             pitanja.add(p);
             dodanaPitanja.add(0, p.getNaziv());
             dodanaAdapter.notifyDataSetChanged();
         }
+    }
+
+    private Kategorija odrediKategoriju(String s){
+        for(Kategorija k : kategorije) {
+            if(k.getNaziv().equals(s)) {
+                return k;
+            }
+        }
+        return null;
     }
 
 }
