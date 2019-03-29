@@ -54,7 +54,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         mogucaPitanjaList.setAdapter(mogucaAdapter);
 
         kategorijeIme = new ArrayList<>();
-        kategorijeIme.add("Kategorije");
+        kategorijeIme.add("");
         kategorijeIme.add("Dodaj kategoriju");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
@@ -66,6 +66,12 @@ public class DodajKvizAkt extends AppCompatActivity {
                 if(i == dodanaPitanja.size() - 1){
                     Intent intent = new Intent(DodajKvizAkt.this, DodajPitanjeAkt.class);
                     startActivityForResult(intent, ADD_QUESTION);
+                }
+                else {
+                    mogucaPitanja.add(dodanaPitanja.get(i));
+                    mogucaAdapter.notifyDataSetChanged();
+                    dodanaPitanja.remove(i);
+                    dodanaAdapter.notifyDataSetChanged();
                 }
             }
         });
