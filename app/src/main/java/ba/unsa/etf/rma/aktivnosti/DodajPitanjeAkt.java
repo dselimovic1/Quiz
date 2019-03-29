@@ -12,6 +12,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.klase.Pitanje;
 
 public class DodajPitanjeAkt extends AppCompatActivity {
 
@@ -23,6 +24,8 @@ public class DodajPitanjeAkt extends AppCompatActivity {
     private EditText odgovorText;
     private Button dodaj;
     private Button dodajTacan;
+
+    private Pitanje p = new Pitanje();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,30 @@ public class DodajPitanjeAkt extends AppCompatActivity {
             }
         });
 
+        dodaj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(odgovorText.getText().toString().equals("")) return;
+                odgovori.add( odgovorText.getText().toString());
+                odgovoriAdapter.notifyDataSetChanged();
+                p.dodajOdgovor(odgovorText.getText().toString());
+                odgovorText.setText("");
+                odgovoriAdapter.notifyDataSetChanged();
+            }
+        });
 
+
+        dodajTacan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(odgovorText.getText().toString().equals("")) return;
+                odgovori.add(odgovorText.getText().toString());
+                odgovoriAdapter.notifyDataSetChanged();
+                p.dodajOdgovor(odgovorText.getText().toString());
+                p.setTacan(odgovorText.getText().toString());
+                odgovorText.setText("");
+                odgovoriAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
