@@ -7,4 +7,7 @@
     <string name="nazivPitanje">Naziv pitanja - INPUT</string>
     <string name="odgovor">Odgovor</string>
     <string name="sacuvajPitanje">Spasi pitanje</string>
+    <string name="odgovori">Odgovori</string>
+    <string name="add">Dodaj</string>
+    <string name="addCorrect">Dodaj tacan</string>
 </resources>
