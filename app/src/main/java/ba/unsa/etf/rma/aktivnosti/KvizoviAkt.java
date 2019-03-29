@@ -15,6 +15,7 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.KategorijaAdapter;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.KvizAdapter;
+import ba.unsa.etf.rma.klase.Pitanje;
 
 
 public class KvizoviAkt extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class KvizoviAkt extends AppCompatActivity {
 
     private ArrayList<Kategorija> kategorije;
     private ArrayList<Kviz> kvizovi;
+    private ArrayList<Pitanje> pitanja;
     private KategorijaAdapter kategorijaAdapter;
     private KvizAdapter kvizAdapter;
     private Spinner spinner;
@@ -39,6 +41,7 @@ public class KvizoviAkt extends AppCompatActivity {
         kategorije.add(new Kategorija("Svi" , null));
         kvizovi = new ArrayList<>();
         kvizovi.add(new Kviz("Dodaj Kviz", null,null));
+        pitanja = new ArrayList<>();
 
         kategorijaAdapter = new KategorijaAdapter(this, kategorije);
         spinner.setAdapter(kategorijaAdapter);
@@ -54,9 +57,15 @@ public class KvizoviAkt extends AppCompatActivity {
                     intent.putExtra("novi", true);
                 }
                 else {
+                    ArrayList<Pitanje> temp = new ArrayList<>(pitanja);
+                    temp.removeAll(kvizovi.get(position).getPitanja());
                     intent.putExtra("novi", false);
-
+                    intent.putExtra("dodanaPitanja", kvizovi.get(position).getPitanja());
+                    intent.putExtra("mogucaPitanja", temp);
+                    intent.putExtra("nazivKviza", kvizovi.get(position).getNaziv());
                 }
+                intent.putExtra("kategorije", kategorije);
+                startActivity(intent);
             }
         });
     }
