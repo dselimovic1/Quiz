@@ -10,4 +10,8 @@
     <string name="odgovori">Odgovori</string>
     <string name="add">Dodaj</string>
     <string name="addCorrect">Dodaj tacan</string>
+    <string name="nazivKategorije">Naziv Kategorije</string>
+    <string name="ikona">Ikona</string>
+    <string name="dodajIkonu">Dodaj Ikonu</string>
+    <string name="spasiKategoriju">Spasi Kategoriju</string>
 </resources>
