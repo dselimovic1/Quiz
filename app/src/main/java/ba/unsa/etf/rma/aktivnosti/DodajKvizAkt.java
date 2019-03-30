@@ -25,16 +25,16 @@ public class DodajKvizAkt extends AppCompatActivity {
     private static int ADD_CATEGORY = 1;
     private static int ADD_QUESTION = 2;
 
-    private ArrayList<Pitanje> pitanja;
-    private ArrayList<Kategorija> kategorije;
+    private static ArrayList<Pitanje> pitanja = new ArrayList<>();
+    private static ArrayList<Kategorija> kategorije = new ArrayList<>();
 
-    private ArrayList<String> kategorijeIme;
+    private static ArrayList<String> kategorijeIme = new ArrayList<>();
     private ArrayAdapter<String> kategorijeAdapter;
-    private ArrayList<String> dodanaPitanja;
+    private static ArrayList<String> dodanaPitanja = new ArrayList<>();
     private ArrayAdapter<String> dodanaAdapter;
-    private ArrayList<String> mogucaPitanja;
+    private static ArrayList<String> mogucaPitanja = new ArrayList<>();
     private ArrayAdapter<String> mogucaAdapter;
-    private ArrayList<String> kvizoviIme;
+    private static ArrayList<String> kvizoviIme = new ArrayList<>();
 
     private Spinner spinner;
     private ListView dodanaPitanjaList;
@@ -48,14 +48,6 @@ public class DodajKvizAkt extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kviz_akt);
-
-        pitanja = new ArrayList<>();
-        kategorije = new ArrayList<>();
-        kvizoviIme = new ArrayList<>();
-        mogucaPitanja = new ArrayList<>();
-        kategorijeIme = new ArrayList<>();
-        dodanaPitanja = new ArrayList<>();
-
 
         spinner = (Spinner)findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
