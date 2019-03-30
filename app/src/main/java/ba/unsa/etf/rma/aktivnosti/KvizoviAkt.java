@@ -21,8 +21,8 @@ public class KvizoviAkt extends AppCompatActivity {
     private static int ADD_QUIZ = 1;
     private static int UPDATE_QUIZ = 2;
 
-    private ArrayList<Kviz> kvizovi;
-    private ArrayList<String> kategorijeIme;
+    private static ArrayList<Kviz> kvizovi = new ArrayList<>();
+    private static ArrayList<String> kategorijeIme = new ArrayList<>();
     private ArrayAdapter<String> kategorijeAdapter;
     private KvizAdapter kvizAdapter;
     private Spinner spinner;
@@ -36,10 +36,7 @@ public class KvizoviAkt extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
         list = (ListView) findViewById(R.id.lvKvizovi);
 
-        kvizovi = new ArrayList<>();
         kvizovi.add(new Kviz("Dodaj Kviz", null, null));
-
-        kategorijeIme = new ArrayList<>();
         kategorijeIme.add("Svi");
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
