@@ -55,15 +55,15 @@ public class DodajKvizAkt extends AppCompatActivity {
         imeKviz = (EditText)findViewById(R.id.etNaziv);
         sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
 
-        dodanaPitanja.add( dodanaPitanja.size() - 1,"Dodaj Pitanje");
+        dodanaPitanja.add( "Dodaj Pitanje");
         dodanaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dodanaPitanja);
         dodanaPitanjaList.setAdapter(dodanaAdapter);
 
         mogucaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mogucaPitanja);
         mogucaPitanjaList.setAdapter(mogucaAdapter);
 
-        kategorijeIme.add(0, "");
-        kategorijeIme.add( kategorijeIme.size() - 1,"Dodaj kategoriju");
+        kategorijeIme.add( "");
+        kategorijeIme.add( "Dodaj kategoriju");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
