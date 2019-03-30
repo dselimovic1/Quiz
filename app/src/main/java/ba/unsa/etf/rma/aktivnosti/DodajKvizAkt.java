@@ -42,7 +42,7 @@ public class DodajKvizAkt extends AppCompatActivity {
     private EditText imeKviz;
     private Button sacuvajKviz;
 
-    private Kviz trenutni;
+    private Kviz trenutni = new Kviz();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
