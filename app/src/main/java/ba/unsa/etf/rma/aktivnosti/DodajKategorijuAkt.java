@@ -25,15 +25,13 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
     private EditText icondID;
     private EditText imeKategorije;
 
-    private ArrayList<String> kategorije;
+    private static ArrayList<String> kategorije = new ArrayList<>();
     private Kategorija k;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kategoriju_akt);
-
-        kategorije = new ArrayList<>();
 
         final IconDialog dialog = new IconDialog();
         iconDialogButton = (Button) findViewById(R.id.btnDodajIkonu);
