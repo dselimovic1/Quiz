@@ -73,7 +73,7 @@ public class KvizoviAkt extends AppCompatActivity {
         }
         else if(requestCode == UPDATE_QUIZ) {
             int pozicija = data.getIntExtra("pozicija", 0);
-            kvizovi.add(pozicija, k);
+            kvizovi.set(pozicija, k);
         }
         kvizAdapter.notifyDataSetChanged();
     }

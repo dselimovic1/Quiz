@@ -144,10 +144,24 @@ public class DodajKvizAkt extends AppCompatActivity {
                     dodanaPitanjaList.setBackgroundColor(Color.RED);
                 }
                 else {
+                    Intent intent = new Intent(DodajKvizAkt.this, KvizoviAkt.class);
                     spinner.setBackgroundColor(Color.WHITE);
                     imeKviz.setBackgroundColor(Color.WHITE);
                     dodanaPitanjaList.setBackgroundColor(Color.WHITE);
-
+                    if(trenutni == null) {
+                        trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja),
+                                odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
+                    }
+                    else {
+                        trenutni.setNaziv(imeKviz.getText().toString());
+                        trenutni.setPitanja(izdvojiPitanja(dodanaPitanja));
+                        trenutni.setKategorija(odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
+                        int pozicija = getIntent().getIntExtra("pozicija", 0);
+                        intent.putExtra("pozicija", pozicija);
+                    }
+                    intent.putExtra("noviKviz", trenutni);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
 
             }
@@ -203,5 +217,17 @@ public class DodajKvizAkt extends AppCompatActivity {
             lista.add(p.getNaziv());
         }
         return lista;
+    }
+
+    private ArrayList<Pitanje> izdvojiPitanja(ArrayList<String> ime) {
+        ArrayList<Pitanje> temp = new ArrayList<>();
+        for(Pitanje p : pitanja) {
+            for(String s : dodanaPitanja) {
+                if(s.equals(p.getNaziv())) {
+                    temp.add(p);
+                }
+            }
+        }
+        return temp;
     }
 }
