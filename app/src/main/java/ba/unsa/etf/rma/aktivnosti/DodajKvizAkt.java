@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kategorija;
+import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 
 
@@ -40,6 +41,8 @@ public class DodajKvizAkt extends AppCompatActivity {
     private ListView mogucaPitanjaList;
     private EditText imeKviz;
     private Button sacuvajKviz;
+
+    private Kviz trenutni;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,21 @@ public class DodajKvizAkt extends AppCompatActivity {
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
+
+        if(getIntent().getBooleanExtra("add", false) == false) {
+            trenutni = (Kviz)getIntent().getSerializableExtra("updateKviz");
+            imeKviz.setText(trenutni.getNaziv());
+            spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
+            ArrayList<Pitanje> temp = new ArrayList<>(pitanja);
+            temp.removeAll(trenutni.getPitanja());
+            mogucaPitanja = izdvojiImena(temp);
+            mogucaAdapter.notifyDataSetChanged();
+            dodanaPitanja = izdvojiImena(trenutni.getPitanja());
+            dodanaAdapter.notifyDataSetChanged();
+        }
+        else {
+            trenutni = null;
+        }
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -170,4 +188,20 @@ public class DodajKvizAkt extends AppCompatActivity {
         return true;
     }
 
+    private int nadjiPozicijuUSpinneru(String s){
+        for(int i = 0; i < kategorijeIme.size(); i++) {
+            if(s.equals(kategorijeIme.get(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private ArrayList<String> izdvojiImena(ArrayList<Pitanje> pitanja) {
+        ArrayList<String> lista = new ArrayList<>();
+        for(Pitanje p : pitanja) {
+            lista.add(p.getNaziv());
+        }
+        return lista;
+    }
 }
