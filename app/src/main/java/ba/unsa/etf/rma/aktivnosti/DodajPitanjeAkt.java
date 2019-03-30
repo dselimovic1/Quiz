@@ -18,7 +18,7 @@ import ba.unsa.etf.rma.klase.Pitanje;
 
 public class DodajPitanjeAkt extends AppCompatActivity {
 
-    private ArrayList<String> odgovori;
+    private ArrayList<String> odgovori = new ArrayList<>();
     private ArrayAdapter<String> odgovoriAdapter;
 
     private ListView odgovoriList;
@@ -42,7 +42,6 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         dodajTacan = (Button)findViewById(R.id.btnDodajTacan);
         sacuvajPitanje = (Button)findViewById(R.id.btnDodajPitanje);
 
-        odgovori = new ArrayList<>();
         odgovoriAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
 
