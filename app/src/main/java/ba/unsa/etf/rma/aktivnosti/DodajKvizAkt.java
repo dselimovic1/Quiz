@@ -82,7 +82,6 @@ public class DodajKvizAkt extends AppCompatActivity {
         else {
             trenutni = null;
         }
-
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -144,10 +143,9 @@ public class DodajKvizAkt extends AppCompatActivity {
                     spinner.setBackgroundColor(Color.WHITE);
                     imeKviz.setBackgroundColor(Color.WHITE);
                     dodanaPitanjaList.setBackgroundColor(Color.WHITE);
-                    if(trenutni == null) {
+                    if(trenutni == null)
                         trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja),
                                 odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
-                    }
                     else {
                         trenutni.setNaziv(imeKviz.getText().toString());
                         trenutni.setPitanja(izdvojiPitanja(dodanaPitanja));
