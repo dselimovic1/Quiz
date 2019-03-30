@@ -52,6 +52,10 @@ public class DodajKvizAkt extends AppCompatActivity {
         pitanja = new ArrayList<>();
         kategorije = new ArrayList<>();
         kvizoviIme = new ArrayList<>();
+        mogucaPitanja = new ArrayList<>();
+        kategorijeIme = new ArrayList<>();
+        dodanaPitanja = new ArrayList<>();
+
 
         spinner = (Spinner)findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
@@ -59,18 +63,15 @@ public class DodajKvizAkt extends AppCompatActivity {
         imeKviz = (EditText)findViewById(R.id.etNaziv);
         sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
 
-        dodanaPitanja = new ArrayList<>();
-        dodanaPitanja.add("Dodaj Pitanje");
+        dodanaPitanja.add( dodanaPitanja.size() - 1,"Dodaj Pitanje");
         dodanaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dodanaPitanja);
         dodanaPitanjaList.setAdapter(dodanaAdapter);
 
-        mogucaPitanja = new ArrayList<>();
         mogucaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mogucaPitanja);
         mogucaPitanjaList.setAdapter(mogucaAdapter);
 
-        kategorijeIme = new ArrayList<>();
-        kategorijeIme.add("");
-        kategorijeIme.add("Dodaj kategoriju");
+        kategorijeIme.add(0, "");
+        kategorijeIme.add( kategorijeIme.size() - 1,"Dodaj kategoriju");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
@@ -122,6 +123,9 @@ public class DodajKvizAkt extends AppCompatActivity {
                 if(i != 0 && i == kategorijeIme.size() - 1) {
                     Intent intent = new Intent(DodajKvizAkt.this, DodajKategorijuAkt.class);
                     startActivityForResult(intent, ADD_CATEGORY);
+                }
+                else {
+                    spinner.setSelection(i);
                 }
             }
 

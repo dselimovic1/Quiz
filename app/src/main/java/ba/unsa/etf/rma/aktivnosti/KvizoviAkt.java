@@ -69,7 +69,7 @@ public class KvizoviAkt extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Kviz k = (Kviz)data.getSerializableExtra("noviKviz");
         if(requestCode == ADD_QUIZ) {
-            kvizovi.add(k);
+            kvizovi.add(0, k);
         }
         else if(requestCode == UPDATE_QUIZ) {
             int pozicija = data.getIntExtra("pozicija", 0);
