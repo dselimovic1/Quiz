@@ -16,5 +16,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/ime"
         android:textStyle="bold"
-        android:textColor="@color/kvizColor"/>
+        android:textColor="@color/kvizColor"
+        android:paddingLeft="10dp"/>
 </LinearLayout>
