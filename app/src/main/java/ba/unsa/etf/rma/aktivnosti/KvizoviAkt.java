@@ -80,6 +80,9 @@ public class KvizoviAkt extends AppCompatActivity {
                 kvizovi.set(pozicija, k);
             }
             kvizAdapter.notifyDataSetChanged();
+            ArrayList<String> sveKategorije = data.getStringArrayListExtra("sveKategorije");
+            kategorijeIme.addAll(0, sveKategorije);
+            kategorijeAdapter.notifyDataSetChanged();
         }
     }
 
