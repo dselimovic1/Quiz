@@ -55,15 +55,14 @@ public class DodajKvizAkt extends AppCompatActivity {
         imeKviz = (EditText)findViewById(R.id.etNaziv);
         sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
 
-        dodanaPitanja.add( "Dodaj Pitanje");
         dodanaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dodanaPitanja);
         dodanaPitanjaList.setAdapter(dodanaAdapter);
 
         mogucaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mogucaPitanja);
         mogucaPitanjaList.setAdapter(mogucaAdapter);
 
-        kategorijeIme.add( "");
-        kategorijeIme.add( "Dodaj kategoriju");
+        kategorijeIme.add(0, "");
+        kategorijeIme.add("Dodaj Kategoriju");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
@@ -72,16 +71,18 @@ public class DodajKvizAkt extends AppCompatActivity {
             trenutni = (Kviz)getIntent().getSerializableExtra("updateKviz");
             imeKviz.setText(trenutni.getNaziv());
             spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
-            ArrayList<Pitanje> temp = new ArrayList<>(pitanja);
-            temp.removeAll(trenutni.getPitanja());
-            mogucaPitanja = izdvojiImena(temp);
-            mogucaAdapter.notifyDataSetChanged();
-            dodanaPitanja = izdvojiImena(trenutni.getPitanja());
-            dodanaAdapter.notifyDataSetChanged();
+            izdvojiMogucaPitanja();
+            izdvojiDodanaPitanja();
         }
         else {
             trenutni = null;
+            imeKviz.setText("");
+            spinner.setSelection(0);
+            izdvojiMogucaPitanja();
+            izdvojiDodanaPitanja();
         }
+        //izdvojiKategorije();
+
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -205,14 +206,6 @@ public class DodajKvizAkt extends AppCompatActivity {
         return -1;
     }
 
-    private ArrayList<String> izdvojiImena(ArrayList<Pitanje> pitanja) {
-        ArrayList<String> lista = new ArrayList<>();
-        for(Pitanje p : pitanja) {
-            lista.add(p.getNaziv());
-        }
-        return lista;
-    }
-
     private ArrayList<Pitanje> izdvojiPitanja(ArrayList<String> ime) {
         ArrayList<Pitanje> temp = new ArrayList<>();
         for(Pitanje p : pitanja) {
@@ -223,5 +216,33 @@ public class DodajKvizAkt extends AppCompatActivity {
             }
         }
         return temp;
+    }
+
+    private void izdvojiMogucaPitanja() {
+        ArrayList<Pitanje> temp = new ArrayList<>(pitanja);
+        mogucaPitanja.clear();
+        if(trenutni != null) temp.removeAll(trenutni.getPitanja());
+        for(Pitanje p : temp) mogucaPitanja.add(p.getNaziv());
+        mogucaAdapter.notifyDataSetChanged();
+    }
+
+    private void izdvojiDodanaPitanja() {
+        ArrayList<Pitanje> temp = new ArrayList<>();
+        dodanaPitanja.clear();
+        if(trenutni != null) temp.addAll(trenutni.getPitanja());
+        for(Pitanje p : temp) dodanaPitanja.add(p.getNaziv());
+        dodanaPitanja.add("Dodaj Pitanje");
+        dodanaAdapter.notifyDataSetChanged();
+    }
+
+    private void izdvojiKategorije() {
+        for(String s : kategorijeIme) {
+            if(s.equals("")) kategorijeIme.remove("");
+            if(s.equals("Dodaj Kategoriju")) kategorijeIme.remove("Dodaj Kategoriju");
+        }
+
+        kategorijeIme.add(0, "");
+        kategorijeIme.add("Dodaj Kategoriju");
+        kategorijeAdapter.notifyDataSetChanged();
     }
 }
