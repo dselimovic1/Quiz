@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.KvizAdapter;
 
@@ -36,7 +37,7 @@ public class KvizoviAkt extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
         list = (ListView) findViewById(R.id.lvKvizovi);
 
-        kvizovi.add(new Kviz("Dodaj Kviz", null, null));
+        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok",Integer.toString(8))));
         kategorijeIme.add("Svi");
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
