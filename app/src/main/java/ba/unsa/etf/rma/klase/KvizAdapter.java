@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.maltaisn.icondialog.IconView;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,8 @@ public class KvizAdapter extends ArrayAdapter <Kviz>{
 
         Kviz current = kvizovi.get(position);
 
+        IconView ikona = (IconView)convertView.findViewById(R.id.ikona);
+        ikona.setIcon(Integer.parseInt(current.getKategorija().getId()));
         TextView ime = (TextView)convertView.findViewById(R.id.ime);
         ime.setText(current.getNaziv());
         return convertView;
