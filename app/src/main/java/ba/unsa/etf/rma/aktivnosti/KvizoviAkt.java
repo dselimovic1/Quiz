@@ -69,15 +69,17 @@ public class KvizoviAkt extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Kviz k = (Kviz)data.getSerializableExtra("noviKviz");
-        if(requestCode == ADD_QUIZ) {
-            kvizovi.add(0, k);
+        if(resultCode == RESULT_OK) {
+            Kviz k = (Kviz)data.getSerializableExtra("noviKviz");
+            if(requestCode == ADD_QUIZ) {
+                kvizovi.add(0, k);
+            }
+            else if(requestCode == UPDATE_QUIZ) {
+                int pozicija = data.getIntExtra("pozicija", 0);
+                kvizovi.set(pozicija, k);
+            }
+            kvizAdapter.notifyDataSetChanged();
         }
-        else if(requestCode == UPDATE_QUIZ) {
-            int pozicija = data.getIntExtra("pozicija", 0);
-            kvizovi.set(pozicija, k);
-        }
-        kvizAdapter.notifyDataSetChanged();
     }
 
 
