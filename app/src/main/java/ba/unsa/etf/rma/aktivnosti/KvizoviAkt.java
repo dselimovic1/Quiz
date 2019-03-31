@@ -71,7 +71,9 @@ public class KvizoviAkt extends AppCompatActivity {
         if(resultCode == RESULT_OK) {
             Kviz k = (Kviz)data.getSerializableExtra("noviKviz");
             if(requestCode == ADD_QUIZ) {
-                kvizovi.add(0, k);
+                int pozicija = kvizovi.size() - 1;
+                if (pozicija < 0) pozicija = 0;
+                kvizovi.add(pozicija, k);
             }
             else if(requestCode == UPDATE_QUIZ) {
                 int pozicija = data.getIntExtra("pozicija", 0);
