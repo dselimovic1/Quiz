@@ -173,7 +173,7 @@ public class DodajKvizAkt extends AppCompatActivity {
             }
             else if(requestCode == ADD_QUESTION) {
                 Pitanje p = (Pitanje)data.getSerializableExtra("pitanje");
-                pitanja.add(p);
+                pitanja.add(1, p);
                 dodanaPitanja.add(p.getNaziv());
                 dodanaAdapter.notifyDataSetChanged();
             }
