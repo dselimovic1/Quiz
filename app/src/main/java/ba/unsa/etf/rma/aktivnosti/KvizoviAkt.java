@@ -23,6 +23,7 @@ public class KvizoviAkt extends AppCompatActivity {
     private static int UPDATE_QUIZ = 2;
 
     private static ArrayList<Kviz> kvizovi = new ArrayList<>();
+    private static ArrayList<Kviz> filter = new ArrayList<>();
     private static ArrayList<String> kategorijeIme = new ArrayList<>();
     private ArrayAdapter<String> kategorijeAdapter;
     private KvizAdapter kvizAdapter;
@@ -39,7 +40,8 @@ public class KvizoviAkt extends AppCompatActivity {
 
 
         kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok",Integer.toString(671))));
-        kvizAdapter = new KvizAdapter(this, kvizovi);
+        filter.addAll(kvizovi);
+        kvizAdapter = new KvizAdapter(this, filter);
         list.setAdapter(kvizAdapter);
 
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
@@ -51,12 +53,12 @@ public class KvizoviAkt extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
-                if(position == kvizovi.size() - 1) {
+                if(position == filter.size() - 1) {
                     intent.putExtra("add", true);
                     startActivityForResult(intent, ADD_QUIZ);
                 }
                 else {
-                    Kviz k = kvizovi.get(position);
+                    Kviz k = filter.get(position);
                     intent.putExtra("add", false);
                     intent.putExtra("updateKviz", k);
                     intent.putExtra("pozicija", position);
@@ -86,8 +88,18 @@ public class KvizoviAkt extends AppCompatActivity {
             int pozicija = kategorijeAdapter.getCount() - 1;
             if (pozicija < 0) pozicija = 0;
             spinner.setSelection(pozicija);
+            filter = kvizovi;
+            kvizAdapter.notifyDataSetChanged();
         }
     }
 
-
+    private void filtrirajListu(String imeKategorije) {
+        filter.clear();
+        for(Kviz k : kvizovi) {
+            if(k.getNaziv().equals(imeKategorije)) {
+                filter.add(k);
+            }
+        }
+        kvizAdapter.notifyDataSetChanged();
+    }
 }
