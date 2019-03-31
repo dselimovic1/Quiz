@@ -61,8 +61,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         mogucaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mogucaPitanja);
         mogucaPitanjaList.setAdapter(mogucaAdapter);
 
-        kategorijeIme.add(0, "");
-        kategorijeIme.add("Dodaj Kategoriju");
+        izdvojiKategorije();
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
@@ -81,7 +80,6 @@ public class DodajKvizAkt extends AppCompatActivity {
             izdvojiMogucaPitanja();
             izdvojiDodanaPitanja();
         }
-        //izdvojiKategorije();
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -236,13 +234,10 @@ public class DodajKvizAkt extends AppCompatActivity {
     }
 
     private void izdvojiKategorije() {
-        for(String s : kategorijeIme) {
-            if(s.equals("")) kategorijeIme.remove("");
-            if(s.equals("Dodaj Kategoriju")) kategorijeIme.remove("Dodaj Kategoriju");
-        }
 
+        kategorijeIme.remove("");
+        kategorijeIme.remove("Dodaj Kategoriju");
         kategorijeIme.add(0, "");
         kategorijeIme.add("Dodaj Kategoriju");
-        kategorijeAdapter.notifyDataSetChanged();
     }
 }
