@@ -163,18 +163,20 @@ public class DodajKvizAkt extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == ADD_CATEGORY){
-            Kategorija k = (Kategorija)data.getSerializableExtra("kategorija");
-            kategorije.add(k);
-            kategorijeIme.add(1, k.getNaziv());
-            kategorijeAdapter.notifyDataSetChanged();
-            spinner.setSelection(1);
-        }
-        else if(requestCode == ADD_QUESTION) {
-            Pitanje p = (Pitanje)data.getSerializableExtra("pitanje");
-            pitanja.add(p);
-            dodanaPitanja.add(0, p.getNaziv());
-            dodanaAdapter.notifyDataSetChanged();
+        if(resultCode == RESULT_OK) {
+            if(requestCode == ADD_CATEGORY){
+                Kategorija k = (Kategorija)data.getSerializableExtra("kategorija");
+                kategorije.add(k);
+                kategorijeIme.add(1, k.getNaziv());
+                kategorijeAdapter.notifyDataSetChanged();
+                spinner.setSelection(1);
+            }
+            else if(requestCode == ADD_QUESTION) {
+                Pitanje p = (Pitanje)data.getSerializableExtra("pitanje");
+                pitanja.add(p);
+                dodanaPitanja.add(0, p.getNaziv());
+                dodanaAdapter.notifyDataSetChanged();
+            }
         }
     }
 
