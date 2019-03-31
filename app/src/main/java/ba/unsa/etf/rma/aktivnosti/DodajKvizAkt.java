@@ -152,6 +152,10 @@ public class DodajKvizAkt extends AppCompatActivity {
                         int pozicija = getIntent().getIntExtra("pozicija", 0);
                         intent.putExtra("pozicija", pozicija);
                     }
+                    ArrayList<String> sveKategorije = new ArrayList<>(kategorijeIme);
+                    sveKategorije.remove("");
+                    sveKategorije.remove("Dodaj Kategoriju");
+                    intent.putExtra("sveKategorije", sveKategorije);
                     intent.putExtra("noviKviz", trenutni);
                     setResult(RESULT_OK, intent);
                     finish();
