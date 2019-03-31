@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -49,6 +52,8 @@ public class DodajPitanjeAkt extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 odgovori.remove(i);
+                String s = ((TextView)view).getText().toString();
+                p.getOdgovori().remove(s);
                 odgovoriAdapter.notifyDataSetChanged();
             }
         });
@@ -57,7 +62,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(odgovorText.getText().toString().equals("")) return;
-                odgovori.add( odgovorText.getText().toString());
+                odgovori.add(odgovorText.getText().toString());
                 odgovoriAdapter.notifyDataSetChanged();
                 p.dodajOdgovor(odgovorText.getText().toString());
                 odgovorText.setText("");
