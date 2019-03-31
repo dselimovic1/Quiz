@@ -83,6 +83,9 @@ public class KvizoviAkt extends AppCompatActivity {
             ArrayList<String> sveKategorije = data.getStringArrayListExtra("sveKategorije");
             kategorijeIme.addAll(0, sveKategorije);
             kategorijeAdapter.notifyDataSetChanged();
+            int pozicija = kategorijeAdapter.getCount() - 1;
+            if (pozicija < 0) pozicija = 0;
+            spinner.setSelection(pozicija);
         }
     }
 
