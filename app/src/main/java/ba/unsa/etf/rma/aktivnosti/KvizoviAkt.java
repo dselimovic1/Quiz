@@ -44,7 +44,9 @@ public class KvizoviAkt extends AppCompatActivity {
 
         boolean back = getIntent().getBooleanExtra("back", false);
         if(back == true) {
+            kategorijeIme.clear();
             kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
+            kategorijeIme.add("Svi");
             kategorijeAdapter.notifyDataSetChanged();
         }
         else {
