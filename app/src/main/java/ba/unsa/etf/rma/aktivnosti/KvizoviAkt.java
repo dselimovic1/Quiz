@@ -48,6 +48,7 @@ public class KvizoviAkt extends AppCompatActivity {
             kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
             kategorijeIme.add("Svi");
             kategorijeAdapter.notifyDataSetChanged();
+            spinner.setSelection(kategorijeIme.size() - 1);
         }
         else {
             kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok",Integer.toString(671))));
