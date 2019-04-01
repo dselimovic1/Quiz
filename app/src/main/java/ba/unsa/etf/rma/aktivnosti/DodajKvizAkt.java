@@ -246,4 +246,15 @@ public class DodajKvizAkt extends AppCompatActivity {
         kategorijeIme.add(0, "");
         kategorijeIme.add("Dodaj Kategoriju");
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(DodajKvizAkt.this, KvizoviAkt.class);
+        intent.putExtra("back", true);
+        ArrayList<String> temp = new ArrayList<>(kategorijeIme);
+        temp.remove(temp.size() - 1);
+        temp.remove(0);
+        intent.putExtra("kategorije", temp);
+        startActivity(intent);
+    }
 }
