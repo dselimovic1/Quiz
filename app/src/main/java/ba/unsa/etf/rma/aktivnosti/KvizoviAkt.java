@@ -37,16 +37,22 @@ public class KvizoviAkt extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
         list = (ListView) findViewById(R.id.lvKvizovi);
 
-
-        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok",Integer.toString(671))));
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
-        kvizAdapter.notifyDataSetChanged();
-
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
-        kategorijeIme.add("Svi");
         spinner.setAdapter(kategorijeAdapter);
-        kategorijeAdapter.notifyDataSetChanged();
+
+        boolean back = getIntent().getBooleanExtra("back", false);
+        if(back == true) {
+            kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
+            kategorijeAdapter.notifyDataSetChanged();
+        }
+        else {
+            kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok",Integer.toString(671))));
+            kvizAdapter.notifyDataSetChanged();
+            kategorijeIme.add("Svi");
+            kategorijeAdapter.notifyDataSetChanged();
+        }
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
