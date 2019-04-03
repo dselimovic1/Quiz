@@ -5,10 +5,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -48,6 +50,7 @@ public class DodajKvizAkt extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kviz_akt);
+
 
         spinner = (Spinner)findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
@@ -257,4 +260,5 @@ public class DodajKvizAkt extends AppCompatActivity {
         intent.putExtra("kategorije", temp);
         startActivity(intent);
     }
+
 }
