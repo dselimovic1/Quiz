@@ -81,6 +81,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                 p.setTacan(odgovorText.getText().toString());
                 odgovorText.setText("");
                 odgovoriAdapter.notifyDataSetChanged();
+                view.setEnabled(false);
             }
         });
 
