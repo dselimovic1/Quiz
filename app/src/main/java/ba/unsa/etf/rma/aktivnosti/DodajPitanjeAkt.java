@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -45,7 +43,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         dodajTacan = (Button)findViewById(R.id.btnDodajTacan);
         sacuvajPitanje = (Button)findViewById(R.id.btnDodajPitanje);
 
-        odgovoriAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, odgovori);
+        odgovoriAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
 
         odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

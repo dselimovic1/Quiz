@@ -9,4 +9,5 @@
     <color name="saveBtn">#4682B4</color>
     <color name="textBtn">#FFFFFF</color>
     <color name="kvizColor">#000000</color>
+    <color name="tacanOdgovor">	#00FF7F</color>
 </resources>
