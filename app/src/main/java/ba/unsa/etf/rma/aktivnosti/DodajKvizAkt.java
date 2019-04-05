@@ -92,6 +92,7 @@ public class DodajKvizAkt extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == dodanaPitanja.size() - 1){
                     Intent intent = new Intent(DodajKvizAkt.this, DodajPitanjeAkt.class);
+                    intent.putExtra("pitanja", izvodjiImenaPitanja());
                     startActivityForResult(intent, ADD_QUESTION);
                 }
                 else {
@@ -200,7 +201,13 @@ public class DodajKvizAkt extends AppCompatActivity {
                 return k;
             }
         }
-        return null;
+        return new Kategorija("Svi", "1");
+    }
+
+    private ArrayList<String> izvodjiImenaPitanja() {
+        ArrayList<String> temp = new ArrayList<>();
+        for(Pitanje p : pitanja) temp.add(p.getNaziv());
+        return temp;
     }
 
     private boolean validirajNaslov(){
