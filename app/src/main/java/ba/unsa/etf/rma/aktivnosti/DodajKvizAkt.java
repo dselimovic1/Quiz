@@ -178,9 +178,10 @@ public class DodajKvizAkt extends AppCompatActivity {
             if(requestCode == ADD_CATEGORY){
                 Kategorija k = (Kategorija)data.getSerializableExtra("kategorija");
                 kategorije.add(k);
-                kategorijeIme.add(1, k.getNaziv());
+                int pozicija = kategorijeIme.size() - 1;
+                kategorijeIme.add(pozicija, k.getNaziv());
                 kategorijeAdapter.notifyDataSetChanged();
-                spinner.setSelection(1);
+                spinner.setSelection(pozicija);
             }
             else if(requestCode == ADD_QUESTION) {
                 Pitanje p = (Pitanje)data.getSerializableExtra("pitanje");
