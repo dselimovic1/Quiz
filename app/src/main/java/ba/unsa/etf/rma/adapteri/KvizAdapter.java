@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.maltaisn.icondialog.IconView;
@@ -15,15 +16,21 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kviz;
 
-public class KvizAdapter extends ArrayAdapter <Kviz>{
+public class KvizAdapter extends ArrayAdapter <Kviz> implements Filterable {
 
     private ArrayList<Kviz> kvizovi;
     private ArrayList<Kviz> filter;
+    private KvizFilter filterKvizova = new KvizFilter();
 
     public KvizAdapter(Context context, ArrayList<Kviz> kvizovi) {
         super(context, R.layout.kviz, kvizovi);
         this.kvizovi = kvizovi;
         this.filter = kvizovi;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filterKvizova;
     }
 
     @Override
@@ -43,7 +50,7 @@ public class KvizAdapter extends ArrayAdapter <Kviz>{
     }
 
 
-    private class KvizFilter extends Filter {
+    public class KvizFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
