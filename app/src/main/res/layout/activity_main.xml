@@ -13,7 +13,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:paddingLeft="10dp"/>
 
     <ListView
         android:layout_marginTop="40dp"
