@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.adapteri.DodanaPitanjaAdapter;
 import ba.unsa.etf.rma.adapteri.MogucaPitanjaAdapter;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
@@ -34,7 +35,7 @@ public class DodajKvizAkt extends AppCompatActivity {
     private static ArrayList<String> kategorijeIme = new ArrayList<>();
     private ArrayAdapter<String> kategorijeAdapter;
     private static ArrayList<String> dodanaPitanja = new ArrayList<>();
-    private ArrayAdapter<String> dodanaAdapter;
+    private DodanaPitanjaAdapter dodanaAdapter;
     private static ArrayList<String> mogucaPitanja = new ArrayList<>();
     private MogucaPitanjaAdapter mogucaAdapter;
     private static ArrayList<String> kvizoviIme = new ArrayList<>();
@@ -59,7 +60,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         imeKviz = (EditText)findViewById(R.id.etNaziv);
         sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
 
-        dodanaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dodanaPitanja);
+        dodanaAdapter = new DodanaPitanjaAdapter(this,dodanaPitanja);
         dodanaPitanjaList.setAdapter(dodanaAdapter);
 
         mogucaAdapter = new MogucaPitanjaAdapter(this, mogucaPitanja);
