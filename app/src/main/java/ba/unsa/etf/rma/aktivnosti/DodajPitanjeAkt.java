@@ -15,12 +15,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.adapteri.OdgovoriAdapter;
 import ba.unsa.etf.rma.klase.Pitanje;
 
 public class DodajPitanjeAkt extends AppCompatActivity {
 
     private ArrayList<String> odgovori = new ArrayList<>();
-    private ArrayAdapter<String> odgovoriAdapter;
+    private OdgovoriAdapter odgovoriAdapter;
 
     private ListView odgovoriList;
     private EditText nazivText;
@@ -30,6 +31,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
     private Button sacuvajPitanje;
 
     private Pitanje p = new Pitanje();
+    private int pozicijaTacnog = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +45,19 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         dodajTacan = (Button)findViewById(R.id.btnDodajTacan);
         sacuvajPitanje = (Button)findViewById(R.id.btnDodajPitanje);
 
-        odgovoriAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,odgovori);
+        odgovoriAdapter = new OdgovoriAdapter(this,odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
 
         odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                odgovori.remove(i);
-                String s = ((TextView)view).getText().toString();
-                p.getOdgovori().remove(s);
-                odgovoriAdapter.notifyDataSetChanged();
+                odgovoriAdapter.remove(i);
+                p.getOdgovori().remove(i);
+                if(i == pozicijaTacnog) {
+                    dodajTacan.setEnabled(true);
+                    pozicijaTacnog = -1;
+                    odgovoriAdapter.setPozicijaTacnog(pozicijaTacnog);
+                }
             }
         });
 
@@ -60,11 +65,9 @@ public class DodajPitanjeAkt extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(odgovorText.getText().toString().equals("")) return;
-                odgovori.add(odgovorText.getText().toString());
-                odgovoriAdapter.notifyDataSetChanged();
+                odgovoriAdapter.add(odgovorText.getText().toString());
                 p.dodajOdgovor(odgovorText.getText().toString());
                 odgovorText.setText("");
-                odgovoriAdapter.notifyDataSetChanged();
             }
         });
 
@@ -73,12 +76,12 @@ public class DodajPitanjeAkt extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(odgovorText.getText().toString().equals("")) return;
-                odgovori.add(odgovorText.getText().toString());
-                odgovoriAdapter.notifyDataSetChanged();
+                odgovoriAdapter.add(odgovorText.getText().toString());
+                pozicijaTacnog = odgovoriAdapter.getCount() - 1;
+                odgovoriAdapter.setPozicijaTacnog(pozicijaTacnog);
                 p.dodajOdgovor(odgovorText.getText().toString());
                 p.setTacan(odgovorText.getText().toString());
                 odgovorText.setText("");
-                odgovoriAdapter.notifyDataSetChanged();
                 view.setEnabled(false);
             }
         });

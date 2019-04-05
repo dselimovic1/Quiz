@@ -15,6 +15,5 @@
         android:layout_height="30dp"
         android:layout_weight="9"
         android:id="@+id/tekstOdgovora"
-        android:textColor="@color/kvizColor"
-        android:text="OK" />
+        android:textColor="@color/kvizColor" />
 </LinearLayout>

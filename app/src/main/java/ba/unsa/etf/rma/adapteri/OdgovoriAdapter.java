@@ -14,7 +14,7 @@ import ba.unsa.etf.rma.R;
 public class OdgovoriAdapter extends ArrayAdapter<String> {
 
     private ArrayList<String> odgovori;
-    int pozicijaTacnog = -1;
+    private int pozicijaTacnog = -1;
 
     public OdgovoriAdapter(Context context, ArrayList<String> odgovori) {
         super(context, R.layout.odgovor, odgovori);
@@ -31,7 +31,7 @@ public class OdgovoriAdapter extends ArrayAdapter<String> {
 
         TextView tekst = (TextView)convertView.findViewById(R.id.tekstOdgovora);
         tekst.setText(current);
-        if(position == pozicijaTacnog) convertView.setBackgroundColor(	0x7CFC00);
+        //if(position == pozicijaTacnog) convertView.setBackgroundColor(	0x7CFC00);
 
         return convertView;
     }
@@ -57,5 +57,9 @@ public class OdgovoriAdapter extends ArrayAdapter<String> {
     public void add(String position) {
         odgovori.add(position);
         this.notifyDataSetChanged();
+    }
+
+    public void setPozicijaTacnog(int pozicijaTacnog) {
+        this.pozicijaTacnog = pozicijaTacnog;
     }
 }
