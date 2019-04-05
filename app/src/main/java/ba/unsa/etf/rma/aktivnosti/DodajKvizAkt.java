@@ -122,7 +122,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i != 0 && i == kategorijeIme.size() - 1) {
+                if(i == kategorijeIme.size() - 1) {
                     Intent intent = new Intent(DodajKvizAkt.this, DodajKategorijuAkt.class);
                     startActivityForResult(intent, ADD_CATEGORY);
                 }
