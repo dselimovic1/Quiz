@@ -12,9 +12,9 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.adapteri.KvizAdapter;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
-import ba.unsa.etf.rma.adapteri.KvizAdapter;
 
 
 public class KvizoviAkt extends AppCompatActivity {
@@ -28,6 +28,7 @@ public class KvizoviAkt extends AppCompatActivity {
     private KvizAdapter kvizAdapter;
     private Spinner spinner;
     private ListView list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,35 @@ public class KvizoviAkt extends AppCompatActivity {
                 }
             }
         });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String s = spinner.getSelectedItem().toString();
+                if(s.equals("Svi")) {
+                    kvizAdapter = new KvizAdapter(KvizoviAkt.this, kvizovi);
+                    list.setAdapter(kvizAdapter);
+                }
+                else {
+                    kvizAdapter = new KvizAdapter(KvizoviAkt.this, filterListe(s));
+                    list.setAdapter(kvizAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private ArrayList<Kviz> filterListe(String s) {
+        ArrayList<Kviz> lista = new ArrayList<>();
+        for(Kviz k : kvizovi) {
+            if(k.getKategorija().getNaziv().equals(s)) lista.add(k);
+        }
+        lista.add(new Kviz("Dodaj Kviz", null, new Kategorija("",Integer.toString(671))));
+        return lista;
     }
 
     @Override
@@ -89,7 +119,9 @@ public class KvizoviAkt extends AppCompatActivity {
                 kvizovi.set(pozicija, k);
             }
             ArrayList<String> sveKategorije = data.getStringArrayListExtra("sveKategorije");
+            kategorijeIme.clear();
             kategorijeIme.addAll(0, sveKategorije);
+            kategorijeIme.add("Svi");
             kategorijeAdapter.notifyDataSetChanged();
             int pozicija = kategorijeAdapter.getCount() - 1;
             if (pozicija < 0) pozicija = 0;
