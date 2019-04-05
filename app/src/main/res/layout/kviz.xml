@@ -21,6 +21,5 @@
         android:textStyle="bold"
         android:textColor="@color/kvizColor"
         android:paddingTop="10dp"
-        android:text="OK"
         android:layout_weight="10"/>
 </LinearLayout>
