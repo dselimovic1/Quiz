@@ -92,14 +92,8 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         sacuvajPitanje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validirajNaziv() == false){
-                    nazivText.setBackgroundColor(Color.RED);
-                    validacija = false;
-                }
-                if(odgovori.size() == 0 || p.getTacan() == null) {
-                    odgovorText.setBackgroundColor(Color.RED);
-                    validacija = false;
-                }
+                validirajNaziv();
+                validirajOdgovore();
                 if(validacija) {
                     nazivText.setBackgroundColor(Color.WHITE);
                     odgovorText.setBackgroundColor(Color.WHITE);
@@ -115,13 +109,24 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         });
     }
 
-    private boolean validirajNaziv() {
+    private void validirajNaziv() {
         for(String s : pitanja) {
-            if(s.equals(nazivText.getText().toString()))
-                return false;
+            if(s.equals(nazivText.getText().toString())) {
+                validacija = false;
+                nazivText.setBackgroundColor(Color.RED);
+                return;
+            }
         }
-        return true;
+        validacija = true;
+        nazivText.setBackgroundColor(Color.WHITE);
     }
 
-
+    private void validirajOdgovore() {
+        if(p.getTacan() == null) {
+            odgovorText.setBackgroundColor(Color.WHITE);
+            validacija = false;
+            return;
+        }
+        odgovorText.setBackgroundColor(Color.WHITE);
+    }
 }
