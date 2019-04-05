@@ -21,6 +21,6 @@
         android:id="@+id/ime"
         android:textStyle="bold"
         android:textColor="@color/kvizColor"
-        android:paddingTop="10dp"
-        android:layout_weight="10"/>
+        android:paddingTop="5dp"
+        android:layout_weight="10" />
 </LinearLayout>
