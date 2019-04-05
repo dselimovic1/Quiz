@@ -28,34 +28,15 @@ public class KvizAdapter extends ArrayAdapter <Kviz>{
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if(convertView == null) {
-            if(getItemViewType(position) == 0)
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.kviz, parent, false);
-            else
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.kviz_dodaj, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.kviz, parent, false);
         }
         Kviz current = kvizovi.get(position);
 
+        IconView ikona = (IconView)convertView.findViewById(R.id.ikona);
+        ikona.setIcon(Integer.parseInt(current.getKategorija().getId()));
+        TextView ime = (TextView)convertView.findViewById(R.id.ime);
+        ime.setText(current.getNaziv());
 
-        if(getItemViewType(position) == 1) {
-            TextView ime = (TextView)convertView.findViewById(R.id.ime);
-            ime.setText(current.getNaziv());
-        }
-        else {
-            IconView ikona = (IconView)convertView.findViewById(R.id.ikona);
-            ikona.setIcon(Integer.parseInt(current.getKategorija().getId()));
-            TextView ime = (TextView)convertView.findViewById(R.id.ime);
-            ime.setText(current.getNaziv());
-        }
         return convertView;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 2;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return (getCount() - 1 == position) ? 1 : 0;
     }
 }
