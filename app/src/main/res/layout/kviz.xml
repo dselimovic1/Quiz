@@ -7,17 +7,20 @@
     android:paddingBottom="10dp">
 
     <com.maltaisn.icondialog.IconView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
         android:id="@+id/ikona"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
         android:id="@+id/ime"
         android:textStyle="bold"
         android:textColor="@color/kvizColor"
-        android:paddingTop="10dp"/>
+        android:paddingTop="10dp"
+        android:text="OK"
+        android:layout_weight="10"/>
 </LinearLayout>
