@@ -15,7 +15,7 @@ public class MogucaPitanjaAdapter extends ArrayAdapter<String> {
 
     ArrayList<String> mogucaPitanja;
 
-    MogucaPitanjaAdapter(Context context, ArrayList<String> mogucaPitanja) {
+    public MogucaPitanjaAdapter(Context context, ArrayList<String> mogucaPitanja) {
         super(context, R.layout.moguca_pitanja, mogucaPitanja);
         this.mogucaPitanja = mogucaPitanja;
     }
