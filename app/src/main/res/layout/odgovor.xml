@@ -9,7 +9,7 @@
         android:layout_height="30dp"
         android:layout_weight="1"
         android:id="@+id/blueDot"
-        android:src="@drawable/blueDot"
+        android:src="@drawable/blue_dot"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"/>
 
@@ -18,5 +18,6 @@
         android:layout_height="30dp"
         android:layout_weight="9"
         android:id="@+id/tekstOdgovora"
-        android:textColor="@color/kvizColor" />
+        android:textColor="@color/kvizColor"
+        android:paddingTop="5dp"/>
 </LinearLayout>
