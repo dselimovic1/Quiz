@@ -31,7 +31,6 @@ public class OdgovoriAdapter extends ArrayAdapter<String> {
 
         TextView tekst = (TextView)convertView.findViewById(R.id.tekstOdgovora);
         tekst.setText(current);
-        //if(position == pozicijaTacnog) convertView.setBackgroundColor(	0x7CFC00);
 
         return convertView;
     }
