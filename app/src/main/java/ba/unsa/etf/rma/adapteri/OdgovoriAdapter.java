@@ -29,8 +29,10 @@ public class OdgovoriAdapter extends ArrayAdapter<String> {
             convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.odgovor, parent, false);
 
 
+
         TextView tekst = (TextView)convertView.findViewById(R.id.tekstOdgovora);
         tekst.setText(current);
+        if(position == pozicijaTacnog) tekst.setText("Ovo je tačan odgovor");
 
         return convertView;
     }
