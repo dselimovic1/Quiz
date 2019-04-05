@@ -27,6 +27,7 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
 
     private static ArrayList<String> kategorije = new ArrayList<>();
     private Kategorija k;
+    private boolean validacija = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +54,10 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                 if(provjeriNaziv() == false) {
                     imeKategorije.setBackgroundColor(Color.RED);
                 }
-                else if(provjeriIDIkone() == false) {
+                if(provjeriIDIkone() == false) {
                     icondID.setBackgroundColor(Color.RED);
                 }
-                else {
+                if (validacija) {
                     k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
                     kategorije.add(k.getNaziv());
                     imeKategorije.setBackgroundColor(Color.WHITE);
@@ -78,14 +79,22 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
 
     private boolean provjeriNaziv() {
         for(String s : kategorije) {
-            if(s.equals(imeKategorije.getText().toString()))
+            if(s.equals(imeKategorije.getText().toString())) {
+                validacija = false;
                 return false;
+            }
         }
+        validacija = true;
         return true;
     }
 
-    private boolean provjeriIDIkone(){
-        return !icondID.getText().toString().equals("");
+    private boolean provjeriIDIkone() {
+       if(icondID.getText().toString().equals("")) {
+           validacija = false;
+           return validacija;
+       }
+       validacija = true;
+       return validacija;
     }
 
 }
