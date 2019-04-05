@@ -8,7 +8,10 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_weight="1"
-        android:id="@+id/blueDot"/>
+        android:id="@+id/blueDot"
+        android:src="@drawable/blueDot"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"/>
 
     <TextView
         android:layout_width="0dp"
