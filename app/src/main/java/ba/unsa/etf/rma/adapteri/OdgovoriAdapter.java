@@ -25,14 +25,21 @@ public class OdgovoriAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         String current = odgovori.get(position);
 
-        if(convertView == null)
-            convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.odgovor, parent, false);
+        if(convertView == null) {
+            if(getItemViewType(position) == 0)
+                convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.odgovor, parent, false);
+            else
+                convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.tacan_odgovor, parent, false);
+        }
 
-
-
-        TextView tekst = (TextView)convertView.findViewById(R.id.tekstOdgovora);
-        tekst.setText(current);
-        if(position == pozicijaTacnog) tekst.setText("Ovo je tačan odgovor");
+        if(getItemViewType(position) == 0) {
+            TextView tekst = (TextView)convertView.findViewById(R.id.tekstOdgovora);
+            tekst.setText(current);
+        }
+        else {
+            TextView tekst = (TextView)convertView.findViewById(R.id.tekstOdgovora);
+            tekst.setText(current);
+        }
 
         return convertView;
     }
@@ -62,5 +69,15 @@ public class OdgovoriAdapter extends ArrayAdapter<String> {
 
     public void setPozicijaTacnog(int pozicijaTacnog) {
         this.pozicijaTacnog = pozicijaTacnog;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == pozicijaTacnog) ? 1 : 0;
     }
 }
