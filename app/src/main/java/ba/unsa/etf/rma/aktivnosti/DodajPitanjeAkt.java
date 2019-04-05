@@ -51,13 +51,12 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                odgovoriAdapter.remove(i);
-                p.getOdgovori().remove(i);
                 if(i == pozicijaTacnog) {
                     dodajTacan.setEnabled(true);
                     pozicijaTacnog = -1;
-                    odgovoriAdapter.setPozicijaTacnog(pozicijaTacnog);
                 }
+                odgovoriAdapter.remove(i);
+                p.getOdgovori().remove(i);
             }
         });
 
