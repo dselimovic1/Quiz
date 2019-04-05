@@ -145,9 +145,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                 }
                 else {
                     Intent intent = new Intent(DodajKvizAkt.this, KvizoviAkt.class);
-                    spinner.setBackgroundColor(Color.WHITE);
                     imeKviz.setBackgroundColor(Color.WHITE);
-                    dodanaPitanjaList.setBackgroundColor(Color.WHITE);
                     if(trenutni == null)
                         trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja),
                                 odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
@@ -160,7 +158,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                     }
                     //kvizoviIme.add(imeKviz.getText().toString());
                     ArrayList<String> sveKategorije = new ArrayList<>(kategorijeIme);
-                    sveKategorije.remove("");
+                    sveKategorije.remove("Svi");
                     sveKategorije.remove("Dodaj Kategoriju");
                     intent.putExtra("sveKategorije", sveKategorije);
                     intent.putExtra("noviKviz", trenutni);
