@@ -22,6 +22,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
 
     private ArrayList<String> odgovori = new ArrayList<>();
     private OdgovoriAdapter odgovoriAdapter;
+    private ArrayList<String> pitanja;
 
     private ListView odgovoriList;
     private EditText nazivText;
@@ -30,6 +31,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
     private Button dodajTacan;
     private Button sacuvajPitanje;
 
+    private boolean validacija = true;
     private Pitanje p = new Pitanje();
     private int pozicijaTacnog = -1;
 
@@ -47,6 +49,8 @@ public class DodajPitanjeAkt extends AppCompatActivity {
 
         odgovoriAdapter = new OdgovoriAdapter(this,odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
+
+        pitanja = getIntent().getStringArrayListExtra("pitanja");
 
         odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -90,14 +94,17 @@ public class DodajPitanjeAkt extends AppCompatActivity {
             public void onClick(View view) {
                 if(validirajNaziv() == false){
                     nazivText.setBackgroundColor(Color.RED);
+                    validacija = false;
                 }
-                else if(odgovori.size() == 0 || p.getTacan() == null) {
+                if(odgovori.size() == 0 || p.getTacan() == null) {
                     odgovorText.setBackgroundColor(Color.RED);
+                    validacija = false;
                 }
-                else {
+                if(validacija) {
                     nazivText.setBackgroundColor(Color.WHITE);
                     odgovorText.setBackgroundColor(Color.WHITE);
                     p.setNaziv(nazivText.getText().toString());
+                    p.setTekstPitanja(nazivText.getText().toString());
                     Intent intent = new Intent(DodajPitanjeAkt.this, DodajKvizAkt.class);
                     intent.putExtra("pitanje", p);
                     setResult(RESULT_OK, intent);
@@ -109,7 +116,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
     }
 
     private boolean validirajNaziv() {
-        for(String s : odgovori) {
+        for(String s : pitanja) {
             if(s.equals(nazivText.getText().toString()))
                 return false;
         }
