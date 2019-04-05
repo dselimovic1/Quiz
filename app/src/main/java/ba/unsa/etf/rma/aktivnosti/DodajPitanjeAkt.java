@@ -123,7 +123,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
 
     private void validirajOdgovore() {
         if(p.getTacan() == null) {
-            odgovorText.setBackgroundColor(Color.WHITE);
+            odgovorText.setBackgroundColor(Color.RED);
             validacija = false;
             return;
         }
