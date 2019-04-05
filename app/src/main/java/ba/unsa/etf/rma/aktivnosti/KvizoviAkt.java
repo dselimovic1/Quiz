@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
-import ba.unsa.etf.rma.klase.KvizAdapter;
+import ba.unsa.etf.rma.adapteri.KvizAdapter;
 
 
 public class KvizoviAkt extends AppCompatActivity {
