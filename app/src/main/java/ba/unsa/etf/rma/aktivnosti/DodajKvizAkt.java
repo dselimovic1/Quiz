@@ -236,11 +236,11 @@ public class DodajKvizAkt extends AppCompatActivity {
     }
 
     private void izdvojiMogucaPitanja() {
-        ArrayList<Pitanje> temp = new ArrayList<>(pitanja);
+        //ArrayList<Pitanje> temp = new ArrayList<>(pitanja);
         mogucaPitanja.clear();
-        if(trenutni != null) temp.removeAll(trenutni.getPitanja());
+        /*if(trenutni != null) temp.removeAll(trenutni.getPitanja());
         for(Pitanje p : temp) mogucaPitanja.add(p.getNaziv());
-        mogucaAdapter.notifyDataSetChanged();
+        mogucaAdapter.notifyDataSetChanged();*/
     }
 
     private void izdvojiDodanaPitanja() {
