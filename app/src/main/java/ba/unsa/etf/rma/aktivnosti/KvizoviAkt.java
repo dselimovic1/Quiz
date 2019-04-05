@@ -40,7 +40,8 @@ public class KvizoviAkt extends AppCompatActivity {
 
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
-        kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
+        kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,kategorijeIme);
+        kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
 
         boolean back = getIntent().getBooleanExtra("back", false);
