@@ -8,7 +8,7 @@
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:id="@+id/ikona"
         android:src="@drawable/add"
         android:layout_marginLeft="10dp"
@@ -17,7 +17,7 @@
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:id="@+id/ime"
         android:textStyle="bold"
         android:textColor="@color/kvizColor"
