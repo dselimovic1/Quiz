@@ -51,12 +51,8 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(provjeriNaziv() == false) {
-                    imeKategorije.setBackgroundColor(Color.RED);
-                }
-                if(provjeriIDIkone() == false) {
-                    icondID.setBackgroundColor(Color.RED);
-                }
+                provjeriNaziv();
+                provjeriIDIkone();
                 if (validacija) {
                     k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
                     kategorije.add(k.getNaziv());
@@ -77,24 +73,25 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
         icondID.setText(Integer.toString(ikone[0].getId()));
     }
 
-    private boolean provjeriNaziv() {
+    private void provjeriNaziv() {
         for(String s : kategorije) {
             if(s.equals(imeKategorije.getText().toString())) {
                 validacija = false;
-                return false;
+                imeKategorije.setBackgroundColor(Color.RED);
+                return;
             }
         }
         validacija = true;
-        return true;
+        imeKategorije.setBackgroundColor(Color.WHITE);
     }
 
-    private boolean provjeriIDIkone() {
+    private void provjeriIDIkone() {
        if(icondID.getText().toString().equals("")) {
            validacija = false;
-           return validacija;
+           icondID.setBackgroundColor(Color.RED);
+           return;
        }
-       validacija = true;
-       return validacija;
+       icondID.setBackgroundColor(Color.WHITE);
     }
 
 }
