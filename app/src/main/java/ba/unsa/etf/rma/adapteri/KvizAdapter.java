@@ -40,4 +40,14 @@ public class KvizAdapter extends ArrayAdapter <Kviz> implements Filterable {
         return convertView;
     }
 
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == getCount() - 1) ? 1 : 0 ;
+    }
+
 }
