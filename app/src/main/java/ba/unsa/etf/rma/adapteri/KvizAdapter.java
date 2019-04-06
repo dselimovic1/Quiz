@@ -28,15 +28,23 @@ public class KvizAdapter extends ArrayAdapter <Kviz> implements Filterable {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.kviz, parent, false);
+            if(getItemViewType(position) == 0)
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.kviz, parent, false);
+            else
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.moguca_pitanja, parent, false);
         }
         Kviz current = kvizovi.get(position);
 
-        IconView ikona = (IconView)convertView.findViewById(R.id.ikona);
-        ikona.setIcon(Integer.parseInt(current.getKategorija().getId()));
-        TextView ime = (TextView)convertView.findViewById(R.id.ime);
-        ime.setText(current.getNaziv());
-
+        if(getItemViewType(position) == 0) {
+            IconView ikona = (IconView) convertView.findViewById(R.id.ikona);
+            ikona.setIcon(Integer.parseInt(current.getKategorija().getId()));
+            TextView ime = (TextView) convertView.findViewById(R.id.ime);
+            ime.setText(current.getNaziv());
+        }
+        else {
+            TextView ime = (TextView) convertView.findViewById(R.id.ime);
+            ime.setText(current.getNaziv());
+        }
         return convertView;
     }
 
