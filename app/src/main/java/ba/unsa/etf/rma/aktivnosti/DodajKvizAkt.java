@@ -158,7 +158,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                         int pozicija = getIntent().getIntExtra("pozicija", 0);
                         intent.putExtra("pozicija", pozicija);
                     }
-                    //kvizoviIme.add(imeKviz.getText().toString());
+                    kvizoviIme.add(imeKviz.getText().toString());
                     ArrayList<String> sveKategorije = new ArrayList<>(kategorijeIme);
                     sveKategorije.remove("Svi");
                     sveKategorije.remove("Dodaj Kategoriju");
