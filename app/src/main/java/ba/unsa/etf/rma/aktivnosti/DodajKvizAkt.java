@@ -5,12 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -276,7 +274,7 @@ public class DodajKvizAkt extends AppCompatActivity {
     }
 
     public static void setDynamicHeight(ListView mListView) {
-        ListAdapter mListAdapter = mListView.getAdapter();
+        /*ListAdapter mListAdapter = mListView.getAdapter();
         if (mListAdapter == null) {
             // when adapter is null
             return;
@@ -291,7 +289,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         ViewGroup.LayoutParams params = mListView.getLayoutParams();
         params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
         mListView.setLayoutParams(params);
-        mListView.requestLayout();
+        mListView.requestLayout();*/
     }
 
 }
