@@ -213,6 +213,8 @@ public class DodajKvizAkt extends AppCompatActivity {
     }
 
     private boolean validirajNaslov(){
+        if(imeKviz.getText().toString().equals(""))
+            return false;
         for(String s : kvizoviIme) {
             if(s.equals(imeKviz.getText().toString()))
                 return false;
