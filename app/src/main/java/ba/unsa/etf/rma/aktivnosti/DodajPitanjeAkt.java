@@ -56,6 +56,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                 if(i == pozicijaTacnog) {
                     dodajTacan.setEnabled(true);
                     pozicijaTacnog = -1;
+                    p.setTacan(null);
                 }
                 odgovoriAdapter.remove(i);
                 p.getOdgovori().remove(i);
