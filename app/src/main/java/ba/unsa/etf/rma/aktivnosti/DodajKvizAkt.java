@@ -85,9 +85,6 @@ public class DodajKvizAkt extends AppCompatActivity {
             izdvojiDodanaPitanja();
         }
 
-        setDynamicHeight(dodanaPitanjaList);
-        setDynamicHeight(mogucaPitanjaList);
-
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -101,8 +98,6 @@ public class DodajKvizAkt extends AppCompatActivity {
                     mogucaAdapter.notifyDataSetChanged();
                     dodanaPitanja.remove(i);
                     dodanaAdapter.notifyDataSetChanged();
-                    setDynamicHeight(dodanaPitanjaList);
-                    setDynamicHeight(mogucaPitanjaList);
                 }
             }
         });
@@ -115,8 +110,6 @@ public class DodajKvizAkt extends AppCompatActivity {
                 dodanaAdapter.notifyDataSetChanged();
                 mogucaPitanja.remove(i);
                 mogucaAdapter.notifyDataSetChanged();
-                setDynamicHeight(dodanaPitanjaList);
-                setDynamicHeight(mogucaPitanjaList);
             }
         });
 
@@ -189,9 +182,6 @@ public class DodajKvizAkt extends AppCompatActivity {
                 dodanaPitanja.add(pozicija, p.getNaziv());
                 dodanaAdapter.notifyDataSetChanged();
             }
-
-            setDynamicHeight(dodanaPitanjaList);
-            setDynamicHeight(mogucaPitanjaList);
         }
     }
 
@@ -272,24 +262,4 @@ public class DodajKvizAkt extends AppCompatActivity {
         intent.putExtra("kategorije", temp);
         startActivity(intent);
     }
-
-    public static void setDynamicHeight(ListView mListView) {
-        /*ListAdapter mListAdapter = mListView.getAdapter();
-        if (mListAdapter == null) {
-            // when adapter is null
-            return;
-        }
-        int height = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        for (int i = 0; i < mListAdapter.getCount(); i++) {
-            View listItem = mListAdapter.getView(i, null, mListView);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            height += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = mListView.getLayoutParams();
-        params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
-        mListView.setLayoutParams(params);
-        mListView.requestLayout();*/
-    }
-
 }
