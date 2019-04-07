@@ -77,6 +77,7 @@ public class DodajKvizAkt extends AppCompatActivity {
             spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
             izdvojiMogucaPitanja();
             izdvojiDodanaPitanja();
+            kvizoviIme.remove(trenutni.getNaziv());
         }
         else {
             trenutni = null;
