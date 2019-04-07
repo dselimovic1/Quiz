@@ -74,6 +74,11 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
     }
 
     private void provjeriNaziv() {
+        if(imeKategorije.getText().toString().equals("")) {
+            validacija = false;
+            imeKategorije.setBackgroundColor(Color.RED);
+            return;
+        }
         for(String s : kategorije) {
             if(s.equals(imeKategorije.getText().toString())) {
                 validacija = false;
