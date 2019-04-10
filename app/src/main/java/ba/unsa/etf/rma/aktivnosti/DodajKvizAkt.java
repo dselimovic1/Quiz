@@ -2,6 +2,7 @@ package ba.unsa.etf.rma.aktivnosti;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -195,6 +196,9 @@ public class DodajKvizAkt extends AppCompatActivity {
                 dodanaPitanja.add(pozicija, p.getNaziv());
                 dodanaAdapter.notifyDataSetChanged();
             }
+            else if(requestCode == IMPORT_QUIZ) {
+
+            }
         }
     }
 
@@ -274,5 +278,9 @@ public class DodajKvizAkt extends AppCompatActivity {
         temp.remove(0);
         intent.putExtra("kategorije", temp);
         startActivity(intent);
+    }
+
+    private String izdvojiTekst(Uri uri) {
+        return null;
     }
 }
