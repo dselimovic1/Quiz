@@ -13,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -284,6 +289,21 @@ public class DodajKvizAkt extends AppCompatActivity {
     }
 
     private String izdvojiTekst(Uri uri) {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line = "";
+            while ((line = bufferedReader.readLine()) == null) {
+                stringBuilder.append(line);
+            }
+            inputStream.close();
+            bufferedReader.close();
+        } catch (FileNotFoundException e ) {
+            e.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 }
