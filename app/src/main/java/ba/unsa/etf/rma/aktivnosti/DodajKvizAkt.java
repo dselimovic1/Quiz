@@ -26,6 +26,7 @@ public class DodajKvizAkt extends AppCompatActivity {
 
     private static int ADD_CATEGORY = 1;
     private static int ADD_QUESTION = 2;
+    private static int IMPORT_QUIZ = 3;
 
     private static ArrayList<Pitanje> pitanja = new ArrayList<>();
     private static ArrayList<Kategorija> kategorije = new ArrayList<>();
@@ -43,6 +44,7 @@ public class DodajKvizAkt extends AppCompatActivity {
     private ListView mogucaPitanjaList;
     private EditText imeKviz;
     private Button sacuvajKviz;
+    private Button importujKviz;
 
     private Kviz trenutni = new Kviz();
 
@@ -57,6 +59,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         mogucaPitanjaList = (ListView)findViewById(R.id.lvMogucaPitanja);
         imeKviz = (EditText)findViewById(R.id.etNaziv);
         sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
+        importujKviz = (Button)findViewById(R.id.btnImportKviz);
 
         dodanaAdapter = new DodanaPitanjaAdapter(this,dodanaPitanja);
         dodanaPitanjaList.setAdapter(dodanaAdapter);
@@ -160,6 +163,16 @@ public class DodajKvizAkt extends AppCompatActivity {
                     finish();
                 }
 
+            }
+        });
+
+        importujKviz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("text/*");
+                startActivityForResult(intent, IMPORT_QUIZ);
             }
         });
     }
