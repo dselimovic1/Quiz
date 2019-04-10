@@ -197,7 +197,10 @@ public class DodajKvizAkt extends AppCompatActivity {
                 dodanaAdapter.notifyDataSetChanged();
             }
             else if(requestCode == IMPORT_QUIZ) {
-
+                if(data != null) {
+                    Uri uri = data.getData();
+                    izdvojiTekst(uri);
+                }
             }
         }
     }
