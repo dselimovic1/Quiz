@@ -235,6 +235,18 @@ public class DodajKvizAkt extends AppCompatActivity {
         }
     }
 
+    private Pitanje izdvojiPitanje(String[] s) {
+        Pitanje p = new Pitanje();
+        p.setNaziv(s[0]);
+        p.setTekstPitanja(s[0]);
+        ArrayList<String> odgovori = new ArrayList<>();
+        int brojOdgovora = Integer.parseInt(s[1]);
+        int indexTacnog = Integer.parseInt(s[2]);
+        for(int i = 0; i < brojOdgovora; i++) odgovori.add(s[i + 3]);
+        p.setTacan(odgovori.get(indexTacnog));
+        return p;
+    }
+
     private boolean validirajImeKvizaImport(String ime) {
         for(String s : kvizoviIme) {
             if(s.equals(ime)) {
