@@ -288,14 +288,14 @@ public class DodajKvizAkt extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private String izdvojiTekst(Uri uri) {
-        StringBuilder stringBuilder = new StringBuilder();
+    private ArrayList<String> izdvojiTekst(Uri uri) {
+        ArrayList<String> list = new ArrayList<>();
         try {
             InputStream inputStream = getContentResolver().openInputStream(uri);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line = "";
             while ((line = bufferedReader.readLine()) == null) {
-                stringBuilder.append(line);
+                list.add(line);
             }
             inputStream.close();
             bufferedReader.close();
@@ -304,6 +304,6 @@ public class DodajKvizAkt extends AppCompatActivity {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        return stringBuilder.toString();
+        return list;
     }
 }
