@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -204,10 +205,43 @@ public class DodajKvizAkt extends AppCompatActivity {
             else if(requestCode == IMPORT_QUIZ) {
                 if(data != null) {
                     Uri uri = data.getData();
-                    izdvojiTekst(uri);
+                    ArrayList<String> temp = izdvojiTekst(uri);
+                    String[] quizData = temp.get(0).split(",");
+                    if(validirajImeKvizaImport(quizData[0])) {
+                        new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete već postoji!");
+                        return;
+                    }
+                    if(Integer.parseInt(quizData[2]) != temp.size() - 1) {
+                        new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete ima neispravan broj pitanja!");
+                        return;
+                    }
+                    for(int i = 1; i <= Integer.parseInt(quizData[2]); i++) {
+                        String[] questionData = temp.get(i).split(",");
+                        int brojOdogovora = Integer.parseInt(questionData[1]);
+                        if(brojOdogovora + 3 != questionData.length) {
+                            new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete ima neispravan broj odgovora!");
+                            return;
+                        }
+                        int index = Integer.parseInt(questionData[2]);
+                        if(index < 0 || index >= brojOdogovora) {
+                            new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete ima neispravan index " +
+                                    "tacnog odgovora!");
+                            return;
+                        }
+                    }
+
                 }
             }
         }
+    }
+
+    private boolean validirajImeKvizaImport(String ime) {
+        for(String s : kvizoviIme) {
+            if(s.equals(ime)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Kategorija odrediKategoriju(String s){
