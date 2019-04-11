@@ -229,10 +229,33 @@ public class DodajKvizAkt extends AppCompatActivity {
                             return;
                         }
                     }
-
+                    for(int i = 0; i < Integer.parseInt(quizData[2]); i++) {
+                        Pitanje p = izdvojiPitanje(temp.get(i + 1).split(","));
+                        pitanja.add(p);
+                        dodanaPitanja.add(p.getNaziv());
+                    }
+                    dodanaAdapter.notifyDataSetChanged();
+                    imeKviz.setText(quizData[0]);
+                    String imeKategorije = quizData[1];
+                    if(izdvojiKategorijuImport(imeKategorije) != -1) {
+                        spinner.setSelection(izdvojiKategorijuImport(imeKategorije));
+                    }
+                    else {
+                        Kategorija k = new Kategorija(imeKategorije,"2");
+                        kategorije.add(k);
+                        kategorijeIme.add(k.getNaziv());
+                        kategorijeAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         }
+    }
+
+    private int izdvojiKategorijuImport(String s) {
+        for(int i = 0; i < kategorijeIme.size(); i++) {
+            if(s.equals(kategorijeIme.get(i))) return i;
+        }
+        return -1;
     }
 
     private Pitanje izdvojiPitanje(String[] s) {
