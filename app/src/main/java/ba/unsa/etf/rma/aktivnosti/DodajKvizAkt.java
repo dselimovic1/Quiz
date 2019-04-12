@@ -229,30 +229,38 @@ public class DodajKvizAkt extends AppCompatActivity {
                             return;
                         }
                     }
-                    dodanaPitanja.clear();
-                    for(int i = 0; i < Integer.parseInt(quizData[2]); i++) {
-                        Pitanje p = izdvojiPitanje(temp.get(i + 1).split(","));
-                        pitanja.add(p);
-                        dodanaPitanja.add(p.getNaziv());
-                    }
-                    dodanaPitanja.add("Dodaj Pitanje");
-                    dodanaAdapter.notifyDataSetChanged();
+                    izvdojiSvaPitanja(quizData, temp);
                     imeKviz.setText(quizData[0]);
-                    String imeKategorije = quizData[1];
-                    if(nadjiPozicijuUSpinneru(imeKategorije) != -1) {
-                        spinner.setSelection(nadjiPozicijuUSpinneru(imeKategorije));
-                    }
-                    else {
-                        Kategorija k = new Kategorija(imeKategorije,"2");
-                        kategorije.add(k);
-                        kategorijeIme.add(k.getNaziv());
-                        izdvojiKategorije();
-                        kategorijeAdapter.notifyDataSetChanged();
-                        spinner.setSelection(nadjiPozicijuUSpinneru(k.getNaziv()));
-                    }
+                    izdvojiKategorijuImport(quizData);
                 }
             }
         }
+    }
+
+    private void izdvojiKategorijuImport(String[] quizData) {
+        String imeKategorije = quizData[1];
+        if(nadjiPozicijuUSpinneru(imeKategorije) != -1) {
+            spinner.setSelection(nadjiPozicijuUSpinneru(imeKategorije));
+        }
+        else {
+            Kategorija k = new Kategorija(imeKategorije,"2");
+            kategorije.add(k);
+            kategorijeIme.add(k.getNaziv());
+            izdvojiKategorije();
+            kategorijeAdapter.notifyDataSetChanged();
+            spinner.setSelection(nadjiPozicijuUSpinneru(k.getNaziv()));
+        }
+    }
+
+    private void izvdojiSvaPitanja(String[] quizData, ArrayList<String> temp) {
+        dodanaPitanja.clear();
+        for(int i = 0; i < Integer.parseInt(quizData[2]); i++) {
+            Pitanje p = izdvojiPitanje(temp.get(i + 1).split(","));
+            pitanja.add(p);
+            dodanaPitanja.add(p.getNaziv());
+        }
+        dodanaPitanja.add("Dodaj Pitanje");
+        dodanaAdapter.notifyDataSetChanged();
     }
 
     private Pitanje izdvojiPitanje(String[] s) {
