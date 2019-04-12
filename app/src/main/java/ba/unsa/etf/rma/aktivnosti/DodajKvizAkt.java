@@ -207,7 +207,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                     Uri uri = data.getData();
                     ArrayList<String> temp = izdvojiTekst(uri);
                     String[] quizData = temp.get(0).split(",");
-                    if(validirajImeKvizaImport(quizData[0])) {
+                    if(validirajImeKvizaImport(quizData[0]) == false) {
                         new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete već postoji!");
                         return;
                     }
@@ -245,6 +245,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                         kategorije.add(k);
                         kategorijeIme.add(k.getNaziv());
                         kategorijeAdapter.notifyDataSetChanged();
+                        spinner.setSelection(izdvojiKategorijuImport(k.getNaziv()));
                     }
                 }
             }
@@ -363,7 +364,7 @@ public class DodajKvizAkt extends AppCompatActivity {
             InputStream inputStream = getContentResolver().openInputStream(uri);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line = "";
-            while ((line = bufferedReader.readLine()) == null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 list.add(line);
             }
             inputStream.close();
