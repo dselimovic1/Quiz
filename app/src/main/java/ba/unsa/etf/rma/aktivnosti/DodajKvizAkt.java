@@ -208,24 +208,24 @@ public class DodajKvizAkt extends AppCompatActivity {
                     ArrayList<String> temp = izdvojiTekst(uri);
                     String[] quizData = temp.get(0).split(",");
                     if(validirajImeKvizaImport(quizData[0]) == false) {
-                        new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete već postoji!");
+                        new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete već postoji!").show();
                         return;
                     }
                     if(Integer.parseInt(quizData[2]) != temp.size() - 1) {
-                        new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete ima neispravan broj pitanja!");
+                        new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete ima neispravan broj pitanja!").show();
                         return;
                     }
                     for(int i = 1; i <= Integer.parseInt(quizData[2]); i++) {
                         String[] questionData = temp.get(i).split(",");
                         int brojOdogovora = Integer.parseInt(questionData[1]);
                         if(brojOdogovora + 3 != questionData.length) {
-                            new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete ima neispravan broj odgovora!");
+                            new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete ima neispravan broj odgovora!").show();
                             return;
                         }
                         int index = Integer.parseInt(questionData[2]);
                         if(index < 0 || index >= brojOdogovora) {
                             new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete ima neispravan index " +
-                                    "tacnog odgovora!");
+                                    "tacnog odgovora!").show();
                             return;
                         }
                     }
