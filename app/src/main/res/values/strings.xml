@@ -14,4 +14,7 @@
     <string name="ikona">Ikona</string>
     <string name="dodajIkonu">Dodaj Ikonu</string>
     <string name="spasiKategoriju">Spasi Kategoriju</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
