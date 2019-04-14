@@ -10,4 +10,6 @@
     <color name="textBtn">#FFFFFF</color>
     <color name="kvizColor">#000000</color>
     <color name="tacanOdgovor">	#7CFC00</color>
+    <color name="crvena">#FF3030</color>
+    <color name="zelena">#7FFF00</color>
 </resources>
