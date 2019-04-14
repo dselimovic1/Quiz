@@ -6,13 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 
 public class PitanjeFrag extends Fragment {
 
-    private Kviz k;
+    private ArrayList<Pitanje> pitanja;
     private int pozicijaTacnog;
 
     public PitanjeFrag() {
@@ -22,7 +24,8 @@ public class PitanjeFrag extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
+        Kviz k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
+        pitanja = k.getPitanja();
     }
 
     @Override
