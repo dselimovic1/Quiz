@@ -1,14 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragmenti.InformacijeFrag">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Naziv kviza"
+        android:textColor="@color/kvizColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:id="@+id/nazivKviza"
+        app:layout_constraintEnd_toStartOf="@id/infNazivKviza"
+        app:layout_constraintHorizontal_weight="1.5"/>
 
-</FrameLayout>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/nazivKviza"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/kvizColor"
+        android:id="@+id/infNazivKviza"
+        android:layout_marginRight="20dp"
+        app:layout_constraintHorizontal_weight="2"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Broj tačnih pitanja"
+        android:textColor="@color/kvizColor"
+        app:layout_constraintTop_toBottomOf="@id/nazivKviza"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:id="@+id/tacnaPitanja"
+        app:layout_constraintEnd_toStartOf="@id/infBrojTacnihPitanja"
+        app:layout_constraintHorizontal_weight="1.5"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/tacnaPitanja"
+        app:layout_constraintTop_toBottomOf="@id/infNazivKviza"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/kvizColor"
+        android:id="@+id/infBrojTacnihPitanja"
+        android:layout_marginRight="20dp"
+        app:layout_constraintHorizontal_weight="2"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Broj preostalih pitanja"
+        android:textColor="@color/kvizColor"
+        app:layout_constraintTop_toBottomOf="@id/tacnaPitanja"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:id="@+id/preostalaPitanja"
+        app:layout_constraintEnd_toStartOf="@id/infBrojPreostalihPitanja"
+        app:layout_constraintHorizontal_weight="1.5"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/preostalaPitanja"
+        app:layout_constraintTop_toBottomOf="@id/infBrojTacnihPitanja"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/kvizColor"
+        android:id="@+id/infBrojPreostalihPitanja"
+        android:layout_marginRight="20dp"
+        app:layout_constraintHorizontal_weight="2"/>
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Procenat tačnih"
+        android:textColor="@color/kvizColor"
+        app:layout_constraintTop_toBottomOf="@id/preostalaPitanja"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:id="@+id/procenat"
+        app:layout_constraintEnd_toStartOf="@id/infProcenatTacni"
+        app:layout_constraintHorizontal_weight="1.5"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/procenat"
+        app:layout_constraintTop_toBottomOf="@id/infBrojPreostalihPitanja"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/kvizColor"
+        android:id="@+id/infProcenatTacni"
+        android:layout_marginRight="20dp"
+        app:layout_constraintHorizontal_weight="2"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnKraj"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/infProcenatTacni"
+        android:text="@string/finishQuiz"/>
+</android.support.constraint.ConstraintLayout>
