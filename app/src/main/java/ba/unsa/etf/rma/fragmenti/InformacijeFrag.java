@@ -36,7 +36,7 @@ public class InformacijeFrag extends Fragment {
         brojTacnih = (TextView)getView().findViewById(R.id.infBrojTacnihPitanja);
         brojTacnih.setText("0");
         preostali = (TextView)getView().findViewById(R.id.infBrojPreostalihPitanja);
-        brojTacnih.setText(Integer.toString(k.getPitanja().size()));
+        preostali.setText(Integer.toString(k.getPitanja().size()));
         procenat = (TextView)getView().findViewById(R.id.infProcenatTacni);
         procenat.setText("0");
     }
