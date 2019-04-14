@@ -5,10 +5,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.klase.Kviz;
 
 public class InformacijeFrag extends Fragment {
+
+    private TextView imeKviza;
+    private TextView brojTacnih;
+    private TextView preostali;
+    private TextView procenat;
 
     public InformacijeFrag() {
 
@@ -17,7 +24,21 @@ public class InformacijeFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Kviz k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
+
+        imeKviza = (TextView)getView().findViewById(R.id.infNazivKviza);
+        imeKviza.setText(k.getNaziv());
+        brojTacnih = (TextView)getView().findViewById(R.id.infBrojTacnihPitanja);
+        brojTacnih.setText("0");
+        preostali = (TextView)getView().findViewById(R.id.infBrojPreostalihPitanja);
+        brojTacnih.setText(Integer.toString(k.getPitanja().size()));
+        procenat = (TextView)getView().findViewById(R.id.infProcenatTacni);
+        procenat.setText("0");
     }
 
     @Override
