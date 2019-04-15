@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kviz;
@@ -46,6 +47,13 @@ public class PitanjeFrag extends Fragment {
             if(p.getTacan().equals(p.getOdgovori().get(i))) return i;
         }
         return -1;
+    }
+
+    private Pitanje dajRandomPitanje (){
+        int index = new Random().nextInt(pitanja.size());
+        Pitanje p = pitanja.get(index);
+        pitanja.remove(index);
+        return p;
     }
 
     public interface SendData {
