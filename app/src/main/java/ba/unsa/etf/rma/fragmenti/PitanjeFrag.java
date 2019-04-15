@@ -29,12 +29,21 @@ public class PitanjeFrag extends Fragment {
     private int brojTacnih = 0;
     private int preostali = 0;
 
+    private SendData data;
+
     public PitanjeFrag() {
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        try {
+            data = (SendData)getActivity();
+        }
+        catch (ClassCastException e) {
+            e.printStackTrace();
+        }
 
         tekstPitanja = (TextView)getView().findViewById(R.id.tekstPitanja);
         odg = (ListView)getView().findViewById(R.id.odgovoriPitanja);
