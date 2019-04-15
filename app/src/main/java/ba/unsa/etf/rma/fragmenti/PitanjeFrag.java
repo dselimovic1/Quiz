@@ -75,7 +75,6 @@ public class PitanjeFrag extends Fragment {
                     odgovori.clear();
                     adapterOdgovori.notifyDataSetChanged();
                     tekstPitanja.setText("Kviz je završen!");
-                    odg.setClickable(false);
                 }
             }
         });
