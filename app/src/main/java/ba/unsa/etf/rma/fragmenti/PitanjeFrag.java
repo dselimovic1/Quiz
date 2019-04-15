@@ -98,7 +98,7 @@ public class PitanjeFrag extends Fragment {
 
     private void dajRandomPitanje() {
         int index = new Random().nextInt(pitanja.size());
-        odgovori = pitanja.get(index).getOdgovori();
+        odgovori = pitanja.get(index).dajRandomOdgovore();
         pozicijaTacnog = odrediPozicijuTacnog(pitanja.get(index));
         tekstPitanja.setText(pitanja.get(index).getNaziv());
         pitanja.remove(index);
