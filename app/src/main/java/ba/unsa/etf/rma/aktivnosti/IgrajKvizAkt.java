@@ -36,7 +36,7 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
     public void onQuestionAnswered(int correct, int remainder) {
         Bundle arg = new Bundle();
         arg.putInt("tacni", correct);
-        arg.putInt("prostali", remainder);
+        arg.putInt("preostali", remainder);
         InformacijeFrag informacijeFrag = new InformacijeFrag();
         informacijeFrag.setArguments(arg);
         getSupportFragmentManager().beginTransaction().replace(R.id.informacijePlace, informacijeFrag).commit();
