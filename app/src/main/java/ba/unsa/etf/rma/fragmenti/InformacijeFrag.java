@@ -34,13 +34,23 @@ public class InformacijeFrag extends Fragment {
         k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
 
         imeKviza = (TextView)getView().findViewById(R.id.infNazivKviza);
-        imeKviza.setText(k.getNaziv());
         brojTacnih = (TextView)getView().findViewById(R.id.infBrojTacnihPitanja);
-        brojTacnih.setText("0");
         preostali = (TextView)getView().findViewById(R.id.infBrojPreostalihPitanja);
-        preostali.setText(Integer.toString(k.getPitanja().size()));
         procenat = (TextView)getView().findViewById(R.id.infProcenatTacni);
-        procenat.setText("0");
+        imeKviza.setText(k.getNaziv());
+        if(getArguments() == null) {
+            procenat.setText("0");
+            brojTacnih.setText("0");
+            preostali.setText(Integer.toString(k.getPitanja().size()));
+        }
+        else {
+            int tacni = getArguments().getInt("tacni");
+            int pre = getArguments().getInt("preostali");
+            brojTacnih.setText(Integer.toString(tacni));
+            preostali.setText(Integer.toString(pre));
+            double proc = (double)tacni / pre;
+            procenat.setText(Double.toString(proc));
+        }
     }
 
     @Override
