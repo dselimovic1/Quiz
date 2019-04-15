@@ -89,9 +89,9 @@ public class PitanjeFrag extends Fragment {
         return inflater.inflate(R.layout.fragment_pitanje, container, false);
     }
 
-    private int odrediPozicijuTacnog(Pitanje p) {
-        for(int i = 0; i < p.getOdgovori().size(); i++) {
-            if(p.getTacan().equals(p.getOdgovori().get(i))) return i;
+    private int odrediPozicijuTacnog(ArrayList<String> list, String s) {
+        for(int i = 0; i < list.size(); i++) {
+            if(s.equals(list.get(i))) return i;
         }
         return -1;
     }
@@ -99,7 +99,7 @@ public class PitanjeFrag extends Fragment {
     private void dajRandomPitanje() {
         int index = new Random().nextInt(pitanja.size());
         odgovori = pitanja.get(index).dajRandomOdgovore();
-        pozicijaTacnog = odrediPozicijuTacnog(pitanja.get(index));
+        pozicijaTacnog = odrediPozicijuTacnog(odgovori, pitanja.get(index).getTacan());
         tekstPitanja.setText(pitanja.get(index).getNaziv());
         pitanja.remove(index);
         preostali = pitanja.size();
