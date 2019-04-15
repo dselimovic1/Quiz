@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kviz;
@@ -63,6 +64,14 @@ public class PitanjeFrag extends Fragment {
                 if(i == pozicijaTacnog) brojTacnih++;
                 preostali--;
                 data.onQuestionAnswered(brojTacnih, preostali);
+
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if(pitanja.size() != 0) dajRandomPitanje();
             }
         });
     }
@@ -90,6 +99,7 @@ public class PitanjeFrag extends Fragment {
         pozicijaTacnog = odrediPozicijuTacnog(pitanja.get(index));
         tekstPitanja.setText(pitanja.get(index).getNaziv());
         pitanja.remove(index);
+        adapterOdgovori.notifyDataSetChanged();
     }
 
     public interface SendData {
