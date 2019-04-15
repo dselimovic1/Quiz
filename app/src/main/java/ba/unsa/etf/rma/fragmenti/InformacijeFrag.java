@@ -17,8 +17,6 @@ public class InformacijeFrag extends Fragment {
     private TextView preostali;
     private TextView procenat;
 
-    private int ukupno = 0;
-
     public InformacijeFrag() {
 
     }
@@ -33,8 +31,6 @@ public class InformacijeFrag extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Kviz k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
 
-        ukupno = k.getPitanja().size();
-
         imeKviza = (TextView)getView().findViewById(R.id.infNazivKviza);
         brojTacnih = (TextView)getView().findViewById(R.id.infBrojTacnihPitanja);
         preostali = (TextView)getView().findViewById(R.id.infBrojPreostalihPitanja);
@@ -48,6 +44,7 @@ public class InformacijeFrag extends Fragment {
         else {
             int tacni = getArguments().getInt("tacni");
             int pre = getArguments().getInt("preostali");
+            int ukupno = getArguments().getInt("ukupno");
             brojTacnih.setText(Integer.toString(tacni));
             preostali.setText(Integer.toString(pre));
             double proc = (double)tacni / ukupno;
