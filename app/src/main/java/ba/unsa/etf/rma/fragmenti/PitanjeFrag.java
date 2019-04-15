@@ -53,6 +53,7 @@ public class PitanjeFrag extends Fragment {
     private void dajRandomPitanje() {
         int index = new Random().nextInt(pitanja.size());
         odgovori = pitanja.get(index).getOdgovori();
+        pozicijaTacnog = odrediPozicijuTacnog(pitanja.get(index));
         pitanja.remove(index);
     }
 
