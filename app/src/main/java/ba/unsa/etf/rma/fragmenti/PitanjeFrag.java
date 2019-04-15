@@ -44,4 +44,8 @@ public class PitanjeFrag extends Fragment {
         }
         return -1;
     }
+
+    public interface OnItemClick {
+        public void onItemClicked(int position);
+    }
 }
