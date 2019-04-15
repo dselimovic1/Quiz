@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.fragmenti.InformacijeFrag;
 import ba.unsa.etf.rma.fragmenti.PitanjeFrag;
+import ba.unsa.etf.rma.klase.Kviz;
 
-public class IgrajKvizAkt extends AppCompatActivity {
+public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendData{
+
+    private Kviz kviz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,5 +29,16 @@ public class IgrajKvizAkt extends AppCompatActivity {
             pitanjeFrag = new PitanjeFrag();
             fm.beginTransaction().replace(R.id.pitanjePlace, pitanjeFrag).commit();
         }
+        kviz = (Kviz) getIntent().getSerializableExtra("kviz");
+    }
+
+    @Override
+    public void onQuestionAnswered(int correct, int remainder) {
+        Bundle arg = new Bundle();
+        arg.putInt("tacni", correct);
+        arg.putInt("prostali", remainder);
+        InformacijeFrag informacijeFrag = new InformacijeFrag();
+        informacijeFrag.setArguments(arg);
+        getSupportFragmentManager().beginTransaction().replace(R.id.informacijePlace, informacijeFrag).commit();
     }
 }
