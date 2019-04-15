@@ -16,6 +16,7 @@ import ba.unsa.etf.rma.klase.Pitanje;
 public class PitanjeFrag extends Fragment {
 
     private ArrayList<Pitanje> pitanja;
+    private ArrayList<String> odgovori;
     private int pozicijaTacnog;
     private int brojTacnih = 0;
     private int preostali = 0;
@@ -49,11 +50,10 @@ public class PitanjeFrag extends Fragment {
         return -1;
     }
 
-    private Pitanje dajRandomPitanje (){
+    private void dajRandomPitanje() {
         int index = new Random().nextInt(pitanja.size());
-        Pitanje p = pitanja.get(index);
+        odgovori = pitanja.get(index).getOdgovori();
         pitanja.remove(index);
-        return p;
     }
 
     public interface SendData {
