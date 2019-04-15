@@ -55,9 +55,6 @@ public class PitanjeFrag extends Fragment {
         preostali = pitanja.size();
         dajRandomPitanje();
 
-        adapterOdgovori = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, odgovori);
-        odg.setAdapter(adapterOdgovori);
-
         odg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -72,6 +69,10 @@ public class PitanjeFrag extends Fragment {
                 }
 
                 if(pitanja.size() != 0) dajRandomPitanje();
+                else {
+                    odgovori.clear();
+                    adapterOdgovori.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -99,6 +100,8 @@ public class PitanjeFrag extends Fragment {
         pozicijaTacnog = odrediPozicijuTacnog(pitanja.get(index));
         tekstPitanja.setText(pitanja.get(index).getNaziv());
         pitanja.remove(index);
+        adapterOdgovori = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, odgovori);
+        odg.setAdapter(adapterOdgovori);
         adapterOdgovori.notifyDataSetChanged();
     }
 
