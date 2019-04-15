@@ -108,6 +108,6 @@ public class PitanjeFrag extends Fragment {
     }
 
     public interface SendData {
-        public void onQuestionAnswered(int correct, int remainder);
+        public void onQuestionAnswered(int correct, int remainder, int total);
     }
 }
