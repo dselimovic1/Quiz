@@ -61,6 +61,7 @@ public class PitanjeFrag extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == pozicijaTacnog) brojTacnih++;
                 preostali--;
+                ukupno++;
                 data.onQuestionAnswered(brojTacnih, preostali, ukupno);
 
                 try {
@@ -101,7 +102,6 @@ public class PitanjeFrag extends Fragment {
         int index = new Random().nextInt(pitanja.size());
         odgovori = pitanja.get(index).dajRandomOdgovore();
         pozicijaTacnog = odrediPozicijuTacnog(pitanja.get(index));
-        ukupno = pitanja.get(index).getOdgovori().size();
         tekstPitanja.setText(pitanja.get(index).getNaziv());
         pitanja.remove(index);
         adapterOdgovori = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, odgovori);

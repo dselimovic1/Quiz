@@ -47,7 +47,7 @@ public class InformacijeFrag extends Fragment {
             int ukupno = getArguments().getInt("ukupno");
             brojTacnih.setText(Integer.toString(tacni));
             preostali.setText(Integer.toString(pre));
-            double proc = (double)tacni / ukupno * 100;
+            double proc = (100 * (double)tacni) / ukupno;
             procenat.setText(Double.toString(proc));
         }
     }
