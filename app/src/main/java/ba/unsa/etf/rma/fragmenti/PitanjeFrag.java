@@ -16,6 +16,8 @@ public class PitanjeFrag extends Fragment {
 
     private ArrayList<Pitanje> pitanja;
     private int pozicijaTacnog;
+    private int brojTacnih = 0;
+    private int preostali = 0;
 
     public PitanjeFrag() {
     }
@@ -26,6 +28,7 @@ public class PitanjeFrag extends Fragment {
 
         Kviz k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
         pitanja = k.getPitanja();
+        preostali = pitanja.size();
     }
 
     @Override
@@ -45,7 +48,7 @@ public class PitanjeFrag extends Fragment {
         return -1;
     }
 
-    public interface OnItemClick {
-        public void onItemClicked(int position);
+    public interface SendData {
+        public void onQuestionAnswered(int correct, int remainder);
     }
 }
