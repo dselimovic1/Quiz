@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,6 +56,15 @@ public class PitanjeFrag extends Fragment {
 
         adapterOdgovori = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, odgovori);
         odg.setAdapter(adapterOdgovori);
+
+        odg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i == pozicijaTacnog) brojTacnih++;
+                preostali--;
+                data.onQuestionAnswered(brojTacnih, preostali);
+            }
+        });
     }
 
     @Override
