@@ -17,7 +17,7 @@ public class InformacijeFrag extends Fragment {
     private TextView preostali;
     private TextView procenat;
 
-    private Kviz k;
+    private int ukupno = 0;
 
     public InformacijeFrag() {
 
@@ -31,7 +31,7 @@ public class InformacijeFrag extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
+        Kviz k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
 
         imeKviza = (TextView)getView().findViewById(R.id.infNazivKviza);
         brojTacnih = (TextView)getView().findViewById(R.id.infBrojTacnihPitanja);
