@@ -60,7 +60,6 @@ public class PitanjeFrag extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == pozicijaTacnog) brojTacnih++;
-                preostali--;
                 ukupno++;
                 data.onQuestionAnswered(brojTacnih, preostali, ukupno);
 
@@ -103,6 +102,7 @@ public class PitanjeFrag extends Fragment {
         pozicijaTacnog = odrediPozicijuTacnog(pitanja.get(index));
         tekstPitanja.setText(pitanja.get(index).getNaziv());
         pitanja.remove(index);
+        preostali = pitanja.size();
         adapterOdgovori = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, odgovori);
         odg.setAdapter(adapterOdgovori);
         adapterOdgovori.notifyDataSetChanged();
