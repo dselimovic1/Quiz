@@ -71,7 +71,11 @@ public class PitanjeFrag extends Fragment {
                     @Override
                     public void run() {
                         if(pitanja.size() != 0) dajRandomPitanje();
-                        else zavrsiKviz();
+                        else{
+                            zavrsiKviz();
+                            odgovori.clear();
+                            adapterOdgovori.notifyDataSetChanged();
+                        }
                     }
                 },2000);
             }
@@ -108,8 +112,6 @@ public class PitanjeFrag extends Fragment {
     }
 
     private void zavrsiKviz() {
-        odgovori.clear();
-        adapterOdgovori.notifyDataSetChanged();
         tekstPitanja.setText("Kviz je završen!");
     }
 
