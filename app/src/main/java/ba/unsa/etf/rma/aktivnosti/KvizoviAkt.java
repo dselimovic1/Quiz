@@ -2,6 +2,7 @@ package ba.unsa.etf.rma.aktivnosti;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -77,7 +77,7 @@ public class KvizoviAkt extends AppCompatActivity {
                     } else {
                         Kviz k = kvizovi.get(position);
                         intent.putExtra("add", false);
-                        intent.putExtra("updateKviz",(Serializable) k);
+                        intent.putExtra("updateKviz",(Parcelable) k);
                         intent.putExtra("pozicija", position);
                         startActivityForResult(intent, UPDATE_QUIZ);
                     }
@@ -90,7 +90,7 @@ public class KvizoviAkt extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     if (position == kvizovi.size() - 1) return;
                     Intent intent = new Intent(KvizoviAkt.this, IgrajKvizAkt.class);
-                    intent.putExtra("kviz", (Serializable) kvizovi.get(position));
+                    intent.putExtra("kviz", (Parcelable) kvizovi.get(position));
                     startActivity(intent);
                 }
             });
@@ -150,7 +150,7 @@ public class KvizoviAkt extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && mode == false) {
-            Kviz k = (Kviz) data.getSerializableExtra("noviKviz");
+            Kviz k = (Kviz) data.getParcelableExtra("noviKviz");
             if (requestCode == ADD_QUIZ) {
                 int pozicija = kvizovi.size() - 1;
                 if (pozicija < 0) pozicija = 0;
