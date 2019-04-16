@@ -120,6 +120,7 @@ public class KvizoviAkt extends AppCompatActivity {
             if(listaFrag == null) {
                 listaFrag = new ListaFrag();
                 Bundle bundle = new Bundle();
+                kategorijeIme.add("Svi");
                 bundle.putStringArrayList("kategorije", kategorijeIme);
                 listaFrag.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
