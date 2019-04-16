@@ -11,12 +11,14 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.adapteri.GridAdapter;
 import ba.unsa.etf.rma.klase.Kviz;
 
 public class DetailFrag extends Fragment {
 
 
     private ArrayList<Kviz> kvizovi;
+    private GridAdapter adapter;
     private GridView kvizGrid;
 
     public DetailFrag() {
@@ -27,8 +29,9 @@ public class DetailFrag extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
-
         kvizovi = getArguments().getParcelableArrayList("kviz");
+        adapter = new GridAdapter(getContext(), kvizovi);
+        kvizGrid.setAdapter(adapter);
     }
 
     @Override
