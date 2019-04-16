@@ -29,7 +29,7 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
             pitanjeFrag = new PitanjeFrag();
             fm.beginTransaction().replace(R.id.pitanjePlace, pitanjeFrag).commit();
         }
-        kviz = (Kviz) getIntent().getSerializableExtra("kviz");
+        kviz = (Kviz) getIntent().getParcelableExtra("kviz");
     }
 
     @Override
