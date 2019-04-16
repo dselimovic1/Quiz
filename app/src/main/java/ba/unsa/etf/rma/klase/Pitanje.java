@@ -27,7 +27,7 @@ public class Pitanje implements Parcelable {
     protected Pitanje(Parcel parcel) {
         naziv = parcel.readString();
         tekstPitanja = parcel.readString();
-        parcel.readStringList(odgovori);
+        odgovori = parcel.createStringArrayList();
         tacan = parcel.readString();
     }
 
@@ -107,7 +107,7 @@ public class Pitanje implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(naziv);
         parcel.writeString(tekstPitanja);
-        parcel.writeList(odgovori);
+        parcel.writeStringList(odgovori);
         parcel.writeString(tacan);
     }
 }

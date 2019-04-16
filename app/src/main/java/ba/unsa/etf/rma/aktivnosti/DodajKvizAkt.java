@@ -80,8 +80,11 @@ public class DodajKvizAkt extends AppCompatActivity {
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
 
-        if(getIntent().getBooleanExtra("add", false) == false) {
-            trenutni = (Kviz)getIntent().getParcelableExtra("updateKviz");
+
+        Bundle bundle = getIntent().getBundleExtra("bundle");
+
+        if(bundle.getInt("add") == 2) {
+            trenutni = (Kviz)bundle.getParcelable("updateKviz");
             imeKviz.setText(trenutni.getNaziv());
             spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
             izdvojiMogucaPitanja();
