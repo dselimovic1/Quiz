@@ -61,7 +61,9 @@ public class OdgovoriFragmentAdapter extends ArrayAdapter<String> {
     @Override
     public int getItemViewType(int position) {
         if(odabran == -1) return 0;
-        return (position == pozicijaTacnog) ? 1 : 2;
+        else if(position == pozicijaTacnog) return 1;
+        else if (position != position) return 2;
+        return 2;
     }
 
     public void setOdabran(int odabran) {
