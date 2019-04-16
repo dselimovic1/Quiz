@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -23,6 +24,7 @@ public class DetailFrag extends Fragment {
 
 
     private static final int ADD_QUIZ = 1;
+    private static final int UPDATE_QUIZ = 2;
 
     private ArrayList<Kviz> kvizovi;
     private GridAdapter adapter;
@@ -42,11 +44,18 @@ public class DetailFrag extends Fragment {
 
         kvizGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == kvizovi.size() - 1) {
-                    Intent intent = new Intent(getActivity(), DodajKvizAkt.class);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(getActivity(), DodajKvizAkt.class);
+                if(position == kvizovi.size() - 1) {
                     intent.putExtra("add", true);
                     startActivityForResult(intent, ADD_QUIZ);
+                }
+                else {
+                    Kviz k = kvizovi.get(position);
+                    intent.putExtra("add", false);
+                    intent.putExtra("updateKviz",(Serializable) k);
+                    intent.putExtra("pozicija", position);
+                    startActivityForResult(intent, UPDATE_QUIZ);
                 }
             }
         });
@@ -66,6 +75,10 @@ public class DetailFrag extends Fragment {
                 if(pozicija < 0 ) pozicija = 0;
                 kvizovi.add(pozicija, k);
                 adapter.notifyDataSetChanged();
+            }
+            else if(requestCode == UPDATE_QUIZ) {
+                int pozicija = data.getIntExtra("pozicija", 0);
+                kvizovi.set(pozicija, k);
             }
         }
     }
