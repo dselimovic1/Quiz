@@ -51,10 +51,12 @@ public class PitanjeFrag extends Fragment {
         tekstPitanja = (TextView)getView().findViewById(R.id.tekstPitanja);
         odg = (ListView)getView().findViewById(R.id.odgovoriPitanja);
 
-        Kviz k = (Kviz)getActivity().getIntent().getSerializableExtra("kviz");
+        Kviz k = (Kviz)getActivity().getIntent().getParcelableExtra("kviz");
         pitanja = k.getPitanja();
         preostali = pitanja.size();
-        dajRandomPitanje();
+        if(pitanja.size() != 0) dajRandomPitanje();
+        else zavrsiKviz();
+
 
         odg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,11 +71,7 @@ public class PitanjeFrag extends Fragment {
                     @Override
                     public void run() {
                         if(pitanja.size() != 0) dajRandomPitanje();
-                        else {
-                            odgovori.clear();
-                            adapterOdgovori.notifyDataSetChanged();
-                            tekstPitanja.setText("Kviz je završen!");
-                        }
+                        else zavrsiKviz();
                     }
                 },2000);
             }
@@ -107,6 +105,12 @@ public class PitanjeFrag extends Fragment {
         adapterOdgovori = new OdgovoriFragmentAdapter(getContext(), odgovori, pozicijaTacnog);
         odg.setAdapter(adapterOdgovori);
         adapterOdgovori.notifyDataSetChanged();
+    }
+
+    private void zavrsiKviz() {
+        odgovori.clear();
+        adapterOdgovori.notifyDataSetChanged();
+        tekstPitanja.setText("Kviz je završen!");
     }
 
     public interface SendData {
