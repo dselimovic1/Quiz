@@ -119,12 +119,12 @@ public class KvizoviAkt extends AppCompatActivity {
             ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
             if(listaFrag == null) {
                 listaFrag = new ListaFrag();
+            }
                 Bundle bundle1 = new Bundle();
                 kategorijeIme.add("Svi");
                 bundle1.putStringArrayList("kategorije", kategorijeIme);
                 listaFrag.setArguments(bundle1);
                 fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
-            }
             DetailFrag detailFrag = (DetailFrag)fm.findFragmentById(R.id.detailPlace);
             if(detailFrag == null) {
                 detailFrag = new DetailFrag();
