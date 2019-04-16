@@ -121,6 +121,7 @@ public class KvizoviAkt extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList("kategorije", kategorijeIme);
                 bundle.putParcelableArrayList("kviz", kvizovi);
+                listaFrag.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
             }
         }
