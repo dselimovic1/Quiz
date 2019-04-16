@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -81,7 +81,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         spinner.setAdapter(kategorijeAdapter);
 
         if(getIntent().getBooleanExtra("add", false) == false) {
-            trenutni = (Kviz)getIntent().getSerializableExtra("updateKviz");
+            trenutni = (Kviz)getIntent().getParcelableExtra("updateKviz");
             imeKviz.setText(trenutni.getNaziv());
             spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
             izdvojiMogucaPitanja();
@@ -166,7 +166,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                     sveKategorije.remove("Svi");
                     sveKategorije.remove("Dodaj Kategoriju");
                     intent.putExtra("sveKategorije", sveKategorije);
-                    intent.putExtra("noviKviz", (Serializable) trenutni);
+                    intent.putExtra("noviKviz", (Parcelable) trenutni);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -189,7 +189,7 @@ public class DodajKvizAkt extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK) {
             if(requestCode == ADD_CATEGORY){
-                Kategorija k = (Kategorija)data.getSerializableExtra("kategorija");
+                Kategorija k = (Kategorija)data.getParcelableExtra("kategorija");
                 kategorije.add(k);
                 int pozicija = kategorijeIme.size() - 1;
                 kategorijeIme.add(pozicija, k.getNaziv());
@@ -197,7 +197,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                 spinner.setSelection(pozicija);
             }
             else if(requestCode == ADD_QUESTION) {
-                Pitanje p = (Pitanje)data.getSerializableExtra("pitanje");
+                Pitanje p = (Pitanje)data.getParcelableExtra("pitanje");
                 pitanja.add(p);
                 int pozicija = dodanaPitanja.size() - 1;
                 dodanaPitanja.add(pozicija, p.getNaziv());
