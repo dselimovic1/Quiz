@@ -129,6 +129,7 @@ public class KvizoviAkt extends AppCompatActivity {
             if(detailFrag == null) {
                 detailFrag = new DetailFrag();
                 Bundle bundle = new Bundle();
+                kvizovi.add(new Kviz("Dodaj kviz",null, new Kategorija("", "671")));
                 bundle.putParcelableArrayList("kviz", kvizovi);
                 detailFrag.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
