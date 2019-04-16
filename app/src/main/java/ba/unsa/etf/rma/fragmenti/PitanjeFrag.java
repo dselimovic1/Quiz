@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.fragmenti;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriFragmentAdapter;
@@ -65,18 +65,17 @@ public class PitanjeFrag extends Fragment {
                 adapterOdgovori.notifyDataSetChanged();
                 data.onQuestionAnswered(brojTacnih, preostali, ukupno);
 
-                try {
-                    TimeUnit.SECONDS.sleep(2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if(pitanja.size() != 0) dajRandomPitanje();
-                else {
-                    odgovori.clear();
-                    adapterOdgovori.notifyDataSetChanged();
-                    tekstPitanja.setText("Kviz je završen!");
-                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(pitanja.size() != 0) dajRandomPitanje();
+                        else {
+                            odgovori.clear();
+                            adapterOdgovori.notifyDataSetChanged();
+                            tekstPitanja.setText("Kviz je završen!");
+                        }
+                    }
+                },2000);
             }
         });
     }
