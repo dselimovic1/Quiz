@@ -69,7 +69,7 @@ public class DetailFrag extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            Kviz k = (Kviz)data.getSerializableExtra("noviKviz");
+            Kviz k = (Kviz)data.getParcelableExtra("noviKviz");
             if(requestCode == ADD_QUIZ) {
                 int pozicija = kvizovi.size() - 1;
                 if(pozicija < 0 ) pozicija = 0;
