@@ -27,15 +27,25 @@ public class GridAdapter extends ArrayAdapter<Kviz> {
     public View getView(int i, View view, ViewGroup viewGroup) {
         Kviz current = kvizovi.get(i);
 
-        if(view == null)
-            view = LayoutInflater.from(getContext()).inflate(R.layout.grid_layout, viewGroup, false);
+        if(view == null) {
+            if(getItemViewType(i) == 0)
+                view = LayoutInflater.from(getContext()).inflate(R.layout.grid_layout, viewGroup, false);
+            else
+                view = LayoutInflater.from(getContext()).inflate(R.layout.grid_layout_dodaj, viewGroup, false);
+        }
 
-        IconView iconView = (IconView)view.findViewById(R.id.ikona);
-        iconView.setIcon(Integer.parseInt(current.getKategorija().getId()));
-        TextView ime = (TextView)view.findViewById(R.id.imeKviza);
-        ime.setText(current.getNaziv());
-        TextView broj = (TextView)view.findViewById(R.id.brojPitanja);
-        broj.setText("0");
+        if(getItemViewType(i) == 0) {
+            IconView iconView = (IconView) view.findViewById(R.id.ikona);
+            iconView.setIcon(Integer.parseInt(current.getKategorija().getId()));
+            TextView ime = (TextView) view.findViewById(R.id.imeKviza);
+            ime.setText(current.getNaziv());
+            TextView broj = (TextView) view.findViewById(R.id.brojPitanja);
+            broj.setText("0");
+        }
+        else {
+            TextView ime = (TextView) view.findViewById(R.id.imeKviza);
+            ime.setText(current.getNaziv());
+        }
 
         return view;
     }
