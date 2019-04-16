@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -99,7 +100,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                     p.setNaziv(nazivText.getText().toString());
                     p.setTekstPitanja(nazivText.getText().toString());
                     Intent intent = new Intent(DodajPitanjeAkt.this, DodajKvizAkt.class);
-                    intent.putExtra("pitanje", p);
+                    intent.putExtra("pitanje", (Serializable) p);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
