@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.GridAdapter;
 import ba.unsa.etf.rma.aktivnosti.DodajKvizAkt;
+import ba.unsa.etf.rma.aktivnosti.IgrajKvizAkt;
 import ba.unsa.etf.rma.klase.Kviz;
 
 import static android.app.Activity.RESULT_OK;
@@ -42,9 +43,9 @@ public class DetailFrag extends Fragment {
         adapter = new GridAdapter(getContext(), kvizovi);
         kvizGrid.setAdapter(adapter);
 
-        kvizGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        kvizGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent = new Intent(getActivity(), DodajKvizAkt.class);
                 if(position == kvizovi.size() - 1) {
                     intent.putExtra("add", ADD_QUIZ);
@@ -57,6 +58,17 @@ public class DetailFrag extends Fragment {
                     intent.putExtra("pozicija", position);
                     startActivityForResult(intent, UPDATE_QUIZ);
                 }
+                return true;
+            }
+        });
+
+        kvizGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                if(position == kvizovi.size() - 1) return;
+                Intent intent = new Intent(getActivity(), IgrajKvizAkt.class);
+                intent.putExtra("kviz",kvizovi.get(position));
+                startActivity(intent);
             }
         });
     }
