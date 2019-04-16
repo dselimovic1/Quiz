@@ -39,4 +39,14 @@ public class GridAdapter extends ArrayAdapter<Kviz> {
 
         return view;
     }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == kvizovi.size() - 1) ? 1 : 0;
+    }
 }
