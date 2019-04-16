@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -75,7 +76,7 @@ public class KvizoviAkt extends AppCompatActivity {
                     } else {
                         Kviz k = kvizovi.get(position);
                         intent.putExtra("add", false);
-                        intent.putExtra("updateKviz", k);
+                        intent.putExtra("updateKviz",(Serializable) k);
                         intent.putExtra("pozicija", position);
                         startActivityForResult(intent, UPDATE_QUIZ);
                     }
@@ -88,7 +89,7 @@ public class KvizoviAkt extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     if (position == kvizovi.size() - 1) return;
                     Intent intent = new Intent(KvizoviAkt.this, IgrajKvizAkt.class);
-                    intent.putExtra("kviz", kvizovi.get(position));
+                    intent.putExtra("kviz", (Serializable) kvizovi.get(position));
                     startActivity(intent);
                 }
             });
