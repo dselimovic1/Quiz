@@ -32,14 +32,14 @@ public class KvizoviAkt extends AppCompatActivity {
     private Spinner spinner;
     private ListView list;
 
-    private boolean mode = false;
+    private boolean mode = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
-        if(listPlace == null) mode = true;
+        if(listPlace == null) mode = false;
 
         if(mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
