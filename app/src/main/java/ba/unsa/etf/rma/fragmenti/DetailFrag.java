@@ -3,6 +3,7 @@ package ba.unsa.etf.rma.fragmenti;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -47,13 +47,13 @@ public class DetailFrag extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent = new Intent(getActivity(), DodajKvizAkt.class);
                 if(position == kvizovi.size() - 1) {
-                    intent.putExtra("add", true);
+                    intent.putExtra("add", ADD_QUIZ);
                     startActivityForResult(intent, ADD_QUIZ);
                 }
                 else {
                     Kviz k = kvizovi.get(position);
-                    intent.putExtra("add", false);
-                    intent.putExtra("updateKviz",(Serializable) k);
+                    intent.putExtra("add", UPDATE_QUIZ);
+                    intent.putExtra("updateKviz",(Parcelable) k);
                     intent.putExtra("pozicija", position);
                     startActivityForResult(intent, UPDATE_QUIZ);
                 }
