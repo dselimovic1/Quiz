@@ -39,7 +39,7 @@ public class Kategorija implements Serializable, Parcelable {
         this.id = id;
     }
 
-    private static final Creator<Kategorija> CREATOR = new Creator<Kategorija>() {
+    public static final Creator<Kategorija> CREATOR = new Creator<Kategorija>() {
         @Override
         public Kategorija createFromParcel(Parcel parcel) {
             return new Kategorija(parcel);

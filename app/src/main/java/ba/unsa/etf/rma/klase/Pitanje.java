@@ -32,7 +32,7 @@ public class Pitanje implements Serializable, Parcelable {
         tacan = parcel.readString();
     }
 
-    private static final Creator<Pitanje> CREATOR = new Creator<Pitanje>() {
+    public static final Creator<Pitanje> CREATOR = new Creator<Pitanje>() {
         @Override
         public Pitanje createFromParcel(Parcel parcel) {
             return new Pitanje(parcel);
