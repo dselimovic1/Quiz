@@ -3,10 +3,9 @@ package ba.unsa.etf.rma.klase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Kviz implements Serializable, Parcelable {
+public class Kviz implements Parcelable {
 
     private String naziv;
     private ArrayList<Pitanje> pitanja;

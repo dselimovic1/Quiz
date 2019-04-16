@@ -3,9 +3,7 @@ package ba.unsa.etf.rma.klase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
-public class Kategorija implements Serializable, Parcelable {
+public class Kategorija implements Parcelable {
 
     private String naziv;
     private String id;
