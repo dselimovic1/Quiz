@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.KvizAdapter;
+import ba.unsa.etf.rma.fragmenti.DetailFrag;
 import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
@@ -120,9 +121,19 @@ public class KvizoviAkt extends AppCompatActivity {
                 listaFrag = new ListaFrag();
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList("kategorije", kategorijeIme);
-                bundle.putParcelableArrayList("kviz", kvizovi);
                 listaFrag.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
+            }
+            DetailFrag detailFrag = (DetailFrag)fm.findFragmentById(R.id.detailPlace);
+            if(detailFrag == null) {
+                detailFrag = new DetailFrag();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("kviz", kvizovi);
+                detailFrag.setArguments(bundle);
+                fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
+            }
+            else {
+                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
     }
