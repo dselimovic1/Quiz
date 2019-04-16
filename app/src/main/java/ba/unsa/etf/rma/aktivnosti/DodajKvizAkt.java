@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -165,7 +166,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                     sveKategorije.remove("Svi");
                     sveKategorije.remove("Dodaj Kategoriju");
                     intent.putExtra("sveKategorije", sveKategorije);
-                    intent.putExtra("noviKviz", trenutni);
+                    intent.putExtra("noviKviz", (Serializable) trenutni);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
