@@ -40,7 +40,7 @@ public class GridAdapter extends ArrayAdapter<Kviz> {
             TextView ime = (TextView) view.findViewById(R.id.imeKviza);
             ime.setText(current.getNaziv());
             TextView broj = (TextView) view.findViewById(R.id.brojPitanja);
-            broj.setText(Integer.toString(current.getPitanja().size() - 1));
+            broj.setText(Integer.toString(current.getPitanja().size()));
         }
         else {
             TextView ime = (TextView) view.findViewById(R.id.imeKviza);
