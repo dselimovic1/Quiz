@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.maltaisn.icondialog.Icon;
 import com.maltaisn.icondialog.IconDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -59,7 +60,7 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                     imeKategorije.setBackgroundColor(Color.WHITE);
                     icondID.setBackgroundColor(Color.WHITE);
                     Intent intent = new Intent(DodajKategorijuAkt.this, DodajKvizAkt.class);
-                    intent.putExtra("kategorija",k);
+                    intent.putExtra("kategorija",(Serializable) k);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
