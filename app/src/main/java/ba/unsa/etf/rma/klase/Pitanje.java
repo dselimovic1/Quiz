@@ -1,11 +1,14 @@
 package ba.unsa.etf.rma.klase;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class Pitanje implements Serializable {
+public class Pitanje implements Serializable, Parcelable {
 
     private String naziv;
     private String tekstPitanja;
@@ -21,6 +24,25 @@ public class Pitanje implements Serializable {
         this.odgovori = odgovori;
         this.tacan = tacan;
     }
+
+    protected Pitanje(Parcel parcel) {
+        naziv = parcel.readString();
+        tekstPitanja = parcel.readString();
+        parcel.readStringList(odgovori);
+        tacan = parcel.readString();
+    }
+
+    private static final Creator<Pitanje> CREATOR = new Creator<Pitanje>() {
+        @Override
+        public Pitanje createFromParcel(Parcel parcel) {
+            return new Pitanje(parcel);
+        }
+
+        @Override
+        public Pitanje[] newArray(int i) {
+            return new Pitanje[i];
+        }
+    };
 
     public String getNaziv() {
         return naziv;
@@ -75,5 +97,18 @@ public class Pitanje implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(naziv);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(naziv);
+        parcel.writeString(tekstPitanja);
+        parcel.writeList(odgovori);
+        parcel.writeString(tacan);
     }
 }
