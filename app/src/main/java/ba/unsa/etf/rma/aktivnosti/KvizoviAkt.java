@@ -119,23 +119,20 @@ public class KvizoviAkt extends AppCompatActivity {
             ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
             if(listaFrag == null) {
                 listaFrag = new ListaFrag();
-                Bundle bundle = new Bundle();
+                Bundle bundle1 = new Bundle();
                 kategorijeIme.add("Svi");
-                bundle.putStringArrayList("kategorije", kategorijeIme);
-                listaFrag.setArguments(bundle);
+                bundle1.putStringArrayList("kategorije", kategorijeIme);
+                listaFrag.setArguments(bundle1);
                 fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
             }
             DetailFrag detailFrag = (DetailFrag)fm.findFragmentById(R.id.detailPlace);
             if(detailFrag == null) {
                 detailFrag = new DetailFrag();
                 Bundle bundle = new Bundle();
-                kvizovi.add(new Kviz("Dodaj kviz",null, new Kategorija("", "671")));
+                kvizovi.add(new Kviz("Dodaj kviz", null, new Kategorija("", "671")));
                 bundle.putParcelableArrayList("kviz", kvizovi);
                 detailFrag.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
-            }
-            else {
-                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
     }
@@ -151,7 +148,7 @@ public class KvizoviAkt extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && mode == false) {
             Kviz k = (Kviz) data.getSerializableExtra("noviKviz");
             if (requestCode == ADD_QUIZ) {
                 int pozicija = kvizovi.size() - 1;
