@@ -36,7 +36,7 @@ public class Kviz implements Serializable, Parcelable {
     protected Kviz(Parcel parcel) {
         naziv = parcel.readString();
         pitanja = parcel.readArrayList(Pitanje.class.getClassLoader());
-        kategorija = parcel.readParcelable(Kategorija.class.getClassLoader());
+        kategorija = parcel.readParcelable(ba.unsa.etf.rma.klase.Kategorija.class.getClassLoader());
     }
 
     public String getNaziv() {

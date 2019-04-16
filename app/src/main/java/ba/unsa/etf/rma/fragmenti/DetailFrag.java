@@ -79,6 +79,7 @@ public class DetailFrag extends Fragment {
             else if(requestCode == UPDATE_QUIZ) {
                 int pozicija = data.getIntExtra("pozicija", 0);
                 kvizovi.set(pozicija, k);
+                adapter.notifyDataSetChanged();
             }
         }
     }
