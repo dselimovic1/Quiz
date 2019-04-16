@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriFragmentAdapter;
@@ -58,15 +59,13 @@ public class PitanjeFrag extends Fragment {
         odg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == pozicijaTacnog) {
-                    adapterOdgovori.setOdabran(i);
-                    adapterOdgovori.notifyDataSetChanged();
-                    brojTacnih++;
-                }
+                if(i == pozicijaTacnog) brojTacnih++;
                 ukupno++;
+                adapterOdgovori.setOdabran(i);
+                adapterOdgovori.notifyDataSetChanged();
                 data.onQuestionAnswered(brojTacnih, preostali, ukupno);
 
-                /*try {
+                try {
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -77,7 +76,7 @@ public class PitanjeFrag extends Fragment {
                     odgovori.clear();
                     adapterOdgovori.notifyDataSetChanged();
                     tekstPitanja.setText("Kviz je završen!");
-                }*/
+                }
             }
         });
     }
