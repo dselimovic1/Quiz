@@ -33,7 +33,7 @@ public class OdgovoriFragmentAdapter extends ArrayAdapter<String> {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.odgovor_u_fragmentu, parent, false);
             else if(getItemViewType(position) == 1)
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.odgovor_u_fragmentu_green, parent, false);
-            else
+            else if(getItemViewType(position) == 2)
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.odgovor_u_fragmentu_red, parent, false);
         }
 
@@ -60,8 +60,14 @@ public class OdgovoriFragmentAdapter extends ArrayAdapter<String> {
 
     @Override
     public int getItemViewType(int position) {
-        if(position == odabran && odabran == pozicijaTacnog) return 1;
-        if(position == odabran && odabran != pozicijaTacnog) return 2;
+        if(odabran == position) {
+            if(odabran != pozicijaTacnog) return 2;
+            else return 1;
+        }
+        if(odabran != position && odabran != -1) {
+            if(position != pozicijaTacnog) return 0;
+            else return 1;
+        }
         return 0;
     }
 
