@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +14,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.adapteri.OdgovoriFragmentAdapter;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 
@@ -25,7 +25,7 @@ public class PitanjeFrag extends Fragment {
 
     private ArrayList<Pitanje> pitanja;
     private ArrayList<String> odgovori;
-    private ArrayAdapter<String> adapterOdgovori;
+    private OdgovoriFragmentAdapter adapterOdgovori;
 
     private int pozicijaTacnog;
     private int brojTacnih = 0;
@@ -59,7 +59,10 @@ public class PitanjeFrag extends Fragment {
         odg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == pozicijaTacnog) brojTacnih++;
+                if(i == pozicijaTacnog) {
+                    adapterOdgovori.setOdabran(i);
+                    brojTacnih++;
+                }
                 ukupno++;
                 data.onQuestionAnswered(brojTacnih, preostali, ukupno);
 
@@ -103,7 +106,7 @@ public class PitanjeFrag extends Fragment {
         tekstPitanja.setText(pitanja.get(index).getNaziv());
         pitanja.remove(index);
         preostali = pitanja.size();
-        adapterOdgovori = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, odgovori);
+        adapterOdgovori = new OdgovoriFragmentAdapter(getContext(), odgovori, pozicijaTacnog);
         odg.setAdapter(adapterOdgovori);
         adapterOdgovori.notifyDataSetChanged();
     }
