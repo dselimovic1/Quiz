@@ -81,10 +81,9 @@ public class DodajKvizAkt extends AppCompatActivity {
         spinner.setAdapter(kategorijeAdapter);
 
 
-        Bundle bundle = getIntent().getBundleExtra("bundle");
 
-        if(bundle.getInt("add") == 2) {
-            trenutni = (Kviz)bundle.getParcelable("updateKviz");
+        if(getIntent().getIntExtra("add", 0) == 2) {
+            trenutni = (Kviz)getIntent().getParcelableExtra("updateKviz");
             imeKviz.setText(trenutni.getNaziv());
             spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
             izdvojiMogucaPitanja();

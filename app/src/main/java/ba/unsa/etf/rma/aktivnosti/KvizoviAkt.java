@@ -71,17 +71,14 @@ public class KvizoviAkt extends AppCompatActivity {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                     Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
-                    Bundle bundle = new Bundle();
                     if (position == kvizovi.size() - 1) {
-                        bundle.putInt("add", ADD_QUIZ);
-                        intent.putExtra("bundle",bundle);
+                        intent.putExtra("add", ADD_QUIZ);
                         startActivityForResult(intent, ADD_QUIZ);
                     } else {
                         Kviz k = kvizovi.get(position);
-                        bundle.putInt("add",UPDATE_QUIZ);
-                        bundle.putParcelable("updateKviz", k);
-                        bundle.putInt("pozicija", position);
-                        intent.putExtra("bundle",bundle);
+                        intent.putExtra("add", UPDATE_QUIZ);
+                        intent.putExtra("updateKviz",k);
+                        intent.putExtra("pozicija",position);
                         startActivityForResult(intent, UPDATE_QUIZ);
                     }
                     return true;
