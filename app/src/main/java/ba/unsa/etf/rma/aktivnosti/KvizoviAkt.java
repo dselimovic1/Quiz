@@ -22,7 +22,7 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 
 
-public class KvizoviAkt extends AppCompatActivity {
+public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd {
 
     private static int ADD_QUIZ = 1;
     private static int UPDATE_QUIZ = 2;
@@ -169,5 +169,18 @@ public class KvizoviAkt extends AppCompatActivity {
             spinner.setSelection(pozicija);
             kvizAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onCategoryAdded(ArrayList<String> categories) {
+        FragmentManager fm = getSupportFragmentManager();
+        ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
+        if(listaFrag == null) {
+            listaFrag = new ListaFrag();
+        }
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("kategorije", categories);
+        listaFrag.setArguments(bundle);
+        fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
     }
 }
