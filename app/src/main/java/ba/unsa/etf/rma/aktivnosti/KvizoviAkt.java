@@ -182,7 +182,11 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
     @Override
     public void onCategorySelected(String categoryName) {
-        ArrayList<Kviz> kvizFilter = filterListe(categoryName);
+        ArrayList<Kviz> kvizFilter = new ArrayList<>();
+        if(categoryName.equals("Svi") == false)
+            kvizFilter = filterListe(categoryName);
+        else
+            return;
         FragmentManager fm = getSupportFragmentManager();
         DetailFrag detailFrag = new DetailFrag();
         Bundle bundle = new Bundle();
