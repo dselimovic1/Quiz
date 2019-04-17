@@ -5,7 +5,7 @@
     android:layout_marginRight="20dp"
     android:layout_marginLeft="20dp"
     android:layout_marginTop="10dp"
-    android:layout_margin="10dp">
+    android:layout_marginBottom="0dp">
 
     <com.maltaisn.icondialog.IconView
         android:layout_width="40dp"
