@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.DodanaPitanjaAdapter;
@@ -271,6 +273,17 @@ public class DodajKvizAkt extends AppCompatActivity {
         }
         dodanaPitanja.add("Dodaj Pitanje");
         dodanaAdapter.notifyDataSetChanged();
+    }
+
+    private boolean provjeriOdgovore(String[] s){
+        ArrayList<String> odgovori = new ArrayList<>();
+        int brojOdgovora = Integer.parseInt(s[1]);
+        for(int i = 0; i < brojOdgovora; i++) odgovori.add(s[i + 3]);
+        Set<String> duplicateCheck = new HashSet<>();
+        for(String temp : odgovori) {
+            if(!duplicateCheck.add(temp)) return false;
+        }
+        return true;
     }
 
     private Pitanje izdvojiPitanje(String[] s) {
