@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,12 +21,22 @@ public class ListaFrag extends Fragment {
     private ArrayAdapter<String> kategorijeAdapter;
     private ListView listaKategorije;
 
+    private FilterCategory filterCategory;
+
     public ListaFrag() {
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        try {
+            filterCategory = (FilterCategory)getActivity();
+        }
+        catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
         if(getArguments().containsKey("kategorije"))
             kategorije = getArguments().getStringArrayList("kategorije");
@@ -34,6 +45,14 @@ public class ListaFrag extends Fragment {
         kategorije.add("Svi");
         kategorijeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, kategorije);
         listaKategorije.setAdapter(kategorijeAdapter);
+
+        listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String currentCategory = kategorije.get(i);
+                filterCategory.onCategorySelected(currentCategory);
+            }
+        });
     }
 
     @Override
