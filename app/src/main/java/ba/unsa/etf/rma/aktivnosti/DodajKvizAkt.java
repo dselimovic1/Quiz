@@ -275,15 +275,28 @@ public class DodajKvizAkt extends AppCompatActivity {
         dodanaAdapter.notifyDataSetChanged();
     }
 
+    private boolean provjeriPitanja(String[] quizData, ArrayList<String> temp) {
+        ArrayList<String> pitanjaIme = new ArrayList<>();
+        for(int i = 0; i < Integer.parseInt(quizData[2]); i++) {
+            Pitanje p = izdvojiPitanje(temp.get(i + 1).split(","));
+            pitanjaIme.add(p.getNaziv());
+        }
+        return duplicateCheck(pitanjaIme);
+    }
+
+    private boolean duplicateCheck(ArrayList<String> temp) {
+        Set<String> duplicateCheck = new HashSet<>();
+        for(String s : temp) {
+            if(!duplicateCheck.add(s)) return false;
+        }
+        return true;
+    }
+
     private boolean provjeriOdgovore(String[] s){
         ArrayList<String> odgovori = new ArrayList<>();
         int brojOdgovora = Integer.parseInt(s[1]);
         for(int i = 0; i < brojOdgovora; i++) odgovori.add(s[i + 3]);
-        Set<String> duplicateCheck = new HashSet<>();
-        for(String temp : odgovori) {
-            if(!duplicateCheck.add(temp)) return false;
-        }
-        return true;
+        return duplicateCheck(odgovori);
     }
 
     private Pitanje izdvojiPitanje(String[] s) {
