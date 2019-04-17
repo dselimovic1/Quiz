@@ -209,7 +209,15 @@ public class DodajKvizAkt extends AppCompatActivity {
                 if(data != null) {
                     Uri uri = data.getData();
                     ArrayList<String> temp = izdvojiTekst(uri);
+                    if(temp.size() == 0) {
+                        neispravanFormatImport();
+                        return;
+                    }
                     String[] quizData = temp.get(0).split(",");
+                    if(quizData.length != 3) {
+                        neispravanFormatImport();
+                        return;
+                    }
                     if(validirajImeKvizaImport(quizData[0]) == false) {
                         new AlertDialog.Builder(this).setMessage("Kviz kojeg importujete već postoji!").show();
                         return;
@@ -382,5 +390,9 @@ public class DodajKvizAkt extends AppCompatActivity {
             e1.printStackTrace();
         }
         return list;
+    }
+
+    private void neispravanFormatImport() {
+        new AlertDialog.Builder(this).setMessage("Datoteka kviza kojeg importujete nema ispravan format!").show();
     }
 }
