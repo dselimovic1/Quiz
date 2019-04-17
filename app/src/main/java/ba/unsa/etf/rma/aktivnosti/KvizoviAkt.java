@@ -54,17 +54,19 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             spinner.setAdapter(kategorijeAdapter);
 
             boolean back = getIntent().getBooleanExtra("back", false);
-            if (back == true) {
-                kategorijeIme.clear();
-                kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
-                kategorijeIme.add("Svi");
-                kategorijeAdapter.notifyDataSetChanged();
-                spinner.setSelection(kategorijeIme.size() - 1);
-            } else {
-                kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok", Integer.toString(671))));
-                kvizAdapter.notifyDataSetChanged();
-                kategorijeIme.add("Svi");
-                kategorijeAdapter.notifyDataSetChanged();
+            if(mode == false) {
+                if (back == true) {
+                    kategorijeIme.clear();
+                    kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
+                    kategorijeIme.add("Svi");
+                    kategorijeAdapter.notifyDataSetChanged();
+                    spinner.setSelection(kategorijeIme.size() - 1);
+                } else {
+                    kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok", Integer.toString(671))));
+                    kvizAdapter.notifyDataSetChanged();
+                    kategorijeIme.add("Svi");
+                    kategorijeAdapter.notifyDataSetChanged();
+                }
             }
 
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
