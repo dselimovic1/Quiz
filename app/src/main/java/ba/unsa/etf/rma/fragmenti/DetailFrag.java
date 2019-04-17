@@ -93,7 +93,12 @@ public class DetailFrag extends Fragment {
                 kvizovi.set(pozicija, k);
                 adapter.notifyDataSetChanged();
             }
+
         }
+    }
+
+    public interface CategoryAdd{
+        void onCategoryAdded(ArrayList<String> categories);
     }
 
 }
