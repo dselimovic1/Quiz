@@ -66,12 +66,12 @@ public class PitanjeFrag extends Fragment {
                 adapterOdgovori.setOdabran(i);
                 adapterOdgovori.notifyDataSetChanged();
                 data.onQuestionAnswered(brojTacnih, preostali, ukupno);
-                view.setClickable(false);
+                odg.setClickable(false);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        view.setClickable(true);
+                        odg.setClickable(true);
                         if(pitanja.size() != 0) dajRandomPitanje();
                         else{
                             zavrsiKviz();
