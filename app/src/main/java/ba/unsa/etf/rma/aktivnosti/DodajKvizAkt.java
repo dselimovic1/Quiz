@@ -304,6 +304,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         int brojOdgovora = Integer.parseInt(s[1]);
         int indexTacnog = Integer.parseInt(s[2]);
         for(int i = 0; i < brojOdgovora; i++) odgovori.add(s[i + 3]);
+        p.setOdgovori(odgovori);
         p.setTacan(odgovori.get(indexTacnog));
         return p;
     }
