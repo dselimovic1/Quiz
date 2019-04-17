@@ -22,7 +22,7 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 
 
-public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd {
+public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory {
 
     private static int ADD_QUIZ = 1;
     private static int UPDATE_QUIZ = 2;
@@ -178,5 +178,16 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         bundle.putStringArrayList("kategorijes", categories);
         listaFrag.setArguments(bundle);
         fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
+    }
+
+    @Override
+    public void onCategorySelected(String categoryName) {
+        ArrayList<Kviz> kvizFilter = filterListe(categoryName);
+        FragmentManager fm = getSupportFragmentManager();
+        DetailFrag detailFrag = new DetailFrag();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("kviz", kvizFilter);
+        detailFrag.setArguments(bundle);
+        fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
     }
 }
