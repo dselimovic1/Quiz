@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragmenti.DetailFrag">
+    tools:context=".fragmenti.DetailFrag"
+    android:layout_marginLeft="20dp">
 
     <GridView
         android:layout_width="match_parent"
@@ -13,6 +14,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:id="@+id/gridKvizovi"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:numColumns="auto_fit"/>
 
 </android.support.constraint.ConstraintLayout>
