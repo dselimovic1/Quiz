@@ -66,7 +66,7 @@ public class PitanjeFrag extends Fragment {
                 ukupno++;
                 adapterOdgovori.setOdabran(i);
                 adapterOdgovori.notifyDataSetChanged();
-                int prTemp = (preostali < 0) ? 0 : preostali;
+                int prTemp = (preostali < 0) ? 0 : (preostali - 1);
                 data.onQuestionAnswered(brojTacnih, prTemp, ukupno);
                 odg.setEnabled(false);
 
