@@ -148,7 +148,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && mode == false) {
+        if (resultCode == RESULT_OK) {
             Kviz k = (Kviz) data.getParcelableExtra("noviKviz");
             if (requestCode == ADD_QUIZ) {
                 int pozicija = kvizovi.size() - 1;
@@ -158,15 +158,17 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 int pozicija = data.getIntExtra("pozicija", 0);
                 kvizovi.set(pozicija, k);
             }
-            ArrayList<String> sveKategorije = data.getStringArrayListExtra("sveKategorije");
-            kategorijeIme.clear();
-            kategorijeIme.addAll(0, sveKategorije);
-            kategorijeIme.add("Svi");
-            kategorijeAdapter.notifyDataSetChanged();
-            int pozicija = kategorijeAdapter.getCount() - 1;
-            if (pozicija < 0) pozicija = 0;
-            spinner.setSelection(pozicija);
-            kvizAdapter.notifyDataSetChanged();
+            if(mode == false) {
+                ArrayList<String> sveKategorije = data.getStringArrayListExtra("sveKategorije");
+                kategorijeIme.clear();
+                kategorijeIme.addAll(0, sveKategorije);
+                kategorijeIme.add("Svi");
+                kategorijeAdapter.notifyDataSetChanged();
+                int pozicija = kategorijeAdapter.getCount() - 1;
+                if (pozicija < 0) pozicija = 0;
+                spinner.setSelection(pozicija);
+                kvizAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -186,7 +188,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if(categoryName.equals("Svi") == false)
             kvizFilter = filterListe(categoryName);
         else
-            return;
+            kvizFilter = kvizovi;
         FragmentManager fm = getSupportFragmentManager();
         DetailFrag detailFrag = new DetailFrag();
         Bundle bundle = new Bundle();
