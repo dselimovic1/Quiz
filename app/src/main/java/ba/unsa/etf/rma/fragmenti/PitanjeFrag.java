@@ -66,7 +66,7 @@ public class PitanjeFrag extends Fragment {
                 ukupno++;
                 adapterOdgovori.setOdabran(i);
                 adapterOdgovori.notifyDataSetChanged();
-                data.onQuestionAnswered(brojTacnih, preostali, ukupno);
+                data.onQuestionAnswered(brojTacnih, preostali , ukupno);
                 odg.setEnabled(false);
 
                 new Handler().postDelayed(new Runnable() {
@@ -74,7 +74,10 @@ public class PitanjeFrag extends Fragment {
                     public void run() {
                         odg.setEnabled(true);
                         adapterOdgovori.setOdabran(-1);
-                        if(pitanja.size() != 0) dajRandomPitanje();
+                        if(pitanja.size() != 0)  {
+                            dajRandomPitanje();
+                            data.onQuestionAnswered(brojTacnih, preostali , ukupno);
+                        }
                         else{
                             zavrsiKviz();
                             odgovori.clear();
