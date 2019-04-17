@@ -173,12 +173,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     public void onCategoryAdded(ArrayList<String> categories) {
         FragmentManager fm = getSupportFragmentManager();
-        ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
-        if(listaFrag == null) {
-            listaFrag = new ListaFrag();
-        }
+        ListaFrag listaFrag = new ListaFrag();
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList("kategorije", categories);
+        bundle.putStringArrayList("kategorijes", categories);
         listaFrag.setArguments(bundle);
         fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
     }
