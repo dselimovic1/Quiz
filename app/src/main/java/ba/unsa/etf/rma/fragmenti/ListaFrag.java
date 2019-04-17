@@ -28,6 +28,7 @@ public class ListaFrag extends Fragment {
         super.onActivityCreated(savedInstanceState);
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
         kategorije = getArguments().getStringArrayList("kategorije");
+        kategorije.add("Svi");
         kategorijeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, kategorije);
         listaKategorije.setAdapter(kategorijeAdapter);
     }
