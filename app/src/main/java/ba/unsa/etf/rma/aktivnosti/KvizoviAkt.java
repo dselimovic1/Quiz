@@ -121,7 +121,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 listaFrag = new ListaFrag();
             }
                 Bundle bundle1 = new Bundle();
-                kategorijeIme.add("Svi");
                 bundle1.putStringArrayList("kategorije", kategorijeIme);
                 listaFrag.setArguments(bundle1);
                 fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
