@@ -60,16 +60,18 @@ public class PitanjeFrag extends Fragment {
 
         odg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
                 if(i == pozicijaTacnog) brojTacnih++;
                 ukupno++;
                 adapterOdgovori.setOdabran(i);
                 adapterOdgovori.notifyDataSetChanged();
                 data.onQuestionAnswered(brojTacnih, preostali, ukupno);
+                view.setClickable(false);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        view.setClickable(true);
                         if(pitanja.size() != 0) dajRandomPitanje();
                         else{
                             zavrsiKviz();
