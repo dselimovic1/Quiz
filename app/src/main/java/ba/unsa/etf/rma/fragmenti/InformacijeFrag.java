@@ -42,7 +42,9 @@ public class InformacijeFrag extends Fragment {
         if(getArguments() == null) {
             procenat.setText("0");
             brojTacnih.setText("0");
-            preostali.setText(Integer.toString(k.getPitanja().size()));
+            int pr = k.getPitanja().size() - 1;
+            if(pr < 0) pr = 0;
+            preostali.setText(Integer.toString(pr));
         }
         else {
             int tacni = getArguments().getInt("tacni");
