@@ -41,8 +41,7 @@ public class ListaFrag extends Fragment {
         return inflater.inflate(R.layout.fragment_lista, container, false);
     }
 
-    public interface OnCategorySelected {
-        void onCategorClicked(int position);
+    public interface FilterCategory{
+        void onCategorySelected(String categoryName);
     }
-
 }
