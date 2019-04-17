@@ -31,12 +31,21 @@ public class DetailFrag extends Fragment {
     private GridAdapter adapter;
     private GridView kvizGrid;
 
+    private CategoryAdd categoryAdd;
+
     public DetailFrag() {
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        try {
+            categoryAdd = (CategoryAdd)getActivity();
+        }
+        catch (ClassCastException e) {
+
+        }
 
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
         kvizovi = getArguments().getParcelableArrayList("kviz");
@@ -93,7 +102,8 @@ public class DetailFrag extends Fragment {
                 kvizovi.set(pozicija, k);
                 adapter.notifyDataSetChanged();
             }
-
+            ArrayList<String> cat = data.getStringArrayListExtra("sveKategorije");
+            categoryAdd.onCategoryAdded(cat);
         }
     }
 
