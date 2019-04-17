@@ -53,7 +53,8 @@ public class PitanjeFrag extends Fragment {
 
         Kviz k = (Kviz)getActivity().getIntent().getParcelableExtra("kviz");
         pitanja = k.getPitanja();
-        preostali = pitanja.size();
+        preostali = pitanja.size() - 1;
+        if(preostali < 0 ) preostali = 0;
         if(pitanja.size() != 0) dajRandomPitanje();
         else zavrsiKviz();
 
