@@ -216,48 +216,53 @@ public class DodajKvizAkt extends AppCompatActivity {
                         prikaziAlertDialog("Datoteka kviza kojeg importujete nema ispravan format!");
                         return;
                     }
-                    String[] quizData = temp.get(0).split(",");
-                    if(quizData.length != 3) {
+                    try {
+                        String[] quizData = temp.get(0).split(",");
+                        if (quizData.length != 3) {
+                            prikaziAlertDialog("Datoteka kviza kojeg importujete nema ispravan format!");
+                            return;
+                        }
+                        if (validirajImeKvizaImport(quizData[0]) == false) {
+                            prikaziAlertDialog("Kviz kojeg importujete već postoji!");
+                            return;
+                        }
+                        if (Integer.parseInt(quizData[2]) != temp.size() - 1) {
+                            prikaziAlertDialog("Kviz kojeg importujete ima neispravan broj pitanja!");
+                            return;
+                        }
+                        for (int i = 1; i <= Integer.parseInt(quizData[2]); i++) {
+                            String[] questionData = temp.get(i).split(",");
+                            int brojOdogovora = Integer.parseInt(questionData[1]);
+                            if (brojOdogovora + 3 != questionData.length) {
+                                prikaziAlertDialog("Kviz kojeg importujete ima neispravan broj odgovora!");
+                                return;
+                            }
+                            int index = Integer.parseInt(questionData[2]);
+                            if (index < 0 || index >= brojOdogovora) {
+                                prikaziAlertDialog("Kviz kojeg importujete ima neispravan index tacnog odgovora!");
+                                return;
+                            }
+                        }
+                        ArrayList<String> checkPitanje = new ArrayList<>();
+                        for (int i = 1; i <= Integer.parseInt(quizData[2]); i++) {
+                            Pitanje p = izdvojiPitanje(temp.get(i).split(","));
+                            if (duplicateCheck(p.getOdgovori()) == false) {
+                                prikaziAlertDialog("Kviz kojeg importujete nije ispravan postoji ponavljanje odgovora!");
+                                return;
+                            }
+                            checkPitanje.add(p.getNaziv());
+                        }
+                        if (duplicateCheck(checkPitanje) == false) {
+                            prikaziAlertDialog("Kviz nije ispravan postoje dva pitanja sa istim nazivom!");
+                            return;
+                        }
+                        izvdojiSvaPitanja(quizData, temp);
+                        imeKviz.setText(quizData[0]);
+                        izdvojiKategorijuImport(quizData);
+                    }
+                    catch (NumberFormatException e) {
                         prikaziAlertDialog("Datoteka kviza kojeg importujete nema ispravan format!");
-                        return;
                     }
-                    if(validirajImeKvizaImport(quizData[0]) == false) {
-                        prikaziAlertDialog("Kviz kojeg importujete već postoji!");
-                        return;
-                    }
-                    if(Integer.parseInt(quizData[2]) != temp.size() - 1) {
-                        prikaziAlertDialog("Kviz kojeg importujete ima neispravan broj pitanja!");
-                        return;
-                    }
-                    for(int i = 1; i <= Integer.parseInt(quizData[2]); i++) {
-                        String[] questionData = temp.get(i).split(",");
-                        int brojOdogovora = Integer.parseInt(questionData[1]);
-                        if(brojOdogovora + 3 != questionData.length) {
-                            prikaziAlertDialog("Kviz kojeg importujete ima neispravan broj odgovora!");
-                            return;
-                        }
-                        int index = Integer.parseInt(questionData[2]);
-                        if(index < 0 || index >= brojOdogovora) {
-                            prikaziAlertDialog("Kviz kojeg importujete ima neispravan index tacnog odgovora!");
-                            return;
-                        }
-                    }
-                    ArrayList<String> checkPitanje = new ArrayList<>();
-                    for(int i = 1; i <= Integer.parseInt(quizData[2]); i++) {
-                        Pitanje p = izdvojiPitanje(temp.get(i).split(","));
-                        if(duplicateCheck(p.getOdgovori()) == false) {
-                            prikaziAlertDialog("Kviz kojeg importujete nije ispravan postoji ponavljanje odgovora!");
-                            return;
-                        }
-                        checkPitanje.add(p.getNaziv());
-                    }
-                    if(duplicateCheck(checkPitanje) == false) {
-                        prikaziAlertDialog("Kviz nije ispravan postoje dva pitanja sa istim nazivom!");
-                        return;
-                    }
-                    izvdojiSvaPitanja(quizData, temp);
-                    imeKviz.setText(quizData[0]);
-                    izdvojiKategorijuImport(quizData);
                 }
             }
         }
