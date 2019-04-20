@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,6 +28,7 @@ import java.util.Set;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.DodanaPitanjaAdapter;
 import ba.unsa.etf.rma.adapteri.MogucaPitanjaAdapter;
+import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
@@ -387,13 +389,25 @@ public class DodajKvizAkt extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(DodajKvizAkt.this, KvizoviAkt.class);
-        intent.putExtra("back", true);
         ArrayList<String> temp = new ArrayList<>(kategorijeIme);
         temp.remove(temp.size() - 1);
         temp.remove(0);
-        intent.putExtra("kategorije", temp);
-        startActivity(intent);
+        boolean mode = getIntent().getBooleanExtra("mode",false);
+        if(mode == false) {
+            Intent intent = new Intent(DodajKvizAkt.this, KvizoviAkt.class);
+            intent.putExtra("back", true);
+            intent.putExtra("kategorije", temp);
+            startActivity(intent);
+        }
+        else {
+            FragmentManager fm = getSupportFragmentManager();
+            ListaFrag listaFrag = new ListaFrag();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("back",true);
+            bundle.putStringArrayList("kategorije",temp);
+            listaFrag.setArguments(bundle);
+            fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
+        }
     }
 
     private ArrayList<String> izdvojiTekst(Uri uri) {
