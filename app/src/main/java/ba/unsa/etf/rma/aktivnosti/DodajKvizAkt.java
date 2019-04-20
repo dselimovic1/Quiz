@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.aktivnosti;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -416,6 +417,14 @@ public class DodajKvizAkt extends AppCompatActivity {
     }
 
     private void prikaziAlertDialog(String message) {
-        new AlertDialog.Builder(this).setCancelable(true).setMessage(message).show();
+        final AlertDialog alert = new AlertDialog.Builder(this).create();
+        alert.setMessage(message);
+        alert.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alert.cancel();
+            }
+        });
+        alert.show();
     }
 }
