@@ -42,6 +42,7 @@ public class ListaFrag extends Fragment {
             kategorije = getArguments().getStringArrayList("kategorije");
         else
             kategorije = getArguments().getStringArrayList("kategorijes");
+        clearCategories();
         kategorije.add("Svi");
         kategorijeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, kategorije);
         listaKategorije.setAdapter(kategorijeAdapter);
@@ -53,6 +54,13 @@ public class ListaFrag extends Fragment {
                 filterCategory.onCategorySelected(currentCategory);
             }
         });
+    }
+
+    private void clearCategories() {
+        String s = "Svi";
+        for(String temp : kategorije) {
+            if(temp.equals(s)) kategorije.remove(s);
+        }
     }
 
     @Override
