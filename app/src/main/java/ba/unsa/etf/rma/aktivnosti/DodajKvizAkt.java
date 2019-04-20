@@ -416,6 +416,6 @@ public class DodajKvizAkt extends AppCompatActivity {
     }
 
     private void prikaziAlertDialog(String message) {
-        new AlertDialog.Builder(this).setMessage(message).show();
+        new AlertDialog.Builder(this).setCancelable(true).setMessage(message).show();
     }
 }
