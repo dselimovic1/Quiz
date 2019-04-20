@@ -54,19 +54,17 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             spinner.setAdapter(kategorijeAdapter);
 
             boolean back = getIntent().getBooleanExtra("back", false);
-            if(mode == false) {
-                if (back == true) {
-                    kategorijeIme.clear();
-                    kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
-                    kategorijeIme.add("Svi");
-                    kategorijeAdapter.notifyDataSetChanged();
-                    spinner.setSelection(kategorijeIme.size() - 1);
-                } else {
-                    kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok", Integer.toString(671))));
-                    kvizAdapter.notifyDataSetChanged();
-                    kategorijeIme.add("Svi");
-                    kategorijeAdapter.notifyDataSetChanged();
-                }
+            if (back == true) {
+                kategorijeIme.clear();
+                kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
+                kategorijeIme.add("Svi");
+                kategorijeAdapter.notifyDataSetChanged();
+                spinner.setSelection(kategorijeIme.size() - 1);
+            } else {
+                kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok", Integer.toString(671))));
+                kvizAdapter.notifyDataSetChanged();
+                kategorijeIme.add("Svi");
+                kategorijeAdapter.notifyDataSetChanged();
             }
 
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -75,6 +73,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                     Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
                     if (position == kvizovi.size() - 1) {
                         intent.putExtra("add", ADD_QUIZ);
+                        intent.putExtra("mode", mode);
                         startActivityForResult(intent, ADD_QUIZ);
                     } else {
                         Kviz k = kvizovi.get(position);
@@ -82,6 +81,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                         intent.putExtra("updateKviz",k);
                         intent.putExtra("pozicija",position);
                         startActivityForResult(intent, UPDATE_QUIZ);
+                        intent.putExtra("mode", mode);
                     }
                     return true;
                 }
@@ -199,7 +199,4 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
     }
 
-    public boolean getMode() {
-        return mode;
-    }
 }
