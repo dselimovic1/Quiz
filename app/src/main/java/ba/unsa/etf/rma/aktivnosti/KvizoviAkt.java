@@ -198,4 +198,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         detailFrag.setArguments(bundle);
         fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
     }
+
+    public boolean getMode() {
+        return mode;
+    }
 }
