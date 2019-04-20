@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.KvizAdapter;
@@ -54,18 +55,19 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, kategorijeIme);
             kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             spinner.setAdapter(kategorijeAdapter);
+            clearQuiz();
+            clearCategory();
             if (back == true) {
                 kategorijeIme.clear();
                 kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
                 kategorijeIme.add("Svi");
                 kategorijeAdapter.notifyDataSetChanged();
                 spinner.setSelection(kategorijeIme.size() - 1);
-            } else {
-                kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok", Integer.toString(671))));
-                kvizAdapter.notifyDataSetChanged();
-                kategorijeIme.add("Svi");
-                kategorijeAdapter.notifyDataSetChanged();
             }
+            kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok", Integer.toString(671))));
+            kategorijeAdapter.notifyDataSetChanged();
+            kategorijeIme.add("Svi");
+            kategorijeAdapter.notifyDataSetChanged();
 
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -150,6 +152,22 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 detailFrag.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
             }
+        }
+    }
+
+    private void clearQuiz() {
+        Kviz k = new Kviz("Dodaj Kviz", null, null);
+        for(ListIterator<Kviz> iterator = kvizovi.listIterator(); iterator.hasNext();) {
+            Kviz temp = iterator.next();
+            if(k.equals(temp)) iterator.remove();
+        }
+    }
+
+    private void clearCategory() {
+        String s = "Svi";
+        for(ListIterator<String> iterator = kategorijeIme.listIterator(); iterator.hasNext();){
+            String temp = iterator.next();
+            if(temp.equals(s)) iterator.remove();
         }
     }
 
