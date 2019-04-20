@@ -16,12 +16,11 @@
         android:layout_height="40dp"
         android:id="@+id/tekstPitanja"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/kvizColor"
         android:layout_marginBottom="40dp"
         android:gravity="center"
-        android:textSize="30dp"/>
+        android:textSize="25dp"/>
     
     <ListView
         android:layout_width="match_parent"
