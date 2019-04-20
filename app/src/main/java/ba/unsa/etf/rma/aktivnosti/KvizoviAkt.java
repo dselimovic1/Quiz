@@ -43,6 +43,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
         if(listPlace == null) mode = false;
 
+        boolean back = getIntent().getBooleanExtra("back", false);
+
         if(mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
@@ -52,8 +54,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, kategorijeIme);
             kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             spinner.setAdapter(kategorijeAdapter);
-
-            boolean back = getIntent().getBooleanExtra("back", false);
             if (back == true) {
                 kategorijeIme.clear();
                 kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
@@ -118,23 +118,34 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         }
         else {
             FragmentManager fm = getSupportFragmentManager();
-            ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
-            if(listaFrag == null) {
-                listaFrag = new ListaFrag();
-            }
+            if(back == false) {
+                ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
+                if (listaFrag == null) {
+                    listaFrag = new ListaFrag();
+                }
                 Bundle bundle1 = new Bundle();
                 bundle1.putStringArrayList("kategorije", kategorijeIme);
                 listaFrag.setArguments(bundle1);
                 fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
-            DetailFrag detailFrag = (DetailFrag)fm.findFragmentById(R.id.detailPlace);
-            if(detailFrag == null) {
-                detailFrag = new DetailFrag();
-            }
+                DetailFrag detailFrag = (DetailFrag)fm.findFragmentById(R.id.detailPlace);
+                if(detailFrag == null) {
+                    detailFrag = new DetailFrag();
+                }
                 Bundle bundle = new Bundle();
                 kvizovi.add(new Kviz("Dodaj kviz", null, new Kategorija("", "671")));
                 bundle.putParcelableArrayList("kviz", kvizovi);
                 detailFrag.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
+            }
+            else {
+                ListaFrag listaFragBack = new ListaFrag();
+                Bundle bund = new Bundle();
+                kategorijeIme.clear();
+                kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
+                bund.putStringArrayList("kategorije", kategorijeIme);
+                listaFragBack.setArguments(bund);
+                fm.beginTransaction().replace(R.id.listPlace, listaFragBack).commit();
+            }
         }
     }
 
