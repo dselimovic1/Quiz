@@ -30,7 +30,8 @@
         app:layout_constraintTop_toBottomOf="@id/sveKategorije"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/listaKategorija"/>
+        android:id="@+id/listaKategorija"
+        android:layout_marginBottom="20dp"/>
 
 </android.support.constraint.ConstraintLayout>
 </ScrollView>
