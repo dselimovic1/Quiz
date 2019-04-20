@@ -48,6 +48,7 @@ public class ListaFrag extends Fragment {
         kategorije.add("Svi");
         kategorijeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, kategorije);
         listaKategorije.setAdapter(kategorijeAdapter);
+        setListViewHeightBasedOnChildren(listaKategorije);
 
         listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
