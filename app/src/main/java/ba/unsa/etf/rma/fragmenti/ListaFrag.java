@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import ba.unsa.etf.rma.R;
 
@@ -57,9 +58,12 @@ public class ListaFrag extends Fragment {
     }
 
     private void clearCategories() {
-        String s = "Svi";
-        for(String temp : kategorije) {
-            if(temp.equals(s)) kategorije.remove(s);
+        String temp = "Svi";
+        for(ListIterator<String> iterator = kategorije.listIterator(); iterator.hasNext();) {
+            String s = iterator.next();
+            if(s.equals(temp)) {
+                iterator.remove();
+            }
         }
     }
 
