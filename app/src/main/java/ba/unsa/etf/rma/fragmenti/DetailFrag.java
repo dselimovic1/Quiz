@@ -12,11 +12,13 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.GridAdapter;
 import ba.unsa.etf.rma.aktivnosti.DodajKvizAkt;
 import ba.unsa.etf.rma.aktivnosti.IgrajKvizAkt;
+import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 
 import static android.app.Activity.RESULT_OK;
@@ -49,6 +51,8 @@ public class DetailFrag extends Fragment {
 
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
         kvizovi = getArguments().getParcelableArrayList("kviz");
+        clearQuiz();
+        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("",  "671")));
         adapter = new GridAdapter(getContext(), kvizovi);
         kvizGrid.setAdapter(adapter);
 
@@ -80,6 +84,14 @@ public class DetailFrag extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void clearQuiz() {
+        Kviz k = new Kviz("Dodaj Kviz", null, null);
+        for(ListIterator<Kviz> iterator = kvizovi.listIterator(); iterator.hasNext();) {
+            Kviz temp = iterator.next();
+            if(k.equals(temp)) iterator.remove();
+        }
     }
 
     @Override
