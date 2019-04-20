@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +19,8 @@
         android:layout_marginRight="20dp"
         android:textColor="@color/kvizColor"
         android:layout_marginBottom="40dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="30dp"/>
     
     <ListView
         android:layout_width="match_parent"
@@ -25,3 +30,4 @@
         android:layout_marginBottom="20dp"
         android:id="@+id/odgovoriPitanja"/>
 </LinearLayout>
+</ScrollView>
