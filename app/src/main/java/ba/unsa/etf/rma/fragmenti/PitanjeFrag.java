@@ -80,8 +80,7 @@ public class PitanjeFrag extends Fragment {
                         adapterOdgovori.setOdabran(-1);
                         if(pitanja.size() != 0)  {
                             dajRandomPitanje();
-                            int prTemp = (preostali - 1 < 0) ? 0: preostali - 1;
-                            data.onQuestionAnswered(brojTacnih, prTemp, ukupno);
+                            data.onQuestionAnswered(brojTacnih, preostali, ukupno);
                             setListViewHeightBasedOnChildren(odg);
                         }
                         else{
