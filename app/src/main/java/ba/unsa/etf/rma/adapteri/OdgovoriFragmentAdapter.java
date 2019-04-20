@@ -18,7 +18,7 @@ public class OdgovoriFragmentAdapter extends ArrayAdapter<String> {
     private int odabran;
 
     public OdgovoriFragmentAdapter(Context context, ArrayList<String> odgovori, int pozicijaTacnog) {
-        super(context, R.layout.odgovor_u_fragmentu, odgovori);
+        super(context, R.layout.odgovor, odgovori);
         this.odgovori = odgovori;
         this.pozicijaTacnog = pozicijaTacnog;
         this.odabran = -1;
@@ -30,11 +30,11 @@ public class OdgovoriFragmentAdapter extends ArrayAdapter<String> {
 
         if(convertView == null) {
             if(getItemViewType(position) == 0)
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.odgovor_u_fragmentu, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.odgovor, parent, false);
             else if(getItemViewType(position) == 1)
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.odgovor_u_fragmentu_green, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.tacan_odgovor, parent, false);
             else if(getItemViewType(position) == 2)
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.odgovor_u_fragmentu_red, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.netacan_odgovor, parent, false);
         }
 
         if(getItemViewType(position) == 0) {
