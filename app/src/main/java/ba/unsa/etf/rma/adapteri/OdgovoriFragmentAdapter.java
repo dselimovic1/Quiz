@@ -38,15 +38,15 @@ public class OdgovoriFragmentAdapter extends ArrayAdapter<String> {
         }
 
         if(getItemViewType(position) == 0) {
-            TextView textView = (TextView)convertView.findViewById(R.id.fragmentOdg);
+            TextView textView = (TextView)convertView.findViewById(R.id.tekstOdgovora);
             textView.setText(current);
         }
         else if(getItemViewType(position) == 1) {
-            TextView textView = (TextView)convertView.findViewById(R.id.fragmentOdg);
+            TextView textView = (TextView)convertView.findViewById(R.id.tekstOdgovora);
             textView.setText(current);
         }
         else if(getItemViewType(position) == 2) {
-            TextView textView = (TextView)convertView.findViewById(R.id.fragmentOdg);
+            TextView textView = (TextView)convertView.findViewById(R.id.tekstOdgovora);
             textView.setText(current);
         }
 
