@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -55,7 +56,10 @@ public class PitanjeFrag extends Fragment {
         pitanja = k.getPitanja();
         preostali = pitanja.size() - 1;
         if(preostali < 0 ) preostali = 0;
-        if(pitanja.size() != 0) dajRandomPitanje();
+        if(pitanja.size() != 0) {
+            dajRandomPitanje();
+            setListViewHeightBasedOnChildren(odg);
+        }
         else zavrsiKviz();
 
 
@@ -66,8 +70,7 @@ public class PitanjeFrag extends Fragment {
                 ukupno++;
                 adapterOdgovori.setOdabran(i);
                 adapterOdgovori.notifyDataSetChanged();
-                int prTemp = (preostali - 1 < 0) ? 0 : (preostali - 1);
-                data.onQuestionAnswered(brojTacnih, prTemp, ukupno);
+                data.onQuestionAnswered(brojTacnih, preostali, ukupno);
                 odg.setEnabled(false);
 
                 new Handler().postDelayed(new Runnable() {
@@ -77,6 +80,9 @@ public class PitanjeFrag extends Fragment {
                         adapterOdgovori.setOdabran(-1);
                         if(pitanja.size() != 0)  {
                             dajRandomPitanje();
+                            int prTemp = (preostali - 1 < 0) ? 0: preostali - 1;
+                            data.onQuestionAnswered(brojTacnih, prTemp, ukupno);
+                            setListViewHeightBasedOnChildren(odg);
                         }
                         else{
                             zavrsiKviz();
@@ -120,6 +126,26 @@ public class PitanjeFrag extends Fragment {
 
     private void zavrsiKviz() {
         tekstPitanja.setText("Kviz je završen!");
+    }
+
+    private static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
     public interface SendData {
