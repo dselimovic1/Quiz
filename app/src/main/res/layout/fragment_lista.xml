@@ -8,15 +8,17 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:id="@+id/sveKategorije"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:gravity="center"
         android:text="Lista kategorija:"
+        android:textColor="@color/kvizColor"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:textSize="20dp"/>
 
     <ListView
         android:layout_width="match_parent"
