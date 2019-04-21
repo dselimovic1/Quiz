@@ -239,7 +239,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                             }
                             int index = Integer.parseInt(questionData[2]);
                             if (index < 0 || index >= brojOdogovora) {
-                                prikaziAlertDialog("Kviz kojeg importujete ima neispravan index tacnog odgovora!");
+                                prikaziAlertDialog("Kviz kojeg importujete ima neispravan index tačnog odgovora!");
                                 return;
                             }
                         }
