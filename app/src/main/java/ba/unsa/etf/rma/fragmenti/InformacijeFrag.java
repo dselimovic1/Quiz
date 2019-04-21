@@ -40,7 +40,6 @@ public class InformacijeFrag extends Fragment {
         btnZavrsiKviz = (Button)getView().findViewById(R.id.btnKraj);
         imeKviza.setText(k.getNaziv());
         if(getArguments() == null) {
-            procenat.setText("0");
             brojTacnih.setText("0");
             int pr = k.getPitanja().size() - 1;
             if(pr < 0) pr = 0;
