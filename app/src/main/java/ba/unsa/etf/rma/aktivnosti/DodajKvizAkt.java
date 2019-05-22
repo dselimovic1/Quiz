@@ -58,23 +58,13 @@ public class DodajKvizAkt extends AppCompatActivity {
     private Button importujKviz;
 
 
-    private Baza baza;
+    private Baza baza = Baza.getInstance();
     private Kviz trenutni = new Kviz();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kviz_akt);
-
-
-        baza = Baza.getInstance();
-        pitanja = baza.dajPitanja();
-        kategorije = baza.dajKategorije();
-        kategorijeIme = baza.dajImenaKategorija();
-        kvizoviIme = baza.dajImenaKvizova();
-
-        kategorijeIme.add(0, "Svi");
-        kategorijeIme.add("Dodaj Kategoriju");
 
         spinner = (Spinner)findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
@@ -83,31 +73,9 @@ public class DodajKvizAkt extends AppCompatActivity {
         sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
         importujKviz = (Button)findViewById(R.id.btnImportKviz);
 
-        if(getIntent().getIntExtra("add", 0) == 2) {
-            trenutni = (Kviz)getIntent().getParcelableExtra("updateKviz");
-            imeKviz.setText(trenutni.getNaziv());
-            spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
-            kvizoviIme.remove(trenutni.getNaziv());
-        }
-        else {
-            trenutni = null;
-            imeKviz.setText("");
-            spinner.setSelection(0);
-        }
-
-        dodanaPitanja = baza.dajImenaPitanjaKviza(trenutni);
-        dodanaAdapter = new DodanaPitanjaAdapter(this,dodanaPitanja);
-        dodanaPitanjaList.setAdapter(dodanaAdapter);
-
-        mogucaPitanja = baza.dajMogucaPitanjaKviza(trenutni);
-        mogucaAdapter = new MogucaPitanjaAdapter(this, mogucaPitanja);
-        mogucaPitanjaList.setAdapter(mogucaAdapter);
-
-        kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
-        kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinner.setAdapter(kategorijeAdapter);
-
-
+        ucitajListe();
+        ucitajTrenutniKviz();
+        postaviAdaptere();
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -171,7 +139,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                         trenutni.setPitanja(izdvojiPitanja(dodanaPitanja));
                         trenutni.setKategorija(odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
                         int pozicija = getIntent().getIntExtra("pozicija", 0);
-                        baza.dodajKviz(pozicija, trenutni);
+                        baza.azurirajKviz(pozicija, trenutni);
                     }
                     finish();
                 }
@@ -192,6 +160,9 @@ public class DodajKvizAkt extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        ucitajListe();
+        ucitajTrenutniKviz();
+        postaviAdaptere();
         if(resultCode == RESULT_OK) {
             if(requestCode == ADD_CATEGORY){
                 int pozicija = kategorijeIme.size() - 1;
@@ -254,6 +225,41 @@ public class DodajKvizAkt extends AppCompatActivity {
                     }
                 }
             }
+        }
+    }
+
+    private void ucitajListe() {
+        pitanja = baza.dajPitanja();
+        kategorije = baza.dajKategorije();
+        kategorijeIme = baza.dajImenaKategorija();
+        kvizoviIme = baza.dajImenaKvizova();
+    }
+
+    private void postaviAdaptere() {
+        dodanaPitanja = baza.dajImenaPitanjaKviza(trenutni);
+        dodanaAdapter = new DodanaPitanjaAdapter(this,dodanaPitanja);
+        dodanaPitanjaList.setAdapter(dodanaAdapter);
+        mogucaPitanja = baza.dajMogucaPitanjaKviza(trenutni);
+        mogucaAdapter = new MogucaPitanjaAdapter(this, mogucaPitanja);
+        mogucaPitanjaList.setAdapter(mogucaAdapter);
+        kategorijeIme.add(0, "Svi");
+        kategorijeIme.add("Dodaj kategoriju");
+        kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
+        kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(kategorijeAdapter);
+    }
+
+    private void ucitajTrenutniKviz() {
+        if(getIntent().getIntExtra("add", 0) == 2) {
+            trenutni = (Kviz)getIntent().getParcelableExtra("updateKviz");
+            imeKviz.setText(trenutni.getNaziv());
+            spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
+            kvizoviIme.remove(trenutni.getNaziv());
+        }
+        else {
+            trenutni = null;
+            imeKviz.setText("");
+            spinner.setSelection(0);
         }
     }
 
