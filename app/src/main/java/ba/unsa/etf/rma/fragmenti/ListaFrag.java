@@ -12,9 +12,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.singleton.Baza;
 
 public class ListaFrag extends Fragment {
 
@@ -24,6 +24,7 @@ public class ListaFrag extends Fragment {
     private ListView listaKategorije;
 
     private FilterCategory filterCategory;
+    private Baza baza;
 
     public ListaFrag() {
     }
@@ -31,6 +32,8 @@ public class ListaFrag extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        baza = Baza.getInstance();
 
         try {
             filterCategory = (FilterCategory)getActivity();
@@ -40,11 +43,7 @@ public class ListaFrag extends Fragment {
         }
 
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
-        if(getArguments().containsKey("kategorije"))
-            kategorije = getArguments().getStringArrayList("kategorije");
-        else
-            kategorije = getArguments().getStringArrayList("kategorijes");
-        clearCategories();
+        kategorije = baza.dajImenaKategorija();
         kategorije.add("Svi");
         kategorijeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, kategorije);
         listaKategorije.setAdapter(kategorijeAdapter);
@@ -57,16 +56,6 @@ public class ListaFrag extends Fragment {
                 filterCategory.onCategorySelected(currentCategory);
             }
         });
-    }
-
-    private void clearCategories() {
-        String temp = "Svi";
-        for(ListIterator<String> iterator = kategorije.listIterator(); iterator.hasNext();) {
-            String s = iterator.next();
-            if(s.equals(temp)) {
-                iterator.remove();
-            }
-        }
     }
 
     @Override
