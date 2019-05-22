@@ -161,11 +161,10 @@ public class DodajKvizAkt extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         ucitajListe();
-        ucitajTrenutniKviz();
         postaviAdaptere();
         if(resultCode == RESULT_OK) {
             if(requestCode == ADD_CATEGORY){
-                int pozicija = kategorijeIme.size() - 1;
+                int pozicija = kategorijeIme.size() - 2;
                 spinner.setSelection(pozicija);
             }
             else if(requestCode == IMPORT_QUIZ) {
