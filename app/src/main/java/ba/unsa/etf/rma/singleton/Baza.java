@@ -47,17 +47,17 @@ public class Baza {
 
     public ArrayList<Kviz> dajKvizove()
     {
-        return kvizovi;
+        return new ArrayList<>(kvizovi);
     }
 
     public ArrayList<Kategorija> dajKategorije()
     {
-        return kategorije;
+        return new ArrayList<>(kategorije);
     }
 
     public ArrayList<Pitanje> dajPitanja()
     {
-        return pitanja;
+        return new ArrayList<>(pitanja);
     }
 
     public ArrayList<String> dajImenaKategorija()
