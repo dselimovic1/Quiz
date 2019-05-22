@@ -76,7 +76,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
         mogucaPitanjaList = (ListView)findViewById(R.id.lvMogucaPitanja);
         imeKviz = (EditText)findViewById(R.id.etNaziv);
-        sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
+
         importujKviz = (Button)findViewById(R.id.btnImportKviz);
 
         if(getIntent().getIntExtra("add", 0) == 2) {
@@ -158,7 +158,6 @@ public class DodajKvizAkt extends AppCompatActivity {
                     imeKviz.setBackgroundColor(Color.RED);
                 }
                 else {
-                    Intent intent = new Intent(DodajKvizAkt.this, KvizoviAkt.class);
                     imeKviz.setBackgroundColor(Color.WHITE);
                     if(trenutni == null) {
                         trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja), odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
@@ -171,7 +170,6 @@ public class DodajKvizAkt extends AppCompatActivity {
                         int pozicija = getIntent().getIntExtra("pozicija", 0);
                         baza.dodajKviz(pozicija, trenutni);
                     }
-                    setResult(RESULT_OK, intent);
                     finish();
                 }
 
