@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.GridAdapter;
@@ -20,8 +19,7 @@ import ba.unsa.etf.rma.aktivnosti.DodajKvizAkt;
 import ba.unsa.etf.rma.aktivnosti.IgrajKvizAkt;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
-
-import static android.app.Activity.RESULT_OK;
+import ba.unsa.etf.rma.singleton.Baza;
 
 public class DetailFrag extends Fragment {
 
@@ -33,6 +31,7 @@ public class DetailFrag extends Fragment {
     private GridAdapter adapter;
     private GridView kvizGrid;
 
+    private Baza baza;
     private CategoryAdd categoryAdd;
 
     public DetailFrag() {
@@ -49,12 +48,18 @@ public class DetailFrag extends Fragment {
 
         }
 
+        baza = Baza.getInstance();
+        Bundle argumenti = getArguments();
+
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
-        kvizovi = getArguments().getParcelableArrayList("kviz");
-        clearQuiz();
+        if(argumenti != null && argumenti.containsKey("filter")) kvizovi = baza.dajFiltriranuListu(argumenti.getString("filter"));
+        else kvizovi = baza.dajKvizove();
+
         kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("",  "671")));
         adapter = new GridAdapter(getContext(), kvizovi);
         kvizGrid.setAdapter(adapter);
+
+        categoryAdd.onCategoryAdded();
 
         kvizGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -62,15 +67,14 @@ public class DetailFrag extends Fragment {
                 Intent intent = new Intent(getActivity(), DodajKvizAkt.class);
                 if(position == kvizovi.size() - 1) {
                     intent.putExtra("add", ADD_QUIZ);
-                    startActivityForResult(intent, ADD_QUIZ);
                 }
                 else {
                     Kviz k = kvizovi.get(position);
                     intent.putExtra("add", UPDATE_QUIZ);
                     intent.putExtra("updateKviz",(Parcelable) k);
                     intent.putExtra("pozicija", position);
-                    startActivityForResult(intent, UPDATE_QUIZ);
                 }
+                startActivity(intent);
                 return true;
             }
         });
@@ -86,41 +90,13 @@ public class DetailFrag extends Fragment {
         });
     }
 
-    private void clearQuiz() {
-        Kviz k = new Kviz("Dodaj Kviz", null, null);
-        for(ListIterator<Kviz> iterator = kvizovi.listIterator(); iterator.hasNext();) {
-            Kviz temp = iterator.next();
-            if(k.equals(temp)) iterator.remove();
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
-            Kviz k = (Kviz)data.getParcelableExtra("noviKviz");
-            if(requestCode == ADD_QUIZ) {
-                int pozicija = kvizovi.size() - 1;
-                if(pozicija < 0 ) pozicija = 0;
-                kvizovi.add(pozicija, k);
-                adapter.notifyDataSetChanged();
-            }
-            else if(requestCode == UPDATE_QUIZ) {
-                int pozicija = data.getIntExtra("pozicija", 0);
-                kvizovi.set(pozicija, k);
-                adapter.notifyDataSetChanged();
-            }
-            ArrayList<String> cat = data.getStringArrayListExtra("sveKategorije");
-            categoryAdd.onCategoryAdded(cat);
-        }
+    public interface CategoryAdd {
+        void onCategoryAdded();
     }
-
-    public interface CategoryAdd{
-        void onCategoryAdded(ArrayList<String> categories);
-    }
-
 }
