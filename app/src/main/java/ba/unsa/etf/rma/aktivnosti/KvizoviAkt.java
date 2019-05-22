@@ -72,14 +72,13 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                     Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
                     if (position == kvizovi.size() - 1) {
                         intent.putExtra("add", ADD_QUIZ);
-                        startActivityForResult(intent, ADD_QUIZ);
                     } else {
                         Kviz k = kvizovi.get(position);
                         intent.putExtra("add", UPDATE_QUIZ);
                         intent.putExtra("updateKviz",k);
                         intent.putExtra("pozicija",position);
-                        startActivityForResult(intent, UPDATE_QUIZ);
                     }
+                    startActivity(intent);
                     return true;
                 }
             });
@@ -124,13 +123,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
         }
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
 
     @Override
     public void onCategoryAdded() {
