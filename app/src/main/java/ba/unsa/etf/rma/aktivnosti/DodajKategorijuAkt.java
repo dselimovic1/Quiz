@@ -1,9 +1,7 @@
 package ba.unsa.etf.rma.aktivnosti;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +14,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kategorija;
+import ba.unsa.etf.rma.singleton.Baza;
 
 public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.Callback {
 
@@ -26,14 +25,19 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
     private EditText icondID;
     private EditText imeKategorije;
 
-    private static ArrayList<String> kategorije = new ArrayList<>();
+    private ArrayList<String> kategorije;
     private Kategorija k;
     private boolean validacija = true;
+
+    private Baza baza;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kategoriju_akt);
+
+        baza = Baza.getInstance();
+        kategorije = baza.dajImenaKategorija();
 
         final IconDialog dialog = new IconDialog();
         iconDialogButton = (Button) findViewById(R.id.btnDodajIkonu);
@@ -56,12 +60,9 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                 provjeriIDIkone();
                 if (validacija) {
                     k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
-                    kategorije.add(k.getNaziv());
                     imeKategorije.setBackgroundColor(Color.WHITE);
                     icondID.setBackgroundColor(Color.WHITE);
-                    Intent intent = new Intent(DodajKategorijuAkt.this, DodajKvizAkt.class);
-                    intent.putExtra("kategorija",(Parcelable) k);
-                    setResult(RESULT_OK, intent);
+                    baza.dodajKategoriju(k);
                     finish();
                 }
             }
