@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.KvizAdapter;
@@ -29,50 +28,43 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private static int ADD_QUIZ = 1;
     private static int UPDATE_QUIZ = 2;
 
-    private ArrayList<Kviz> kvizovi = new ArrayList<>();
-    private ArrayList<String> kategorijeIme = new ArrayList<>();
+    private ArrayList<Kviz> kvizovi;
+    private ArrayList<String> kategorijeIme;
     private ArrayAdapter<String> kategorijeAdapter;
     private KvizAdapter kvizAdapter;
     private Spinner spinner;
     private ListView list;
 
+    private boolean mode = true;
+
     private Baza baza;
 
-    private boolean mode = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         baza = Baza.getInstance();
+        kvizovi = baza.dajKvizove();
+        kategorijeIme = baza.dajImenaKategorija();
 
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
         if(listPlace == null) mode = false;
 
-        boolean back = getIntent().getBooleanExtra("back", false);
 
         if(mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
 
+            kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("",  "671")));
+            kategorijeIme.add("Svi");
+
             kvizAdapter = new KvizAdapter(this, kvizovi);
             list.setAdapter(kvizAdapter);
+
             kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, kategorijeIme);
             kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             spinner.setAdapter(kategorijeAdapter);
-            clearQuiz();
-            clearCategory();
-            if (back == true) {
-                kategorijeIme.clear();
-                kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
-                kategorijeIme.add("Svi");
-                kategorijeAdapter.notifyDataSetChanged();
-                spinner.setSelection(kategorijeIme.size() - 1);
-            }
-            kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("ok", Integer.toString(671))));
-            kategorijeAdapter.notifyDataSetChanged();
-            kategorijeIme.add("Svi");
-            kategorijeAdapter.notifyDataSetChanged();
 
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -80,7 +72,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                     Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
                     if (position == kvizovi.size() - 1) {
                         intent.putExtra("add", ADD_QUIZ);
-                        intent.putExtra("mode", mode);
                         startActivityForResult(intent, ADD_QUIZ);
                     } else {
                         Kviz k = kvizovi.get(position);
@@ -88,7 +79,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                         intent.putExtra("updateKviz",k);
                         intent.putExtra("pozicija",position);
                         startActivityForResult(intent, UPDATE_QUIZ);
-                        intent.putExtra("mode", mode);
                     }
                     return true;
                 }
@@ -107,14 +97,11 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String s = spinner.getSelectedItem().toString();
-                    if (s.equals("Svi")) {
-                        kvizAdapter = new KvizAdapter(KvizoviAkt.this, kvizovi);
-                        list.setAdapter(kvizAdapter);
-                    } else {
-                        kvizAdapter = new KvizAdapter(KvizoviAkt.this, filterListe(s));
-                        list.setAdapter(kvizAdapter);
-                    }
+                    String filter = spinner.getSelectedItem().toString();
+                    if (filter.equals("Svi")) kvizovi = baza.dajKvizove();
+                    else kvizovi = baza.dajFiltriranuListu(filter);
+                    kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("",  "671")));
+                    kvizAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -125,114 +112,39 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         }
         else {
             FragmentManager fm = getSupportFragmentManager();
-            if(back == false) {
-                ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
-                if (listaFrag == null) {
-                    listaFrag = new ListaFrag();
-                }
-                Bundle bundle1 = new Bundle();
-                bundle1.putStringArrayList("kategorije", kategorijeIme);
-                listaFrag.setArguments(bundle1);
-                fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
-                DetailFrag detailFrag = (DetailFrag)fm.findFragmentById(R.id.detailPlace);
-                if(detailFrag == null) {
-                    detailFrag = new DetailFrag();
-                }
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("kviz", kvizovi);
-                detailFrag.setArguments(bundle);
-                fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
+            ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
+            if (listaFrag == null) {
+                listaFrag = new ListaFrag();
             }
-            else {
-                ListaFrag listaFragBack = new ListaFrag();
-                Bundle bund = new Bundle();
-                kategorijeIme.clear();
-                kategorijeIme.addAll(0, getIntent().getStringArrayListExtra("kategorije"));
-                bund.putStringArrayList("kategorije", kategorijeIme);
-                listaFragBack.setArguments(bund);
-                fm.beginTransaction().replace(R.id.listPlace, listaFragBack).commit();
-                DetailFrag detailFrag = new DetailFrag();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("kviz", kvizovi);
-                detailFrag.setArguments(bundle);
-                fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
+            fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
+            DetailFrag detailFrag = (DetailFrag)fm.findFragmentById(R.id.detailPlace);
+            if(detailFrag == null) {
+                detailFrag = new DetailFrag();
             }
+            fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
         }
-    }
-
-    private void clearQuiz() {
-        Kviz k = new Kviz("Dodaj Kviz", null, null);
-        for(ListIterator<Kviz> iterator = kvizovi.listIterator(); iterator.hasNext();) {
-            Kviz temp = iterator.next();
-            if(k.equals(temp)) iterator.remove();
-        }
-    }
-
-    private void clearCategory() {
-        String s = "Svi";
-        for(ListIterator<String> iterator = kategorijeIme.listIterator(); iterator.hasNext();){
-            String temp = iterator.next();
-            if(temp.equals(s)) iterator.remove();
-        }
-    }
-
-    private ArrayList<Kviz> filterListe(String s) {
-        ArrayList<Kviz> lista = new ArrayList<>();
-        for(Kviz k : kvizovi) {
-            if(k.getKategorija().getNaziv().equals(s)) lista.add(k);
-        }
-        lista.add(new Kviz("Dodaj Kviz", null, new Kategorija("",Integer.toString(671))));
-        return lista;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            Kviz k = (Kviz) data.getParcelableExtra("noviKviz");
-            if (requestCode == ADD_QUIZ) {
-                int pozicija = kvizovi.size() - 1;
-                if (pozicija < 0) pozicija = 0;
-                kvizovi.add(pozicija, k);
-            } else if (requestCode == UPDATE_QUIZ) {
-                int pozicija = data.getIntExtra("pozicija", 0);
-                kvizovi.set(pozicija, k);
-            }
-            if(mode == false) {
-                ArrayList<String> sveKategorije = data.getStringArrayListExtra("sveKategorije");
-                kategorijeIme.clear();
-                kategorijeIme.addAll(0, sveKategorije);
-                kategorijeIme.add("Svi");
-                kategorijeAdapter.notifyDataSetChanged();
-                int pozicija = kategorijeAdapter.getCount() - 1;
-                if (pozicija < 0) pozicija = 0;
-                spinner.setSelection(pozicija);
-                kvizAdapter.notifyDataSetChanged();
-            }
-        }
     }
 
+
     @Override
-    public void onCategoryAdded(ArrayList<String> categories) {
+    public void onCategoryAdded() {
         FragmentManager fm = getSupportFragmentManager();
         ListaFrag listaFrag = new ListaFrag();
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList("kategorijes", categories);
-        listaFrag.setArguments(bundle);
         fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
     }
 
     @Override
     public void onCategorySelected(String categoryName) {
-        ArrayList<Kviz> kvizFilter = new ArrayList<>();
-        if(categoryName.equals("Svi") == false)
-            kvizFilter = filterListe(categoryName);
-        else
-            kvizFilter = kvizovi;
         FragmentManager fm = getSupportFragmentManager();
         DetailFrag detailFrag = new DetailFrag();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("kviz", kvizFilter);
+        bundle.putString("filter", categoryName);
         detailFrag.setArguments(bundle);
         fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
     }
