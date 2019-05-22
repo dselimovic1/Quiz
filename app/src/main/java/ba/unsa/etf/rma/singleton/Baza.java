@@ -25,6 +25,11 @@ public class Baza {
         kvizovi.add(kviz);
     }
 
+    public void dodajKviz(int pozicija, Kviz kviz)
+    {
+        kvizovi.add(pozicija, kviz);
+    }
+
     public void azurirajKviz(int pozicija, Kviz kviz)
     {
         kvizovi.set(pozicija, kviz);
@@ -53,5 +58,50 @@ public class Baza {
     public ArrayList<Pitanje> dajPitanja()
     {
         return pitanja;
+    }
+
+    public ArrayList<String> dajImenaKategorija()
+    {
+        ArrayList<String> imena = new ArrayList<>();
+        for(Kategorija k : kategorije) imena.add(k.getNaziv());
+        return imena;
+    }
+
+    public ArrayList<String> dajImenaPitanja()
+    {
+        ArrayList<String> imena = new ArrayList<>();
+        for(Pitanje p : pitanja) imena.add(p.getNaziv());
+        return imena;
+    }
+
+    public ArrayList<String> dajImenaPitanjaKviza(Kviz k)
+    {
+        ArrayList<String> imena = new ArrayList<>();
+        if(k != null) for(Pitanje p : k.getPitanja()) imena.add(p.getNaziv());
+        imena.add("Dodaj Pitanje");
+        return imena;
+    }
+
+    public ArrayList<String> dajMogucaPitanjaKviza(Kviz k)
+    {
+        ArrayList<String> imena = dajImenaPitanja();
+        ArrayList<String> temp = dajImenaPitanjaKviza(k);
+        temp.remove("Dodaj Pitanje");
+        imena.removeAll(temp);
+        return imena;
+    }
+
+    public ArrayList<String> dajImenaKvizova()
+    {
+        ArrayList<String> imena = new ArrayList<>();
+        for(Kviz k : kvizovi) imena.add(k.getNaziv());
+        return imena;
+    }
+
+    public ArrayList<Kviz> dajFiltriranuListu(String filter)
+    {
+        ArrayList<Kviz> temp = new ArrayList<>();
+        for(Kviz k : kvizovi) if(k.getKategorija().getNaziv().equals(filter)) temp.add(k);
+        return temp;
     }
 }
