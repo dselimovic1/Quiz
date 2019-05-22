@@ -1,9 +1,7 @@
 package ba.unsa.etf.rma.aktivnosti;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +14,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriAdapter;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.singleton.Baza;
 
 public class DodajPitanjeAkt extends AppCompatActivity {
 
@@ -34,10 +33,14 @@ public class DodajPitanjeAkt extends AppCompatActivity {
     private Pitanje p = new Pitanje();
     private int pozicijaTacnog = -1;
 
+    private Baza baza;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_pitanje_akt);
+
+        baza = Baza.getInstance();
 
         odgovoriList = (ListView)findViewById(R.id.lvOdgovori);
         nazivText = (EditText)findViewById(R.id.etNaziv);
@@ -49,7 +52,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         odgovoriAdapter = new OdgovoriAdapter(this,odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
 
-        pitanja = getIntent().getStringArrayListExtra("pitanja");
+        pitanja = baza.dajImenaPitanja();
 
         odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,9 +102,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                     odgovorText.setBackgroundColor(Color.WHITE);
                     p.setNaziv(nazivText.getText().toString());
                     p.setTekstPitanja(nazivText.getText().toString());
-                    Intent intent = new Intent(DodajPitanjeAkt.this, DodajKvizAkt.class);
-                    intent.putExtra("pitanje", (Parcelable) p);
-                    setResult(RESULT_OK, intent);
+                    baza.dodajPitanje(p);
                     finish();
                 }
 
