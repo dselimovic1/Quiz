@@ -170,7 +170,6 @@ public class DodajKvizAkt extends AppCompatActivity {
                         int pozicija = getIntent().getIntExtra("pozicija", 0);
                         baza.dodajKviz(pozicija, trenutni);
                     }
-                    setResult(RESULT_OK);
                     finish();
                 }
 
