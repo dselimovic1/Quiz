@@ -57,14 +57,15 @@ public class DodajKvizAkt extends AppCompatActivity {
     private Button sacuvajKviz;
     private Button importujKviz;
 
-    private Baza baza;
 
+    private Baza baza;
     private Kviz trenutni = new Kviz();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kviz_akt);
+
 
         baza = Baza.getInstance();
         pitanja = baza.dajPitanja();
@@ -76,7 +77,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
         mogucaPitanjaList = (ListView)findViewById(R.id.lvMogucaPitanja);
         imeKviz = (EditText)findViewById(R.id.etNaziv);
-
+        sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
         importujKviz = (Button)findViewById(R.id.btnImportKviz);
 
         if(getIntent().getIntExtra("add", 0) == 2) {
@@ -193,8 +194,6 @@ public class DodajKvizAkt extends AppCompatActivity {
             if(requestCode == ADD_CATEGORY){
                 int pozicija = kategorijeIme.size() - 1;
                 spinner.setSelection(pozicija);
-            }
-            else if(requestCode == ADD_QUESTION) {
             }
             else if(requestCode == IMPORT_QUIZ) {
                 if(data != null) {
