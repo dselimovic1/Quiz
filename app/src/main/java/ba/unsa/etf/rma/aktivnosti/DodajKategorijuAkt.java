@@ -63,6 +63,7 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                     imeKategorije.setBackgroundColor(Color.WHITE);
                     icondID.setBackgroundColor(Color.WHITE);
                     baza.dodajKategoriju(k);
+                    setResult(RESULT_OK);
                     finish();
                 }
             }
