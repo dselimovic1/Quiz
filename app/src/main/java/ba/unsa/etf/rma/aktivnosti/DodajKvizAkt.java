@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -31,6 +30,7 @@ import ba.unsa.etf.rma.adapteri.MogucaPitanjaAdapter;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.singleton.Baza;
 
 
 public class DodajKvizAkt extends AppCompatActivity {
@@ -39,16 +39,16 @@ public class DodajKvizAkt extends AppCompatActivity {
     private static int ADD_QUESTION = 2;
     private static int IMPORT_QUIZ = 3;
 
-    private static ArrayList<Pitanje> pitanja = new ArrayList<>();
-    private static ArrayList<Kategorija> kategorije = new ArrayList<>();
+    private ArrayList<Pitanje> pitanja;
+    private ArrayList<Kategorija> kategorije;
 
-    private static ArrayList<String> kategorijeIme = new ArrayList<>();
+    private ArrayList<String> kategorijeIme;
     private ArrayAdapter<String> kategorijeAdapter;
-    private static ArrayList<String> dodanaPitanja = new ArrayList<>();
+    private ArrayList<String> dodanaPitanja;
     private DodanaPitanjaAdapter dodanaAdapter;
-    private static ArrayList<String> mogucaPitanja = new ArrayList<>();
+    private ArrayList<String> mogucaPitanja;
     private MogucaPitanjaAdapter mogucaAdapter;
-    private static ArrayList<String> kvizoviIme = new ArrayList<>();
+    private ArrayList<String> kvizoviIme;
 
     private Spinner spinner;
     private ListView dodanaPitanjaList;
@@ -57,6 +57,8 @@ public class DodajKvizAkt extends AppCompatActivity {
     private Button sacuvajKviz;
     private Button importujKviz;
 
+    private Baza baza;
+
     private Kviz trenutni = new Kviz();
 
     @Override
@@ -64,6 +66,11 @@ public class DodajKvizAkt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kviz_akt);
 
+        baza = Baza.getInstance();
+        pitanja = baza.dajPitanja();
+        kategorije = baza.dajKategorije();
+        kategorijeIme = baza.dajImenaKategorija();
+        kvizoviIme = baza.dajImenaKvizova();
 
         spinner = (Spinner)findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
@@ -72,9 +79,23 @@ public class DodajKvizAkt extends AppCompatActivity {
         sacuvajKviz = (Button)findViewById(R.id.btnDodajKviz);
         importujKviz = (Button)findViewById(R.id.btnImportKviz);
 
+        if(getIntent().getIntExtra("add", 0) == 2) {
+            trenutni = (Kviz)getIntent().getParcelableExtra("updateKviz");
+            imeKviz.setText(trenutni.getNaziv());
+            spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
+            kvizoviIme.remove(trenutni.getNaziv());
+        }
+        else {
+            trenutni = null;
+            imeKviz.setText("");
+            spinner.setSelection(0);
+        }
+
+        dodanaPitanja = baza.dajImenaPitanjaKviza(trenutni);
         dodanaAdapter = new DodanaPitanjaAdapter(this,dodanaPitanja);
         dodanaPitanjaList.setAdapter(dodanaAdapter);
 
+        mogucaPitanja = baza.dajMogucaPitanjaKviza(trenutni);
         mogucaAdapter = new MogucaPitanjaAdapter(this, mogucaPitanja);
         mogucaPitanjaList.setAdapter(mogucaAdapter);
 
@@ -85,28 +106,11 @@ public class DodajKvizAkt extends AppCompatActivity {
 
 
 
-        if(getIntent().getIntExtra("add", 0) == 2) {
-            trenutni = (Kviz)getIntent().getParcelableExtra("updateKviz");
-            imeKviz.setText(trenutni.getNaziv());
-            spinner.setSelection(nadjiPozicijuUSpinneru(trenutni.getKategorija().getNaziv()));
-            izdvojiMogucaPitanja();
-            izdvojiDodanaPitanja();
-            kvizoviIme.remove(trenutni.getNaziv());
-        }
-        else {
-            trenutni = null;
-            imeKviz.setText("");
-            spinner.setSelection(0);
-            izdvojiMogucaPitanja();
-            izdvojiDodanaPitanja();
-        }
-
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == dodanaPitanja.size() - 1){
                     Intent intent = new Intent(DodajKvizAkt.this, DodajPitanjeAkt.class);
-                    intent.putExtra("pitanja", izvodjiImenaPitanja());
                     startActivityForResult(intent, ADD_QUESTION);
                 }
                 else {
@@ -121,7 +125,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         mogucaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int pozicija = mogucaPitanja.size() - 1;
+                int pozicija = dodanaPitanja.size() - 1;
                 dodanaPitanja.add(pozicija, mogucaPitanja.get(i));
                 dodanaAdapter.notifyDataSetChanged();
                 mogucaPitanja.remove(i);
@@ -156,22 +160,17 @@ public class DodajKvizAkt extends AppCompatActivity {
                 else {
                     Intent intent = new Intent(DodajKvizAkt.this, KvizoviAkt.class);
                     imeKviz.setBackgroundColor(Color.WHITE);
-                    if(trenutni == null)
-                        trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja),
-                                odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
+                    if(trenutni == null) {
+                        trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja), odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
+                        baza.dodajKviz(trenutni);
+                    }
                     else {
                         trenutni.setNaziv(imeKviz.getText().toString());
                         trenutni.setPitanja(izdvojiPitanja(dodanaPitanja));
                         trenutni.setKategorija(odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
                         int pozicija = getIntent().getIntExtra("pozicija", 0);
-                        intent.putExtra("pozicija", pozicija);
+                        baza.dodajKviz(pozicija, trenutni);
                     }
-                    kvizoviIme.add(imeKviz.getText().toString());
-                    ArrayList<String> sveKategorije = new ArrayList<>(kategorijeIme);
-                    sveKategorije.remove("Svi");
-                    sveKategorije.remove("Dodaj Kategoriju");
-                    intent.putExtra("sveKategorije", sveKategorije);
-                    intent.putExtra("noviKviz", (Parcelable) trenutni);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -194,19 +193,10 @@ public class DodajKvizAkt extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK) {
             if(requestCode == ADD_CATEGORY){
-                Kategorija k = (Kategorija)data.getParcelableExtra("kategorija");
-                kategorije.add(k);
                 int pozicija = kategorijeIme.size() - 1;
-                kategorijeIme.add(pozicija, k.getNaziv());
-                kategorijeAdapter.notifyDataSetChanged();
                 spinner.setSelection(pozicija);
             }
             else if(requestCode == ADD_QUESTION) {
-                Pitanje p = (Pitanje)data.getParcelableExtra("pitanje");
-                pitanja.add(p);
-                int pozicija = dodanaPitanja.size() - 1;
-                dodanaPitanja.add(pozicija, p.getNaziv());
-                dodanaAdapter.notifyDataSetChanged();
             }
             else if(requestCode == IMPORT_QUIZ) {
                 if(data != null) {
@@ -334,11 +324,7 @@ public class DodajKvizAkt extends AppCompatActivity {
         return new Kategorija("Svi", "1");
     }
 
-    private ArrayList<String> izvodjiImenaPitanja() {
-        ArrayList<String> temp = new ArrayList<>();
-        for(Pitanje p : pitanja) temp.add(p.getNaziv());
-        return temp;
-    }
+
 
     private boolean validirajNaslov(){
         if(imeKviz.getText().toString().equals(""))
@@ -371,18 +357,6 @@ public class DodajKvizAkt extends AppCompatActivity {
         return temp;
     }
 
-    private void izdvojiMogucaPitanja() {
-        mogucaPitanja.clear();
-    }
-
-    private void izdvojiDodanaPitanja() {
-        ArrayList<Pitanje> temp = new ArrayList<>();
-        dodanaPitanja.clear();
-        if(trenutni != null) temp.addAll(trenutni.getPitanja());
-        for(Pitanje p : temp) dodanaPitanja.add(p.getNaziv());
-        dodanaPitanja.add("Dodaj Pitanje");
-        dodanaAdapter.notifyDataSetChanged();
-    }
 
     private void izdvojiKategorije() {
 
@@ -392,16 +366,6 @@ public class DodajKvizAkt extends AppCompatActivity {
         kategorijeIme.add("Dodaj Kategoriju");
     }
 
-    @Override
-    public void onBackPressed() {
-        ArrayList<String> temp = new ArrayList<>(kategorijeIme);
-        temp.remove(temp.size() - 1);
-        temp.remove(0);
-        Intent intent = new Intent(DodajKvizAkt.this, KvizoviAkt.class);
-        intent.putExtra("back", true);
-        intent.putExtra("kategorije", temp);
-        startActivity(intent);
-    }
 
     private ArrayList<String> izdvojiTekst(Uri uri) {
         ArrayList<String> list = new ArrayList<>();
