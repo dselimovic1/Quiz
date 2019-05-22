@@ -73,6 +73,9 @@ public class DodajKvizAkt extends AppCompatActivity {
         kategorijeIme = baza.dajImenaKategorija();
         kvizoviIme = baza.dajImenaKvizova();
 
+        kategorijeIme.add(0, "Svi");
+        kategorijeIme.add("Dodaj Kategoriju");
+
         spinner = (Spinner)findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView)findViewById(R.id.lvDodanaPitanja);
         mogucaPitanjaList = (ListView)findViewById(R.id.lvMogucaPitanja);
@@ -100,7 +103,6 @@ public class DodajKvizAkt extends AppCompatActivity {
         mogucaAdapter = new MogucaPitanjaAdapter(this, mogucaPitanja);
         mogucaPitanjaList.setAdapter(mogucaAdapter);
 
-        izdvojiKategorije();
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
@@ -262,9 +264,8 @@ public class DodajKvizAkt extends AppCompatActivity {
         }
         else {
             Kategorija k = new Kategorija(imeKategorije,"2");
-            kategorije.add(k);
-            kategorijeIme.add(k.getNaziv());
-            izdvojiKategorije();
+            baza.dodajKategoriju(k);
+            kategorijeIme = baza.dajImenaKategorija();
             kategorijeAdapter.notifyDataSetChanged();
             spinner.setSelection(nadjiPozicijuUSpinneru(k.getNaziv()));
         }
@@ -352,15 +353,6 @@ public class DodajKvizAkt extends AppCompatActivity {
             }
         }
         return temp;
-    }
-
-
-    private void izdvojiKategorije() {
-
-        kategorijeIme.remove("Svi");
-        kategorijeIme.remove("Dodaj Kategoriju");
-        kategorijeIme.add(0, "Svi");
-        kategorijeIme.add("Dodaj Kategoriju");
     }
 
 
