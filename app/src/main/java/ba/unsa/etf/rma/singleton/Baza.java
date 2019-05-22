@@ -39,4 +39,19 @@ public class Baza {
     {
         pitanja.add(pitanje);
     }
+
+    public ArrayList<Kviz> dajKvizove()
+    {
+        return kvizovi;
+    }
+
+    public ArrayList<Kategorija> dajKategorije()
+    {
+        return kategorije;
+    }
+
+    public ArrayList<Pitanje> dajPitanja()
+    {
+        return pitanja;
+    }
 }

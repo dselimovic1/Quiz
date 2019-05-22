@@ -21,6 +21,7 @@ import ba.unsa.etf.rma.fragmenti.DetailFrag;
 import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
+import ba.unsa.etf.rma.singleton.Baza;
 
 
 public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory {
@@ -28,18 +29,22 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private static int ADD_QUIZ = 1;
     private static int UPDATE_QUIZ = 2;
 
-    private static ArrayList<Kviz> kvizovi = new ArrayList<>();
-    private static ArrayList<String> kategorijeIme = new ArrayList<>();
+    private ArrayList<Kviz> kvizovi = new ArrayList<>();
+    private ArrayList<String> kategorijeIme = new ArrayList<>();
     private ArrayAdapter<String> kategorijeAdapter;
     private KvizAdapter kvizAdapter;
     private Spinner spinner;
     private ListView list;
+
+    private Baza baza;
 
     private boolean mode = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        baza = Baza.getInstance();
 
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
         if(listPlace == null) mode = false;
