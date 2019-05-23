@@ -151,6 +151,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
+        spinner.setSelection(0);
     }
 
 }
