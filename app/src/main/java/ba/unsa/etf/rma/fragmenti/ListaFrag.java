@@ -49,8 +49,10 @@ public class ListaFrag extends Fragment {
         listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String currentCategory = kategorije.get(i);
-                filterCategory.onCategorySelected(currentCategory);
+                if(i != kategorije.size() - 1) {
+                    String currentCategory = kategorije.get(i);
+                    filterCategory.onCategorySelected(currentCategory);
+                }
             }
         });
     }
