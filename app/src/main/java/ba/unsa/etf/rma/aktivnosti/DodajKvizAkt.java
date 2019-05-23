@@ -171,7 +171,9 @@ public class DodajKvizAkt extends AppCompatActivity {
                 spinner.setSelection(pozicija);
             }
             else if(requestCode == ADD_QUESTION) {
-                dodanaPitanja.add(0, data.getStringExtra("pitanje"));
+                int position = dodanaPitanja.size() - 1;
+                if (position < 0) position = 0;
+                dodanaPitanja.add(position, data.getStringExtra("pitanje"));
                 dodanaAdapter.notifyDataSetChanged();
             }
             else if(requestCode == IMPORT_QUIZ) {
