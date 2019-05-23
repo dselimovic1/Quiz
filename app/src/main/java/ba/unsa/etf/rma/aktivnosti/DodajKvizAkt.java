@@ -163,7 +163,6 @@ public class DodajKvizAkt extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         ucitajListe();
-        ucitajTrenutniKviz();
         postaviAdapterKategorije();
         if(resultCode == RESULT_OK) {
             if(requestCode == ADD_CATEGORY){
