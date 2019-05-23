@@ -91,4 +91,10 @@ public class Kviz implements Parcelable {
     public int hashCode() {
         return Objects.hash(naziv);
     }
+
+    public ArrayList<String> dajImenaPitanja() {
+        ArrayList<String> imena = new ArrayList<>();
+        for(Pitanje p : pitanja) imena.add(p.getNaziv());
+        return imena;
+    }
 }
