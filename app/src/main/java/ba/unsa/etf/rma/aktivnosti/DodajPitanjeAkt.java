@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.aktivnosti;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -98,11 +99,14 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                 validirajNaziv();
                 validirajOdgovore();
                 if(validacija) {
+                    Intent sendQuestion = new Intent(DodajPitanjeAkt.this, DodajKvizAkt.class);
                     nazivText.setBackgroundColor(Color.WHITE);
                     odgovorText.setBackgroundColor(Color.WHITE);
                     p.setNaziv(nazivText.getText().toString());
                     p.setTekstPitanja(nazivText.getText().toString());
                     baza.dodajPitanje(p);
+                    sendQuestion.putExtra("pitanje", p.getNaziv());
+                    setResult(RESULT_OK, sendQuestion);
                     finish();
                 }
 
