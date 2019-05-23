@@ -91,7 +91,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                     else kvizovi = baza.dajFiltriranuListu(filter);
                     Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
                     if(kvizovi.contains(temp) == false) kvizovi.add(temp);
-                    kvizAdapter.notifyDataSetChanged();
+                    kvizAdapter = new KvizAdapter(KvizoviAkt.this, kvizovi);
+                    list.setAdapter(kvizAdapter);
                 }
 
                 @Override
