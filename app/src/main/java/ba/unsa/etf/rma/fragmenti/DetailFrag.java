@@ -58,14 +58,15 @@ public class DetailFrag extends Fragment {
                 Intent intent = new Intent(getActivity(), DodajKvizAkt.class);
                 if(position == kvizovi.size() - 1) {
                     intent.putExtra("add", ADD_QUIZ);
+                    startActivityForResult(intent, ADD_QUIZ);
                 }
                 else {
                     Kviz k = kvizovi.get(position);
                     intent.putExtra("add", UPDATE_QUIZ);
                     intent.putExtra("updateKviz",(Parcelable) k);
                     intent.putExtra("pozicija", position);
+                    startActivityForResult(intent, UPDATE_QUIZ);
                 }
-                startActivity(intent);
                 return true;
             }
         });
