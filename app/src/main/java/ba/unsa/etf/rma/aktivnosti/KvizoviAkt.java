@@ -118,6 +118,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
         ucitajKvizove();
         ucitajKategorije();
     }
