@@ -45,21 +45,12 @@ public class DetailFrag extends Fragment {
             categoryAdd = (CategoryAdd)getActivity();
         }
         catch (ClassCastException e) {
-
+            e.printStackTrace();
         }
 
         baza = Baza.getInstance();
-        Bundle argumenti = getArguments();
-
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
-        if(argumenti != null && argumenti.containsKey("filter")) kvizovi = baza.dajFiltriranuListu(argumenti.getString("filter"));
-        else kvizovi = baza.dajKvizove();
-
-        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("",  "671")));
-        adapter = new GridAdapter(getContext(), kvizovi);
-        kvizGrid.setAdapter(adapter);
-
-        categoryAdd.onCategoryAdded();
+        ucitajKvizove();
 
         kvizGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -94,6 +85,21 @@ public class DetailFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_detail, container, false);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        categoryAdd.onCategoryAdded();
+        ucitajKvizove();
+    }
+
+    private void ucitajKvizove() {
+        Bundle argumenti = getArguments();
+        if(argumenti != null && argumenti.containsKey("filter")) kvizovi = baza.dajFiltriranuListu(argumenti.getString("filter"));
+        else kvizovi = baza.dajKvizove();
+        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("",  "671")));
+        adapter = new GridAdapter(getContext(), kvizovi);
+        kvizGrid.setAdapter(adapter);
     }
 
     public interface CategoryAdd {
