@@ -43,10 +43,7 @@ public class ListaFrag extends Fragment {
         }
 
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
-        kategorije = baza.dajImenaKategorija();
-        kategorije.add("Svi");
-        kategorijeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, kategorije);
-        listaKategorije.setAdapter(kategorijeAdapter);
+        postaviAdapterKategorije();
         setListViewHeightBasedOnChildren(listaKategorije);
 
         listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,6 +60,12 @@ public class ListaFrag extends Fragment {
         return inflater.inflate(R.layout.fragment_lista, container, false);
     }
 
+    private void postaviAdapterKategorije() {
+        kategorije = baza.dajImenaKategorija();
+        kategorije.add("Svi");
+        kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, kategorije);
+        listaKategorije.setAdapter(kategorijeAdapter);
+    }
     private static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
