@@ -17,8 +17,14 @@ import android.widget.Spinner;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.common.collect.Lists;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -52,7 +58,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         setContentView(R.layout.activity_main);
 
 
-        new ProbaTask().execute("rmaselimovicdenis83");
+        new ProbaTask().execute("rmaSpirala");
 
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
         if(listPlace == null) mode = false;
@@ -178,14 +184,38 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 InputStream stream = getResources().openRawResource(R.raw.secret);
                 credentials = GoogleCredential.fromStream(stream).createScoped(Lists.newArrayList("https://www.googleapis.com/auth/datastore"));
 
-
                 credentials.refreshToken();
                 String TOKEN = credentials.getAccessToken();
 
+                String url = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/probnaKolekcija?access_token=";
+                URL urlObj = new URL(url + URLEncoder.encode(TOKEN, "UTF-8"));
+                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+
+                String dokument = "{ \"fields\": { \"vrijednost\": {\"stringValue\": \"novi\"}}}";
+
+                try(OutputStream os = conn.getOutputStream()) {
+                    byte[] input = dokument.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                int code = conn.getResponseCode();
+
+                InputStream odgovor = conn.getInputStream();
+
+                try(BufferedReader br = new BufferedReader(new InputStreamReader(odgovor, "utf-8"))){
+                    StringBuilder response = new StringBuilder();
+                    String responsline = null;
+                    while((responsline = br.readLine()) != null) response.append(responsline.trim());
+                    Log.d("ODGOVOR", response.toString());
+                }
                 Log.d("TOKEN", TOKEN);
             }
             catch (IOException e) {
-
+                e.printStackTrace();
             }
             return null;
         }
