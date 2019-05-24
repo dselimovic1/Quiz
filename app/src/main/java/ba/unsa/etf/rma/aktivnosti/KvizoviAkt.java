@@ -1,10 +1,12 @@
 package ba.unsa.etf.rma.aktivnosti;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,11 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.common.collect.Lists;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -44,6 +51,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        new ProbaTask().execute("rmaselimovicdenis83");
 
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
         if(listPlace == null) mode = false;
@@ -158,6 +167,28 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         int pozicija = kategorijeIme.size() - 1;
         if(pozicija < 0) pozicija = 0;
         spinner.setSelection(pozicija);
+    }
+
+    public class ProbaTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            GoogleCredential credentials;
+            try {
+                InputStream stream = getResources().openRawResource(R.raw.secret);
+                credentials = GoogleCredential.fromStream(stream).createScoped(Lists.newArrayList("https://www.googleapis.com/auth/datastore"));
+
+
+                credentials.refreshToken();
+                String TOKEN = credentials.getAccessToken();
+
+                Log.d("TOKEN", TOKEN);
+            }
+            catch (IOException e) {
+
+            }
+            return null;
+        }
     }
 
 }
