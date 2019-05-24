@@ -7,6 +7,7 @@ public class Kategorija implements Parcelable {
 
     private String naziv;
     private String id;
+    private String documendID;
 
     public Kategorija() {
     }
@@ -60,4 +61,11 @@ public class Kategorija implements Parcelable {
         parcel.writeString(id);
     }
 
+    public String getDocumendID() {
+        return documendID;
+    }
+
+    public void setDocumendID(String documendID) {
+        this.documendID = documendID;
+    }
 }

@@ -187,15 +187,15 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 credentials.refreshToken();
                 String TOKEN = credentials.getAccessToken();
 
-                String url = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/probnaKolekcija?access_token=";
+                String url = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/probnaKolekcija/XWbfXb2sn7HJSAE8HK6T?access_token=";
                 URL urlObj = new URL(url + URLEncoder.encode(TOKEN, "UTF-8"));
                 HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
                 conn.setDoOutput(true);
-                conn.setRequestMethod("POST");
+                conn.setRequestMethod("PATCH");
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Accept", "application/json");
 
-                String dokument = "{ \"fields\": { \"vrijednost\": {\"stringValue\": \"novi\"}}}";
+                String dokument = "{ \"fields\": { \"vrijednost\": {\"stringValue\": \"update\"}}}";
 
                 try(OutputStream os = conn.getOutputStream()) {
                     byte[] input = dokument.getBytes("utf-8");
