@@ -11,6 +11,7 @@ public class Kviz implements Parcelable {
     private String naziv;
     private ArrayList<Pitanje> pitanja;
     private Kategorija kategorija;
+    private String documentId;
 
     public Kviz() {
     }
@@ -96,5 +97,13 @@ public class Kviz implements Parcelable {
         ArrayList<String> imena = new ArrayList<>();
         for(Pitanje p : pitanja) imena.add(p.getNaziv());
         return imena;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 }
