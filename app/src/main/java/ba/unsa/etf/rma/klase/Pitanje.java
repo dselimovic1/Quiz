@@ -13,6 +13,7 @@ public class Pitanje implements Parcelable {
     private String tekstPitanja;
     private ArrayList<String> odgovori = new ArrayList<>();
     private String tacan;
+    private String documentID;
 
     public Pitanje() {
     }
@@ -109,5 +110,13 @@ public class Pitanje implements Parcelable {
         parcel.writeString(tekstPitanja);
         parcel.writeStringList(odgovori);
         parcel.writeString(tacan);
+    }
+
+    public String getDocumentID() {
+        return documentID;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
     }
 }
