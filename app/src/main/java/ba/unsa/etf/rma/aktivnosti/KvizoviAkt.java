@@ -1,12 +1,10 @@
 package ba.unsa.etf.rma.aktivnosti;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,17 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.common.collect.Lists;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
@@ -57,8 +44,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        new ProbaTask().execute("rmaSpirala");
 
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
         if(listPlace == null) mode = false;
@@ -174,51 +159,4 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if(pozicija < 0) pozicija = 0;
         spinner.setSelection(pozicija);
     }
-
-    public class ProbaTask extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            GoogleCredential credentials;
-            try {
-                InputStream stream = getResources().openRawResource(R.raw.secret);
-                credentials = GoogleCredential.fromStream(stream).createScoped(Lists.newArrayList("https://www.googleapis.com/auth/datastore"));
-
-                credentials.refreshToken();
-                String TOKEN = credentials.getAccessToken();
-
-                String url = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/probnaKolekcija/XWbfXb2sn7HJSAE8HK6T?access_token=";
-                URL urlObj = new URL(url + URLEncoder.encode(TOKEN, "UTF-8"));
-                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
-                conn.setDoOutput(true);
-                conn.setRequestMethod("PATCH");
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Accept", "application/json");
-
-                String dokument = "{ \"fields\": { \"vrijednost\": {\"stringValue\": \"update\"}}}";
-
-                try(OutputStream os = conn.getOutputStream()) {
-                    byte[] input = dokument.getBytes("utf-8");
-                    os.write(input, 0, input.length);
-                }
-
-                int code = conn.getResponseCode();
-
-                InputStream odgovor = conn.getInputStream();
-
-                try(BufferedReader br = new BufferedReader(new InputStreamReader(odgovor, "utf-8"))){
-                    StringBuilder response = new StringBuilder();
-                    String responsline = null;
-                    while((responsline = br.readLine()) != null) response.append(responsline.trim());
-                    Log.d("ODGOVOR", response.toString());
-                }
-                Log.d("TOKEN", TOKEN);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
 }
