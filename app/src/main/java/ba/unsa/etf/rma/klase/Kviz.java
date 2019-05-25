@@ -106,4 +106,15 @@ public class Kviz implements Parcelable {
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
+
+    public String getJSONFormat() {
+        String json = "";
+        json += "{\"fields\": {\"idKategorije\": {\"stringValue\": \"" + getKategorija().getDocumendID() + "\"}," +
+                "\"naziv\": {\"stringValue\": \"" + getNaziv() + "\"},\"pitanja\": {\"arrayValue\": {\"values\": [";
+        for(int i = 0; i < pitanja.size(); i++) {
+            json += "{\"stringValue\": \"" + pitanja.get(i).getDocumentID() + "\"}";
+        }
+        json += "]}}}}";
+        return json;
+    }
 }
