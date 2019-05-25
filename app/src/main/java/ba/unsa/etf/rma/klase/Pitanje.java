@@ -127,6 +127,7 @@ public class Pitanje implements Parcelable {
                 "\"odgovori\": {\"arrayValue\": {\"values\": [";
         for(int i = 0; i < getOdgovori().size(); i++) {
             json += "{\"stringValue\": \"" +  getOdgovori().get(i) + "\"}";
+            if(i != getOdgovori().size() - 1) json += ",";
         }
         json += "]}}, \"indexTacnog\": {\"integerValue\": \"" + index + "\"}}}";
         return json;
