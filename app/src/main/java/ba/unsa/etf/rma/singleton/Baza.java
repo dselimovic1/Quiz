@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.taskovi.GetItemTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
@@ -18,6 +19,7 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
     private static ArrayList<Kviz> kvizovi = new ArrayList<>();
     private static ArrayList<Kategorija> kategorije = new ArrayList<>();
     private static ArrayList<Pitanje> pitanja = new ArrayList<>();
+    private static ArrayList<Rang> rangListe = new ArrayList<>();
 
     private Baza() {}
 
@@ -45,18 +47,28 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
         pitanja.add(pitanje);
     }
 
-    public ArrayList<Kviz> dajKvizove()
-    {
+    public Rang dajRang(String imeKviz) {
+        for(Rang r : rangListe) {
+            if(r.getImeKviza().equals(imeKviz)) return r;
+        }
+        Rang noviRang = new Rang(imeKviz);
+        rangListe.add(noviRang);
+        return noviRang;
+    }
+
+    public ArrayList<Kviz> dajKvizove() {
         return new ArrayList<>(kvizovi);
     }
 
-    public ArrayList<Kategorija> dajKategorije()
-    {
+    public ArrayList<Rang> dajRangliste() {
+        return new ArrayList<>(rangListe);
+    }
+
+    public ArrayList<Kategorija> dajKategorije() {
         return new ArrayList<>(kategorije);
     }
 
-    public ArrayList<Pitanje> dajPitanja()
-    {
+    public ArrayList<Pitanje> dajPitanja() {
         return new ArrayList<>(pitanja);
     }
 
