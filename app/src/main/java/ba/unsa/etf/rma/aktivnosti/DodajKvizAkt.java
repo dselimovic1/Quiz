@@ -134,8 +134,7 @@ public class DodajKvizAkt extends AppCompatActivity implements AddQuizTask.IDSet
                     if (trenutni == null) {
                         trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja), odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
                         baza.dodajKviz(trenutni);
-                        AddQuizTask.IDSetter setter = (AddQuizTask.IDSetter)DodajKvizAkt.this;
-                        new AddQuizTask(getResources().openRawResource(R.raw.secret), setter).execute(trenutni);
+                        new AddQuizTask(getResources().openRawResource(R.raw.secret), DodajKvizAkt.this).execute(trenutni);
                     } else {
                         trenutni.setNaziv(imeKviz.getText().toString());
                         trenutni.setPitanja(izdvojiPitanja(dodanaPitanja));

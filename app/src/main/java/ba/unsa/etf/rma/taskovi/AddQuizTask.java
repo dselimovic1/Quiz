@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.klase.Kviz;
 
-public class AddQuizTask extends AsyncTask<Kviz, Void, Kviz> {
+public class AddQuizTask extends AsyncTask<Kviz, Void, Void> {
 
     private IDSetter setter;
     private InputStream stream;
@@ -24,7 +24,7 @@ public class AddQuizTask extends AsyncTask<Kviz, Void, Kviz> {
     }
 
     @Override
-    protected Kviz doInBackground(Kviz... kvizovi) {
+    protected Void doInBackground(Kviz... kvizovi) {
         try {
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
@@ -32,16 +32,12 @@ public class AddQuizTask extends AsyncTask<Kviz, Void, Kviz> {
             connectionHelper.writeDocument(conn, document);
             String response = connectionHelper.getResponse(conn.getInputStream());
             kvizovi[0].setDocumentID(connectionHelper.getDocumentID(response));
+            setter.setID(kvizovi[0]);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        return kvizovi[0];
-    }
-
-    @Override
-    protected void onPostExecute(Kviz kviz) {
-        setter.setID(kviz);
+        return null;
     }
 
     public interface IDSetter {
