@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.klase;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashSet;
 
 public class Rang {
@@ -26,13 +28,20 @@ public class Rang {
         return set;
     }
 
-    public class Par {
+    public class Par implements Comparable<Par>{
         public String imeIgraca;
         public double procenatTacnih;
 
         public Par(String imeIgraca, double procenatTacnih) {
             this.imeIgraca = imeIgraca;
             this.procenatTacnih = procenatTacnih;
+        }
+
+        @Override
+        public int compareTo(@NonNull Par par) {
+            if(procenatTacnih < par.procenatTacnih) return -1;
+            else if(procenatTacnih > par.procenatTacnih) return 1;
+            return 0;
         }
     }
 
