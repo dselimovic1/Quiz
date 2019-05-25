@@ -1,19 +1,17 @@
 package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
+import ba.unsa.etf.rma.singleton.Baza;
 
-public class GetItemTask extends AsyncTask<GetItemTask.ItemType, Void, String> {
+public class GetItemTask extends AsyncTask<Baza.TaskType, Void, String> {
 
-    public enum ItemType {QUIZ, CATEGORY, QUESTION};
-
-    private OnFormatAdded formatAdder;
+    private OnItemResponse itemResponse;
     private InputStream stream;
     private String documentID;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
@@ -21,21 +19,20 @@ public class GetItemTask extends AsyncTask<GetItemTask.ItemType, Void, String> {
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
     private static String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/";
 
-    public GetItemTask(InputStream stream,  String documentID) {
+    public GetItemTask(InputStream stream, OnItemResponse itemResponse, String documentID) {
         this.stream = stream;
-        //this.formatAdder = formatAdder;
+        this.itemResponse = itemResponse;
         this.documentID = documentID;
     }
 
     @Override
-    protected String doInBackground(ItemType... enums) {
+    protected String doInBackground(Baza.TaskType... enums) {
         String response = null;
         try {
-            setURL(enums[0]);
+            URL = connectionHelper.setDocumentURL(enums[0], URL, documentID);
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
             response = connectionHelper.getResponse(conn.getInputStream());
-            Log.d("RESPONSE", response);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -45,26 +42,10 @@ public class GetItemTask extends AsyncTask<GetItemTask.ItemType, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-        //formatAdder.setJSONString(response);
+        itemResponse.setJSONString(response);
     }
 
-    private void setURL(ItemType type) {
-        String listType = "";
-        switch (type) {
-            case QUIZ:
-                listType = "Kvizovi";
-                break;
-            case CATEGORY:
-                listType = "Kategorije";
-                break;
-            case QUESTION:
-                listType = "Pitanja";
-                break;
-        }
-        URL += listType + "/" + documentID + "?access_token=";
-    }
-
-    public interface OnFormatAdded {
+    public interface OnItemResponse {
         void setJSONString(String response);
     }
 }
