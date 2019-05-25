@@ -7,7 +7,7 @@ public class Kategorija implements Parcelable {
 
     private String naziv;
     private String id;
-    private String documendID;
+    private String documentID;
 
     public Kategorija() {
     }
@@ -20,7 +20,7 @@ public class Kategorija implements Parcelable {
     protected Kategorija(Parcel parcel) {
         naziv = parcel.readString();
         id = parcel.readString();
-        documendID = parcel.readString();
+        documentID = parcel.readString();
     }
 
     public String getNaziv() {
@@ -60,15 +60,15 @@ public class Kategorija implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(naziv);
         parcel.writeString(id);
-        parcel.writeString(documendID);
+        parcel.writeString(documentID);
     }
 
-    public String getDocumendID() {
-        return documendID;
+    public String getDocumentID() {
+        return documentID;
     }
 
-    public void setDocumendID(String documendID) {
-        this.documendID = documendID;
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
     }
 
     public String getJSONFormat() {
