@@ -65,10 +65,6 @@ public class Kviz implements Parcelable {
         this.kategorija = kategorija;
     }
 
-    public void dodajPitanje(Pitanje pitanje) {
-        pitanja.add(pitanje);
-    }
-
     @Override
     public int describeContents() {
         return 0;
