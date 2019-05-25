@@ -30,6 +30,7 @@ public class Pitanje implements Parcelable {
         tekstPitanja = parcel.readString();
         odgovori = parcel.createStringArrayList();
         tacan = parcel.readString();
+        documentID = parcel.readString();
     }
 
     public static final Creator<Pitanje> CREATOR = new Creator<Pitanje>() {
@@ -110,6 +111,7 @@ public class Pitanje implements Parcelable {
         parcel.writeString(tekstPitanja);
         parcel.writeStringList(odgovori);
         parcel.writeString(tacan);
+        parcel.writeString(documentID);
     }
 
     public String getDocumentID() {
