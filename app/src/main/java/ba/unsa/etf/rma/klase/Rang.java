@@ -39,8 +39,8 @@ public class Rang {
 
         @Override
         public int compareTo(@NonNull Par par) {
-            if(procenatTacnih < par.procenatTacnih) return -1;
-            else if(procenatTacnih > par.procenatTacnih) return 1;
+            if(procenatTacnih < par.procenatTacnih) return 1;
+            else if(procenatTacnih > par.procenatTacnih) return -1;
             return 0;
         }
     }
