@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginBottom="30dp"
+    android:layout_weight="10">
+
+    <TextView
+        android:layout_weight="1"
+        android:layout_height="30dp"
+        android:id="@+id/pozicija"
+        android:layout_width="0dp"/>
+
+    <TextView
+        android:layout_weight="6"
+        android:layout_height="30dp"
+        android:id="@+id/igrac"
+        android:layout_width="0dp"/>
+
+    <TextView
+        android:id="@+id/procenat"
+        android:layout_weight="3"
+        android:layout_height="30dp"
+        android:layout_width="0dp"/>
+</LinearLayout>
