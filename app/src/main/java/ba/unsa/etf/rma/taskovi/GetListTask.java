@@ -9,23 +9,24 @@ import java.net.HttpURLConnection;
 
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
 
-public class GetQuizListTask extends AsyncTask<GetQuizListTask.ListType, Void, String> {
+public class GetListTask extends AsyncTask<GetListTask.ListType, Void, String> {
 
     public enum ListType {QUIZ, CATEGORY, QUESTION};
 
-    private OnResponseGet responseGetter;
+    private OnResponseAdded responseAdder;
     private InputStream stream;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     private static String REQUEST_TYPE = "GET";
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
     private static String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/";
 
-    public GetQuizListTask(InputStream stream) {
+    public GetListTask(InputStream stream, OnResponseAdded responseAdder) {
         this.stream = stream;
+        this.responseAdder = responseAdder;
     }
 
     @Override
-    protected String doInBackground(GetQuizListTask.ListType... enums) {
+    protected String doInBackground(GetListTask.ListType... enums) {
         String response = null;
         try {
             setURL(enums[0]);
@@ -38,6 +39,11 @@ public class GetQuizListTask extends AsyncTask<GetQuizListTask.ListType, Void, S
             e.printStackTrace();
         }
         return response;
+    }
+
+    @Override
+    protected void onPostExecute(String response) {
+        responseAdder.addResponse(response);
     }
 
     private void setURL(ListType type) {
@@ -56,7 +62,7 @@ public class GetQuizListTask extends AsyncTask<GetQuizListTask.ListType, Void, S
         URL += listType + "?access_token=";
     }
 
-    public interface OnResponseGet {
-        void setResponse(String response);
+    public interface OnResponseAdded {
+        void addResponse(String response);
     }
 }
