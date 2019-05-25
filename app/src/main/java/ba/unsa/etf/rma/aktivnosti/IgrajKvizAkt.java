@@ -54,6 +54,6 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
         arg.putString("imeKviza", quizName);
         RangLista fragment = new RangLista();
         fragment.setArguments(arg);
-        getSupportFragmentManager().beginTransaction().replace(R.id.informacijePlace, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.pitanjePlace, fragment).commit();
     }
 }
