@@ -20,6 +20,7 @@ public class Kategorija implements Parcelable {
     protected Kategorija(Parcel parcel) {
         naziv = parcel.readString();
         id = parcel.readString();
+        documendID = parcel.readString();
     }
 
     public String getNaziv() {
@@ -59,6 +60,7 @@ public class Kategorija implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(naziv);
         parcel.writeString(id);
+        parcel.writeString(documendID);
     }
 
     public String getDocumendID() {
