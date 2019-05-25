@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.RangListaAdapter;
@@ -35,7 +36,9 @@ public class RangLista extends Fragment {
 
         Bundle argument = getArguments();
         rang = baza.dajRang(argument.getString("imeKviza"));
-        adapter = new RangListaAdapter(getContext(), new ArrayList<Rang.Par>(rang.getSet()));
+        ArrayList<Rang.Par> parovi = new ArrayList<>(rang.getSet());
+        Collections.sort(parovi);
+        adapter = new RangListaAdapter(getContext(), parovi);
         rangList.setAdapter(adapter);
     }
 
