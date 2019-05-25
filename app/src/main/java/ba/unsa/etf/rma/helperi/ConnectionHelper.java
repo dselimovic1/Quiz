@@ -37,12 +37,12 @@ public class ConnectionHelper {
     }
 
     public String setListURL(Baza.TaskType type, String URL) {
-        URL += setURL(type, URL);
+        URL = setURL(type, URL);
         return URL + "?access_token=";
     }
 
     public String setDocumentURL(Baza.TaskType type, String URL, String documentID) {
-        URL += setURL(type, URL);
+        URL = setURL(type, URL);
         return URL + "/" + documentID + "?access_token=";
     }
 
