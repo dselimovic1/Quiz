@@ -3,6 +3,9 @@ package ba.unsa.etf.rma.klase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Kategorija implements Parcelable {
 
     private String naziv;
@@ -75,5 +78,31 @@ public class Kategorija implements Parcelable {
         String json = "{\"fields\": {\"idIkonice\": {\"stringValue\": \"" + getId() + "\"}," +
                 "\"naziv\": {\"stringValue\": \"" + getNaziv() + "\"}}}";
         return json;
+    }
+
+    public static String findID(String name) {
+        String[] atr = name.split("/");
+        return atr[atr.length - 1];
+    }
+
+    public static String findCategoryID(JSONObject json) throws JSONException {
+        return json.getString("stringValue");
+    }
+
+    public static String findCategoryName(JSONObject object) throws JSONException {
+        return object.getString("stringValue");
+    }
+
+    public static Kategorija convertFromJSON(JSONObject json) {
+        Kategorija kategorija = new Kategorija();
+        try {
+            JSONObject fields = json.getJSONObject("fields");
+            kategorija.setDocumentID(findID(json.getString("name")));
+            kategorija.setId(findCategoryID(fields.getJSONObject("idIkonice")));
+            kategorija.setNaziv(findCategoryName(fields.getJSONObject("naziv")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return kategorija;
     }
 }
