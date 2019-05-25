@@ -1,11 +1,11 @@
 package ba.unsa.etf.rma.klase;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class Rang {
 
     private String imeKviza;
-    private HashMap<Integer, HashMap<String, Double>> lista = new HashMap<>();
+    private HashSet<Par> set = new HashSet<>();
 
     public Rang() {}
 
@@ -22,7 +22,14 @@ public class Rang {
         this.imeKviza = imeKviza;
     }
 
-    public HashMap<Integer, HashMap<String, Double>> getLista() {
-        return lista;
+    public class Par {
+        public String imeIgraca;
+        public double procenatTacnih;
+
+        public Par(String imeIgraca, double procenatTacnih) {
+            this.imeIgraca = imeIgraca;
+            this.procenatTacnih = procenatTacnih;
+        }
     }
+
 }
