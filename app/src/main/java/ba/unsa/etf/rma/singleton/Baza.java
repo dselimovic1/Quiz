@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.taskovi.GetItemTask;
+import ba.unsa.etf.rma.taskovi.GetListTask;
 
-public class Baza {
+public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListResponse {
 
     public enum TaskType {QUIZ, CATEGORY, QUESTION};
 
+    private static String instanceResponse = "";
+    private static String listResponse = "";
     private static Baza instance = new Baza();
     private static ArrayList<Kviz> kvizovi = new ArrayList<>();
     private static ArrayList<Kategorija> kategorije = new ArrayList<>();
@@ -78,5 +82,15 @@ public class Baza {
         ArrayList<Kviz> temp = new ArrayList<>();
         for(Kviz k : kvizovi) if(k.getKategorija().getNaziv().equals(filter)) temp.add(k);
         return temp;
+    }
+
+    @Override
+    public void setJSONString(String response) {
+        instanceResponse = response;
+    }
+
+    @Override
+    public void setResponse(String response) {
+        listResponse = response;
     }
 }
