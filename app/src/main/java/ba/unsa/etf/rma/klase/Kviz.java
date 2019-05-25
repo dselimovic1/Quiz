@@ -38,6 +38,7 @@ public class Kviz implements Parcelable {
         naziv = parcel.readString();
         pitanja = parcel.readArrayList(getClass().getClassLoader());
         kategorija = parcel.readParcelable(getClass().getClassLoader());
+        documentID = parcel.readString();
     }
 
     public String getNaziv() {
@@ -78,6 +79,7 @@ public class Kviz implements Parcelable {
         parcel.writeString(naziv);
         parcel.writeList(pitanja);
         parcel.writeParcelable(kategorija, 0);
+        parcel.writeString(documentID);
     }
 
     @Override
