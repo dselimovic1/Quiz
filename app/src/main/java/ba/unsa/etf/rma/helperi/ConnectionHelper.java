@@ -39,7 +39,7 @@ public class ConnectionHelper {
         try {
             URL urlObj = new URL(URL + URLEncoder.encode(TOKEN, "UTF-8"));
             conn = (HttpURLConnection) urlObj.openConnection();
-            conn.setDoOutput(true);
+            if(REQUEST_TYPE.equals("GET") == false) conn.setDoOutput(true);
             conn.setRequestMethod(REQUEST_TYPE);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
