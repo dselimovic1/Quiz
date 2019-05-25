@@ -11,7 +11,7 @@ public class Kviz implements Parcelable {
     private String naziv;
     private ArrayList<Pitanje> pitanja;
     private Kategorija kategorija;
-    private String documentId;
+    private String documentID;
 
     public Kviz() {
     }
@@ -99,12 +99,12 @@ public class Kviz implements Parcelable {
         return imena;
     }
 
-    public String getDocumentId() {
-        return documentId;
+    public String getDocumentID() {
+        return documentID;
     }
 
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
     }
 
     public String getJSONFormat() {
