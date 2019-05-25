@@ -28,7 +28,7 @@ public class Rang {
         return set;
     }
 
-    public class Par implements Comparable<Par>{
+    public static class Par implements Comparable<Par>{
         public String imeIgraca;
         public double procenatTacnih;
 
