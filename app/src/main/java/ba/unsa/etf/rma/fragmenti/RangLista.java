@@ -6,15 +6,32 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.klase.Rang;
 
 public class RangLista extends Fragment {
 
 
+    private Rang rang;
+    private ListView rangList;
+
     public RangLista() {
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        rangList = (ListView)getView().findViewById(R.id.rangLista);
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
