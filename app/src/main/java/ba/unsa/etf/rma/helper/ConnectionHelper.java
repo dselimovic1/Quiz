@@ -1,5 +1,8 @@
 package ba.unsa.etf.rma.helper;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.common.collect.Lists;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +19,20 @@ public class ConnectionHelper {
 
     public ConnectionHelper() {
 
+    }
+
+    public String setAccessToken(InputStream stream, String AUTH) {
+        GoogleCredential credentials;
+        String TOKEN = "";
+        try {
+            credentials = GoogleCredential.fromStream(stream).createScoped(Lists.newArrayList(AUTH));
+            credentials.refreshToken();
+            TOKEN = credentials.getAccessToken();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return TOKEN;
     }
 
     public HttpURLConnection setConnection(String URL, String TOKEN) {
