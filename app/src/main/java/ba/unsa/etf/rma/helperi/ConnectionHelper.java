@@ -15,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import ba.unsa.etf.rma.singleton.Baza;
+
 public class ConnectionHelper {
 
 
@@ -32,6 +34,36 @@ public class ConnectionHelper {
             e.printStackTrace();
         }
         return TOKEN;
+    }
+
+    public String setDocumentURL(Baza.TaskType type, String URL, String documentID) {
+        switch (type) {
+            case QUESTION:
+                URL += "Pitanja";
+                break;
+            case CATEGORY:
+                URL += "Kategorije";
+                break;
+            case QUIZ:
+                URL += "Kvizovi";
+                break;
+        }
+        return URL + "/" + documentID +"?access_token=";
+    }
+
+    public String setListURL(Baza.TaskType type, String URL) {
+        switch (type) {
+            case QUESTION:
+                URL += "Pitanja";
+                break;
+            case CATEGORY:
+                URL += "Kategorije";
+                break;
+            case QUIZ:
+                URL += "Kvizovi";
+                break;
+        }
+        return URL + "?access_token=";
     }
 
     public HttpURLConnection setConnection(String URL, String TOKEN, String REQUEST_TYPE) {
