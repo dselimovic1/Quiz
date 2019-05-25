@@ -119,4 +119,16 @@ public class Pitanje implements Parcelable {
     public void setDocumentID(String documentID) {
         this.documentID = documentID;
     }
+
+    public String getJSONFormat() {
+        String json = "";
+        int index = getOdgovori().indexOf(getTacan());
+        json += "{\"fields\": {\"naziv\": {\"stringValue\": \"" + getNaziv() + "\"}," +
+                "\"odgovori\": {\"arrayValue\": {\"values\": [";
+        for(int i = 0; i < getOdgovori().size(); i++) {
+            json += "{\"stringValue\": \"" +  getOdgovori().get(i) + "\"}";
+        }
+        json += "]}}, \"indexTacnog\": {\"integerValue\": \"" + index + "\"}}}";
+        return json;
+    }
 }
