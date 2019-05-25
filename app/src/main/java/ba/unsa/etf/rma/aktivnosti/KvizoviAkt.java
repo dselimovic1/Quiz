@@ -51,7 +51,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if(mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
-
             ucitajKvizove();
             ucitajKategorije();
 
