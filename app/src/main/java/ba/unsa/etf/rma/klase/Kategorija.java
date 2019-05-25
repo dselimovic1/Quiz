@@ -71,7 +71,7 @@ public class Kategorija implements Parcelable {
 
     public String getJSONFormat() {
         String json = "{\"fields\": {\"idIkonice\": {\"stringValue\": \"" + getId() + "\"}," +
-                "\naziv\": {\"stringValue\": \"" + getNaziv() + "\"}}}";
+                "\"naziv\": {\"stringValue\": \"" + getNaziv() + "\"}}}";
         return json;
     }
 }
