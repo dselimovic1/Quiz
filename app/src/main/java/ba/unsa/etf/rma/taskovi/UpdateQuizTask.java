@@ -1,7 +1,6 @@
 package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,9 +30,6 @@ public class UpdateQuizTask extends AsyncTask<Kviz, Void, Void> {
             String document = kvizovi[0].getJSONFormat();
             connectionHelper.writeDocument(conn, document);
             String response = connectionHelper.getResponse(conn.getInputStream());
-            Log.d("New ID:", response);
-            Log.d("Old ID:", kvizovi[0].getDocumentID());
-            kvizovi[0].setDocumentID(connectionHelper.getDocumentID(response));
         }
         catch (IOException e) {
             e.printStackTrace();
