@@ -17,9 +17,8 @@ import java.net.URLEncoder;
 
 public class ConnectionHelper {
 
-    public ConnectionHelper() {
 
-    }
+    public ConnectionHelper() { }
 
     public String setAccessToken(InputStream stream, String AUTH) {
         GoogleCredential credentials;
