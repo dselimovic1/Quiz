@@ -36,22 +36,17 @@ public class ConnectionHelper {
         return TOKEN;
     }
 
-    public String setDocumentURL(Baza.TaskType type, String URL, String documentID) {
-        switch (type) {
-            case QUESTION:
-                URL += "Pitanja";
-                break;
-            case CATEGORY:
-                URL += "Kategorije";
-                break;
-            case QUIZ:
-                URL += "Kvizovi";
-                break;
-        }
-        return URL + "/" + documentID +"?access_token=";
+    public String setListURL(Baza.TaskType type, String URL) {
+        URL += setURL(type, URL);
+        return URL + "?access_token=";
     }
 
-    public String setListURL(Baza.TaskType type, String URL) {
+    public String setDocumentURL(Baza.TaskType type, String URL, String documentID) {
+        URL += setURL(type, URL);
+        return URL + "/" + documentID + "?access_token=";
+    }
+
+    public String setURL(Baza.TaskType type, String URL) {
         switch (type) {
             case QUESTION:
                 URL += "Pitanja";
@@ -63,7 +58,7 @@ public class ConnectionHelper {
                 URL += "Kvizovi";
                 break;
         }
-        return URL + "?access_token=";
+        return URL;
     }
 
     public HttpURLConnection setConnection(String URL, String TOKEN, String REQUEST_TYPE) {
