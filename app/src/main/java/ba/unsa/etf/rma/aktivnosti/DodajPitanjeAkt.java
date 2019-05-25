@@ -16,6 +16,7 @@ import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriAdapter;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.AddQuestionTask;
 
 public class DodajPitanjeAkt extends AppCompatActivity {
 
@@ -105,6 +106,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                     p.setNaziv(nazivText.getText().toString());
                     p.setTekstPitanja(nazivText.getText().toString());
                     baza.dodajPitanje(p);
+                    new AddQuestionTask(getResources().openRawResource(R.raw.secret)).execute(p);
                     sendQuestion.putExtra("pitanje", p.getNaziv());
                     setResult(RESULT_OK, sendQuestion);
                     finish();

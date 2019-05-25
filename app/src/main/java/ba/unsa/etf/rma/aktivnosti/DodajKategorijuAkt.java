@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.AddCategoryTask;
 
 public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.Callback {
 
@@ -63,6 +64,7 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                     imeKategorije.setBackgroundColor(Color.WHITE);
                     icondID.setBackgroundColor(Color.WHITE);
                     baza.dodajKategoriju(k);
+                    new AddCategoryTask(getResources().openRawResource(R.raw.secret)).execute(k);
                     setResult(RESULT_OK);
                     finish();
                 }
