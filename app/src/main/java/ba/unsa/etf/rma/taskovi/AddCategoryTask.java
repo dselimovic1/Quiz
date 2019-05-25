@@ -25,7 +25,7 @@ public class AddCategoryTask extends AsyncTask<Kategorija, Void, Void> {
         try {
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN);
-            String document = getJSONFormat(kategorije[0]);
+            String document = kategorije[0].getJSONFormat();
             connectionHelper.writeDocument(conn, document);
             String response = connectionHelper.getResponse(conn.getInputStream());
             kategorije[0].setDocumendID(connectionHelper.getDocumentID(response));
@@ -37,7 +37,4 @@ public class AddCategoryTask extends AsyncTask<Kategorija, Void, Void> {
         return null;
     }
 
-    public String getJSONFormat(Kategorija kategorija) {
-        return null;
-    }
 }
