@@ -8,7 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.adapteri.RangListaAdapter;
 import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.singleton.Baza;
 
@@ -17,6 +20,7 @@ public class RangLista extends Fragment {
 
     private Rang rang;
     private ListView rangList;
+    private RangListaAdapter adapter;
     private Baza baza;
 
     public RangLista() {
@@ -31,6 +35,8 @@ public class RangLista extends Fragment {
 
         Bundle argument = getArguments();
         rang = baza.dajRang(argument.getString("imeKviza"));
+        adapter = new RangListaAdapter(getContext(), new ArrayList<Rang.Par>(rang.getSet()));
+        rangList.setAdapter(adapter);
     }
 
     @Override
