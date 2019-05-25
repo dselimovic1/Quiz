@@ -115,7 +115,7 @@ public class Kviz implements Parcelable {
             if(i != pitanja.size() - 1) json += ",";
         }
         json += "]}},\"idKategorije\": {\"stringValue\": \"" + getKategorija().getDocumendID() + "\"}," +
-                "\"naziv\": {\"stringValue\": \"" + getNaziv() + "\"}}}";
+                "\"naziv\": {\"stringValue\": \"" + getDocumentID() + "\"}}}";
         return json;
     }
 }

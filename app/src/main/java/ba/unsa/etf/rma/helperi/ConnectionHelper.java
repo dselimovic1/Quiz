@@ -78,8 +78,7 @@ public class ConnectionHelper {
 
     public String getDocumentID(String response) {
         try {
-            JSONObject object = null;
-            object = new JSONObject(response);
+            JSONObject object = new JSONObject(response);
             String path = object.getString("name");
             String[] atr = path.split("/");
             return atr[atr.length - 1];
