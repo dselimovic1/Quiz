@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.fragmenti;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -7,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriFragmentAdapter;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.klase.Rang;
 
 public class PitanjeFrag extends Fragment {
 
@@ -28,6 +32,7 @@ public class PitanjeFrag extends Fragment {
     private ArrayList<String> odgovori;
     private OdgovoriFragmentAdapter adapterOdgovori;
 
+    private String imeKviza;
     private int pozicijaTacnog;
     private int brojTacnih = 0;
     private int preostali = 0;
@@ -53,6 +58,7 @@ public class PitanjeFrag extends Fragment {
         odg = (ListView)getView().findViewById(R.id.odgovoriPitanja);
 
         Kviz k = (Kviz)getActivity().getIntent().getParcelableExtra("kviz");
+        imeKviza = k.getNaziv();
         pitanja = k.getPitanja();
         preostali = pitanja.size() - 1;
         if(preostali < 0 ) preostali = 0;
@@ -125,6 +131,20 @@ public class PitanjeFrag extends Fragment {
 
     private void zavrsiKviz() {
         tekstPitanja.setText("Kviz je završen!");
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        alertDialog.setMessage("Unesite ime: ");
+        final EditText input = new EditText(getContext());
+        alertDialog.setView(input);
+
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Rang.Par par = new Rang.Par(input.getText().toString(), (double)brojTacnih / ukupno * 100);
+                data.showRangList(imeKviza, par);
+            }
+        });
+
+        alertDialog.show();
     }
 
     private static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -149,5 +169,6 @@ public class PitanjeFrag extends Fragment {
 
     public interface SendData {
         void onQuestionAnswered(int correct, int remainder, int total);
+        void showRangList(String quizName, Rang.Par par);
     }
 }
