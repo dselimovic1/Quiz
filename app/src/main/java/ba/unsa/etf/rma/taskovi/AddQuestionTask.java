@@ -25,7 +25,7 @@ public class AddQuestionTask extends AsyncTask<Pitanje, Void, Void> {
         try {
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN);
-            String document = getJSONFormat(pitanja[0]);
+            String document = pitanja[0].getJSONFormat();
             connectionHelper.writeDocument(conn, document);
             String response = connectionHelper.getResponse(conn.getInputStream());
             pitanja[0].setDocumentID(connectionHelper.getDocumentID(response));
@@ -34,17 +34,5 @@ public class AddQuestionTask extends AsyncTask<Pitanje, Void, Void> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public String getJSONFormat(Pitanje pitanje) {
-        String json = "";
-        int index = pitanje.getOdgovori().indexOf(pitanje.getTacan());
-        json += "{\"fields\": {\"naziv\": {\"stringValue\": \"" + pitanje.getNaziv() + "\"}," +
-                "\"odgovori\": {\"arrayValue\": {\"values\": [";
-        for(int i = 0; i < pitanje.getOdgovori().size(); i++) {
-            json += "{\"stringValue\": \"" +  pitanje.getOdgovori().get(i) + "\"}";
-        }
-        json += "]}}, \"indexTacnog\": {\"integerValue\": \"" + index + "\"}}}";
-        return json;
     }
 }
