@@ -7,11 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.fragmenti.InformacijeFrag;
 import ba.unsa.etf.rma.fragmenti.PitanjeFrag;
+import ba.unsa.etf.rma.fragmenti.RangLista;
 import ba.unsa.etf.rma.klase.Kviz;
+import ba.unsa.etf.rma.klase.Rang;
+import ba.unsa.etf.rma.singleton.Baza;
 
 public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendData{
 
     private Kviz kviz;
+    private Baza baza = Baza.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +45,15 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
         InformacijeFrag informacijeFrag = new InformacijeFrag();
         informacijeFrag.setArguments(arg);
         getSupportFragmentManager().beginTransaction().replace(R.id.informacijePlace, informacijeFrag).commit();
+    }
+
+    @Override
+    public void showRangList(String quizName, Rang.Par par) {
+        baza.dodajRezultat(quizName, par);
+        Bundle arg = new Bundle();
+        arg.putString("imeKviza", quizName);
+        RangLista fragment = new RangLista();
+        fragment.setArguments(arg);
+        getSupportFragmentManager().beginTransaction().replace(R.id.informacijePlace, fragment).commit();
     }
 }
