@@ -22,6 +22,10 @@ public class Rang {
         this.imeKviza = imeKviza;
     }
 
+    public HashSet<Par> getSet() {
+        return set;
+    }
+
     public class Par {
         public String imeIgraca;
         public double procenatTacnih;
