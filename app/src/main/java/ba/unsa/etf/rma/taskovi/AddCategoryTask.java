@@ -33,8 +33,6 @@ public class AddCategoryTask extends AsyncTask<Kategorija, Void, Void> {
         catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
-
 }
