@@ -2,9 +2,6 @@ package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.common.collect.Lists;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -16,7 +13,6 @@ public class AddQuestionTask extends AsyncTask<Pitanje, Void, Void> {
 
     private InputStream stream;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
-    private static String TOKEN;
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
     private static String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/Pitanja?access_token=";
 
@@ -27,7 +23,7 @@ public class AddQuestionTask extends AsyncTask<Pitanje, Void, Void> {
     @Override
     protected Void doInBackground(Pitanje... pitanja) {
         try {
-            setAccessToken();
+            String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN);
             String document = getJSONFormat(pitanja[0]);
             connectionHelper.writeDocument(conn, document);
@@ -38,19 +34,6 @@ public class AddQuestionTask extends AsyncTask<Pitanje, Void, Void> {
             e.printStackTrace();
         }
         return null;
-    }
-
-
-    public void setAccessToken() {
-        GoogleCredential credentials;
-        try {
-            credentials = GoogleCredential.fromStream(stream).createScoped(Lists.newArrayList(AUTH));
-            credentials.refreshToken();
-            TOKEN = credentials.getAccessToken();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getJSONFormat(Pitanje pitanje) {
