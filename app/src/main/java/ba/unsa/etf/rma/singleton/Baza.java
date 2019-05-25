@@ -56,6 +56,11 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
         return noviRang;
     }
 
+    public void dodajRezultat(String imeKviza, Rang.Par par) {
+        Rang temp = dajRang(imeKviza);
+        temp.getSet().add(par);
+    }
+
     public ArrayList<Kviz> dajKvizove() {
         return new ArrayList<>(kvizovi);
     }
