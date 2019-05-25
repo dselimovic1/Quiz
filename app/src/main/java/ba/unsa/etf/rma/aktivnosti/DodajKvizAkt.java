@@ -31,6 +31,7 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.AddQuizTask;
 
 
 public class DodajKvizAkt extends AppCompatActivity {
@@ -135,6 +136,7 @@ public class DodajKvizAkt extends AppCompatActivity {
                     if(trenutni == null) {
                         trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja), odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
                         baza.dodajKviz(trenutni);
+                        new AddQuizTask(getResources().openRawResource(R.raw.secret)).execute(trenutni);
                     }
                     else {
                         trenutni.setNaziv(imeKviz.getText().toString());
@@ -414,4 +416,6 @@ public class DodajKvizAkt extends AppCompatActivity {
         });
         alert.show();
     }
+
+
 }
