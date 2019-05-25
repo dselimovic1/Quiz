@@ -29,7 +29,7 @@ public class AddCategoryTask extends AsyncTask<Kategorija, Void, Void> {
             String document = kategorije[0].getJSONFormat();
             connectionHelper.writeDocument(conn, document);
             String response = connectionHelper.getResponse(conn.getInputStream());
-            kategorije[0].setDocumendID(connectionHelper.getDocumentID(response));
+            kategorije[0].setDocumentID(connectionHelper.getDocumentID(response));
         }
         catch (IOException e) {
             e.printStackTrace();
