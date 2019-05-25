@@ -68,4 +68,10 @@ public class Kategorija implements Parcelable {
     public void setDocumendID(String documendID) {
         this.documendID = documendID;
     }
+
+    public String getJSONFormat() {
+        String json = "{\"fields\": {\"idIkonice\": {\"stringValue\": \"" + getId() + "\"}," +
+                "\naziv\": {\"stringValue\": \"" + getNaziv() + "\"}}}";
+        return json;
+    }
 }
