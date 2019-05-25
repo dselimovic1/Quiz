@@ -9,20 +9,22 @@ import java.net.HttpURLConnection;
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.klase.Kviz;
 
-public class AddQuizTask extends AsyncTask<Kviz, Void, Void> {
+public class AddQuizTask extends AsyncTask<Kviz, Void, Kviz> {
 
+    private IDSetter setter;
     private InputStream stream;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     private static String REQUEST_TYPE = "POST";
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
     private static String URL ="https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/Kvizovi?access_token=";
 
-    public AddQuizTask(InputStream stream) {
+    public AddQuizTask(InputStream stream, IDSetter setter) {
         this.stream = stream;
+        this.setter = setter;
     }
 
     @Override
-    protected Void doInBackground(Kviz... kvizovi) {
+    protected Kviz doInBackground(Kviz... kvizovi) {
         try {
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
@@ -34,6 +36,16 @@ public class AddQuizTask extends AsyncTask<Kviz, Void, Void> {
         catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return kvizovi[0];
     }
+
+    @Override
+    protected void onPostExecute(Kviz kviz) {
+        setter.setID(kviz);
+    }
+
+    public interface IDSetter {
+        void setID(Kviz kviz);
+    }
+
 }
