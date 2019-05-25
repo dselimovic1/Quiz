@@ -3,6 +3,10 @@ package ba.unsa.etf.rma.klase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -133,5 +137,42 @@ public class Pitanje implements Parcelable {
         }
         json += "]}}, \"indexTacnog\": {\"integerValue\": \"" + index + "\"}}}";
         return json;
+    }
+
+    private static String findID(String name) {
+        String[] atr = name.split("/");
+        return atr[atr.length - 1];
+    }
+
+    private static String findName(JSONObject json) throws JSONException {
+        return json.getString("stringValue");
+    }
+
+    private static int findIndex(JSONObject json) throws JSONException {
+        return json.getInt("integerValue");
+    }
+
+    private static ArrayList<String> getAnswers(JSONArray json) throws JSONException{
+        ArrayList<String> answer = new ArrayList<>();
+        for(int i = 0; i < json.length(); i++) {
+            answer.add(findName(json.getJSONObject(i)));
+        }
+        return answer;
+    }
+
+    public static Pitanje converFromJSON(JSONObject json) {
+        Pitanje pitanje = new Pitanje();
+        try {
+            JSONObject fields = json.getJSONObject("fields");
+            pitanje.setDocumentID(findID(json.getString("name")));
+            pitanje.setNaziv(findName(fields.getJSONObject("naziv")));
+            pitanje.setTekstPitanja(pitanje.getNaziv());
+            pitanje.setOdgovori(getAnswers(fields.getJSONObject("odgovori").getJSONObject("arrayValue").getJSONArray("values")));
+            pitanje.setTacan(pitanje.getOdgovori().get(findIndex(fields.getJSONObject("indexTacnog"))));
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return pitanje;
     }
 }
