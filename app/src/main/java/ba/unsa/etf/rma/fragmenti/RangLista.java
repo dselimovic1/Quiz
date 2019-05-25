@@ -10,12 +10,14 @@ import android.widget.ListView;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Rang;
+import ba.unsa.etf.rma.singleton.Baza;
 
 public class RangLista extends Fragment {
 
 
     private Rang rang;
     private ListView rangList;
+    private Baza baza;
 
     public RangLista() {
     }
@@ -25,7 +27,10 @@ public class RangLista extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         rangList = (ListView)getView().findViewById(R.id.rangLista);
+        baza = Baza.getInstance();
 
+        Bundle argument = getArguments();
+        rang = baza.dajRang(argument.getString("imeKviza"));
     }
 
     @Override
