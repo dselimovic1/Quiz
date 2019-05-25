@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.common.collect.Lists;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,14 +38,27 @@ public class AddQuestionTask extends AsyncTask<Pitanje, Void, Void> {
             String document = getJSONFormat(pitanja[0]);
             writeDocument(conn, document);
             String response = getResponse(conn.getInputStream());
+            pitanja[0].setDocumentID(getDocumentID(response));
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
+    public String getDocumentID(String response) {
+        try {
+            JSONObject object = null;
+            object = new JSONObject(response);
+            String path = object.getString("name");
+            String[] atr = path.split("/");
+            return atr[atr.length - 1];
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public String getResponse(InputStream inputStream) {
         StringBuilder response = new StringBuilder();
@@ -75,7 +91,7 @@ public class AddQuestionTask extends AsyncTask<Pitanje, Void, Void> {
         try {
             credentials = GoogleCredential.fromStream(stream).createScoped(Lists.newArrayList(AUTH));
             credentials.refreshToken();
-            String TOKEN = credentials.getAccessToken();
+            TOKEN = credentials.getAccessToken();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -101,7 +117,7 @@ public class AddQuestionTask extends AsyncTask<Pitanje, Void, Void> {
     public String getJSONFormat(Pitanje pitanje) {
         String json = "";
         int index = pitanje.getOdgovori().indexOf(pitanje.getTacan());
-        json += "\"fields\": {\"naziv\": {\"stringValue\": \"" + pitanje.getNaziv() + "\"}," +
+        json += "{\"fields\": {\"naziv\": {\"stringValue\": \"" + pitanje.getNaziv() + "\"}," +
                 "\"odgovori\": {\"arrayValue\": {\"values\": [";
         for(int i = 0; i < pitanje.getOdgovori().size(); i++) {
             json += "{\"stringValue\": \"" +  pitanje.getOdgovori().get(i) + "\"}";
