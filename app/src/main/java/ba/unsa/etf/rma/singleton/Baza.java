@@ -24,10 +24,6 @@ public class Baza {
         kvizovi.add(kviz);
     }
 
-    public void dodajKviz(int pozicija, Kviz kviz) {
-        kvizovi.add(pozicija, kviz);
-    }
-
     public void azurirajKviz(int pozicija, Kviz kviz)
     {
         kvizovi.set(pozicija, kviz);
