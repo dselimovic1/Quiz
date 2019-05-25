@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.helper;
+package ba.unsa.etf.rma.helperi;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.common.collect.Lists;
@@ -35,13 +35,13 @@ public class ConnectionHelper {
         return TOKEN;
     }
 
-    public HttpURLConnection setConnection(String URL, String TOKEN) {
+    public HttpURLConnection setConnection(String URL, String TOKEN, String REQUEST_TYPE) {
         HttpURLConnection conn = null;
         try {
             URL urlObj = new URL(URL + URLEncoder.encode(TOKEN, "UTF-8"));
             conn = (HttpURLConnection) urlObj.openConnection();
             conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod(REQUEST_TYPE);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
         }

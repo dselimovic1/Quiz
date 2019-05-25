@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-import ba.unsa.etf.rma.helper.ConnectionHelper;
+import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 
 public class AddCategoryTask extends AsyncTask<Kategorija, Void, Void> {
 
     private InputStream stream;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
+    private static String REQUEST_TYPE = "POST";
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
     private static String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/Kategorije?access_token=";
 
@@ -24,7 +25,7 @@ public class AddCategoryTask extends AsyncTask<Kategorija, Void, Void> {
     protected Void doInBackground(Kategorija... kategorije) {
         try {
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
-            HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN);
+            HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
             String document = kategorije[0].getJSONFormat();
             connectionHelper.writeDocument(conn, document);
             String response = connectionHelper.getResponse(conn.getInputStream());
