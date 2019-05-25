@@ -8,6 +8,8 @@ import ba.unsa.etf.rma.klase.Pitanje;
 
 public class Baza {
 
+    public enum TaskType {QUIZ, CATEGORY, QUESTION};
+
     private static Baza instance = new Baza();
     private static ArrayList<Kviz> kvizovi = new ArrayList<>();
     private static ArrayList<Kategorija> kategorije = new ArrayList<>();
