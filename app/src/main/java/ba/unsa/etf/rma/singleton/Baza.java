@@ -1,5 +1,10 @@
 package ba.unsa.etf.rma.singleton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.klase.Kategorija;
@@ -20,11 +25,17 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
     private static ArrayList<Kategorija> kategorije = new ArrayList<>();
     private static ArrayList<Pitanje> pitanja = new ArrayList<>();
     private static ArrayList<Rang> rangListe = new ArrayList<>();
+    private static InputStream stream;
 
     private Baza() {}
 
     public static Baza getInstance()
     {
+        return instance;
+    }
+
+    public static Baza getInstance(InputStream st) {
+        stream = st;
         return instance;
     }
 
@@ -69,8 +80,20 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
         return new ArrayList<>(rangListe);
     }
 
-    public ArrayList<Kategorija> dajKategorije() {
-        return new ArrayList<>(kategorije);
+    public ArrayList<Kategorija> dajKategorije()  {
+        new GetListTask(stream, this).execute(TaskType.CATEGORY);
+        ArrayList<Kategorija> kat = new ArrayList<>();
+        try {
+            JSONObject obj = new JSONObject(listResponse);
+            JSONArray array = new JSONArray(obj.getJSONArray("documents"));
+            for (int i = 0; i < array.length(); i++) {
+                kat.add(Kategorija.convertFromJSON(array.getJSONObject(i)));
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>(kat);
     }
 
     public ArrayList<Pitanje> dajPitanja() {
@@ -79,7 +102,8 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
 
     public ArrayList<String> dajImenaKategorija() {
         ArrayList<String> imena = new ArrayList<>();
-        for(Kategorija k : kategorije) imena.add(k.getNaziv());
+        ArrayList<Kategorija> kat = dajKategorije();
+        for(Kategorija k : kat) imena.add(k.getNaziv());
         return imena;
     }
 

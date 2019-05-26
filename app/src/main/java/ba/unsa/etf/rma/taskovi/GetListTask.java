@@ -34,6 +34,7 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
             response = connectionHelper.getResponse(conn.getInputStream());
             Log.d("TOKEN", TOKEN);
+            Log.d("RESPONSE",response);
         }
         catch (IOException e) {
             e.printStackTrace();

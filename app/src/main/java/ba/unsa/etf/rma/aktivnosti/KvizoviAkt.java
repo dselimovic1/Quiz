@@ -53,7 +53,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             list = (ListView) findViewById(R.id.lvKvizovi);
             ucitajKvizove();
             ucitajKategorije();
-
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
