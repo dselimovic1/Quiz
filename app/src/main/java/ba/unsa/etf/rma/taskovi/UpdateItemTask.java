@@ -7,27 +7,29 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
-import ba.unsa.etf.rma.klase.Kviz;
+import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
+import ba.unsa.etf.rma.singleton.Baza;
 
-public class UpdateQuizTask extends AsyncTask<Kviz, Void, Void> {
+public class UpdateItemTask extends AsyncTask<FirestoreStorable, Void, Void> {
 
+    private Baza.TaskType type;
     private InputStream stream;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     private static String REQUEST_TYPE = "PATCH";
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
-    private static String URL ="https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/Kvizovi/";
+    private static String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/";
 
-    public UpdateQuizTask(InputStream stream) {
+    public UpdateItemTask(InputStream stream) {
         this.stream = stream;
     }
 
     @Override
-    protected Void doInBackground(Kviz... kvizovi) {
+    protected Void doInBackground(FirestoreStorable... storables) {
         try {
+            URL = connectionHelper.setDocumentURL(type, URL, storables[0].getDocumentID());
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
-            URL += kvizovi[0].getDocumentID() + "?access_token=";
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
-            String document = kvizovi[0].getJSONFormat();
+            String document = storables[0].getJSONFormat();
             connectionHelper.writeDocument(conn, document);
             String response = connectionHelper.getResponse(conn.getInputStream());
         }
