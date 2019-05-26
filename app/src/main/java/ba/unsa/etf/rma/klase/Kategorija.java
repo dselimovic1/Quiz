@@ -95,6 +95,7 @@ public class Kategorija implements Parcelable, FirestoreStorable {
         return object.getString("stringValue");
     }
 
+
     public static Kategorija convertFromJSON(JSONObject json) {
         Kategorija kategorija = new Kategorija();
         try {

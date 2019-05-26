@@ -162,7 +162,7 @@ public class Pitanje implements Parcelable, FirestoreStorable {
         return answer;
     }
 
-    public static Pitanje converFromJSON(JSONObject json) {
+    public static Pitanje convertFromJSON(JSONObject json) {
         Pitanje pitanje = new Pitanje();
         try {
             JSONObject fields = json.getJSONObject("fields");

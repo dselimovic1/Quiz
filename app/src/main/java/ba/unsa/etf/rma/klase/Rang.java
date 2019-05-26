@@ -2,6 +2,8 @@ package ba.unsa.etf.rma.klase;
 
 import android.support.annotation.NonNull;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
@@ -58,6 +60,10 @@ public class Rang implements FirestoreStorable {
 
     public void setDocumentID(String documentID) {
         this.documentID = documentID;
+    }
+
+    public static Rang convertFromJSON(JSONObject jsonObject) {
+        return null;
     }
 
     public String getJSONFormat() {

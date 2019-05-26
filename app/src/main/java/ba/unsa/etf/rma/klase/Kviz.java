@@ -3,6 +3,8 @@ package ba.unsa.etf.rma.klase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -11,7 +13,7 @@ import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 public class Kviz implements Parcelable, FirestoreStorable {
 
     private String naziv;
-    private ArrayList<Pitanje> pitanja;
+    private ArrayList<Pitanje> pitanja = new ArrayList<>();
     private Kategorija kategorija;
     private String documentID;
 
@@ -117,5 +119,9 @@ public class Kviz implements Parcelable, FirestoreStorable {
         json += "]}},\"idKategorije\": {\"stringValue\": \"" + getKategorija().getDocumentID() + "\"}," +
                 "\"naziv\": {\"stringValue\": \"" + getNaziv() + "\"}}}";
         return json;
+    }
+
+    public static Kviz convertFromJSON(JSONObject json) {
+        return null;
     }
 }
