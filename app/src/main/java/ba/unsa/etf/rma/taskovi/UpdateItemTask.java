@@ -19,8 +19,9 @@ public class UpdateItemTask extends AsyncTask<FirestoreStorable, Void, Void> {
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
     private static String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/";
 
-    public UpdateItemTask(InputStream stream) {
+    public UpdateItemTask(InputStream stream, Baza.TaskType type) {
         this.stream = stream;
+        this.type = type;
     }
 
     @Override

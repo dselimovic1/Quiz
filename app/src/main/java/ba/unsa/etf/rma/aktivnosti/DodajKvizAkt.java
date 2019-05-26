@@ -32,7 +32,7 @@ import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.singleton.Baza;
 import ba.unsa.etf.rma.taskovi.AddQuizTask;
-import ba.unsa.etf.rma.taskovi.UpdateQuizTask;
+import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 
 
 public class DodajKvizAkt extends AppCompatActivity implements AddQuizTask.IDSetter {
@@ -141,7 +141,7 @@ public class DodajKvizAkt extends AppCompatActivity implements AddQuizTask.IDSet
                         trenutni.setKategorija(odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
                         int pozicija = getIntent().getIntExtra("pozicija", 0);
                         baza.azurirajKviz(pozicija, trenutni);
-                        new UpdateQuizTask(getResources().openRawResource(R.raw.secret)).execute(trenutni);
+                        new UpdateItemTask(getResources().openRawResource(R.raw.secret)).execute(trenutni);
                     }
                     finish();
                 }
