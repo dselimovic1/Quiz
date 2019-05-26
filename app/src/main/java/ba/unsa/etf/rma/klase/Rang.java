@@ -30,18 +30,23 @@ public class Rang {
     }
 
 
-    public int dajPoziciju(Par par) {
+    public void dodajRezultat(Par par) {
+        int pozicija = dajPoziciju(par);
+        azurirajMapu(pozicija);
+        mapa.put(pozicija, par);
+    }
+
+    private int dajPoziciju(Par par) {
         int pozicija = mapa.size();
         for(Par p : mapa.values()) {
             if(par.procenatTacnih > p.procenatTacnih) pozicija--;
         }
-        azurirajMapu(pozicija);
         return pozicija;
     }
 
     private void azurirajMapu(int pozicija) {
-        for(int i = mapa.size(); i>= pozicija; i--)
-            mapa.put(i, mapa.get(i - 1));
+        for (int i = mapa.size() - 1; i >= pozicija; i--)
+            mapa.put(i + 1, mapa.get(i));
     }
 
     public static class Par implements Comparable<Par>{
