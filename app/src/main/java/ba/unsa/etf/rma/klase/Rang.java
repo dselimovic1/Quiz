@@ -62,7 +62,15 @@ public class Rang implements FirestoreStorable {
 
     public String getJSONFormat() {
         String json = "";
-
+        json += "{\"fields\": {\"nazivKviza\": {\"stringValue\": \"" + imeKviza + "\"}," +
+                "\"lista\": {\"mapValue\": {\"fields\": {";
+        for(int i = 0; i < mapa.size(); i++) {
+            String proc = String.format("%.2f", mapa.get(i).procenatTacnih);
+            json += "\"" + (i + 1) + "\": {\"mapValue\": {\"fields\": {" +
+                    "\"" + mapa.get(i).imeIgraca + "\": {\"stringValue\": \"" + proc + "\"}}}}";
+            if(i != mapa.size() - 1) json += ",";
+        }
+        json += "}}}}}";
         return json;
     }
 
