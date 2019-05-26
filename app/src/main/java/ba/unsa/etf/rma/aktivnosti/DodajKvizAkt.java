@@ -64,7 +64,6 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     private Baza baza = Baza.getInstance();
     private Kviz trenutni = new Kviz();
-    private boolean firstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,11 +174,12 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         }
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_CATEGORY) {
-                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
-                int pozicija = kategorijeIme.size() - 2;
+                int pozicija = kategorijeIme.size() - 1;
+                if(pozicija < 0) pozicija = 0;
+                kategorijeIme.add(pozicija, data.getStringExtra("kategorija"));
+                kategorijeAdapter.notifyDataSetChanged();
                 spinner.setSelection(pozicija);
             } else if (requestCode == ADD_QUESTION) {
-                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
                 int position = dodanaPitanja.size() - 1;
                 if (position < 0) position = 0;
                 dodanaPitanja.add(position, data.getStringExtra("pitanje"));
@@ -383,11 +383,8 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         pitanja = load;
-        if(firstTime) {
-            izdvojiDodanaPitanja();
-            izdvojiMogucaPitanja();
-            firstTime = false;
-        }
+        izdvojiDodanaPitanja();
+        izdvojiMogucaPitanja();
     }
 
     @Override
