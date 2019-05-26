@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.AddItemTask;
 
 public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.Callback {
 
@@ -37,7 +38,9 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
         setContentView(R.layout.activity_dodaj_kategoriju_akt);
 
         baza = Baza.getInstance();
-        kategorije = baza.dajImenaKategorija();
+        //kategorije = baza.dajImenaKategorija();
+        kategorije = getIntent().getStringArrayListExtra("kategorije");
+
 
         final IconDialog dialog = new IconDialog();
         iconDialogButton = (Button) findViewById(R.id.btnDodajIkonu);
@@ -62,7 +65,8 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                     k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
                     imeKategorije.setBackgroundColor(Color.WHITE);
                     icondID.setBackgroundColor(Color.WHITE);
-                    baza.dodajKategoriju(k);
+                    //baza.dodajKategoriju(k);
+                    new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
                     setResult(RESULT_OK);
                     finish();
                 }
