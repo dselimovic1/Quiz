@@ -4,11 +4,14 @@ import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 
+import ba.unsa.etf.rma.interfejsi.Loadable;
 
-public class Rang {
+
+public class Rang implements Loadable {
 
     private String imeKviza;
     private HashMap<Integer, Par> mapa = new HashMap<>();
+    private String documentID;
 
     public Rang() {}
 
@@ -47,6 +50,20 @@ public class Rang {
     private void azurirajMapu(int pozicija) {
         for (int i = mapa.size() - 1; i >= pozicija; i--)
             mapa.put(i + 1, mapa.get(i));
+    }
+
+    public String getDocumentID() {
+        return documentID;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
+    public String getJSONFormat() {
+        String json = "";
+
+        return json;
     }
 
     public static class Par implements Comparable<Par>{

@@ -6,7 +6,9 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Kviz implements Parcelable {
+import ba.unsa.etf.rma.interfejsi.Loadable;
+
+public class Kviz implements Parcelable, Loadable {
 
     private String naziv;
     private ArrayList<Pitanje> pitanja;

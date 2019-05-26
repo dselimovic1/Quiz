@@ -6,7 +6,9 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Kategorija implements Parcelable {
+import ba.unsa.etf.rma.interfejsi.Loadable;
+
+public class Kategorija implements Parcelable, Loadable {
 
     private String naziv;
     private String id;

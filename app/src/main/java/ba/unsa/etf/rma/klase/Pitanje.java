@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class Pitanje implements Parcelable {
+import ba.unsa.etf.rma.interfejsi.Loadable;
+
+public class Pitanje implements Parcelable, Loadable {
 
     private String naziv;
     private String tekstPitanja;
