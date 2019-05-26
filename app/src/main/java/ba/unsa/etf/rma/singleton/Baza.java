@@ -1,31 +1,23 @@
 package ba.unsa.etf.rma.singleton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.util.Log;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
-import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
-import ba.unsa.etf.rma.taskovi.GetItemTask;
-import ba.unsa.etf.rma.taskovi.GetListTask;
 
-public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListResponse {
+
+public class Baza  {
 
     public enum TaskType {QUIZ, CATEGORY, QUESTION, RANGLIST};
 
-    private static String instanceResponse = "";
-    private static String listResponse = "";
     private static Baza instance = new Baza();
     private static ArrayList<Kviz> kvizovi = new ArrayList<>();
     private static ArrayList<Kategorija> kategorije = new ArrayList<>();
-    private static ArrayList<Pitanje> pitanja = new ArrayList<>();
     private static ArrayList<Rang> rangListe = new ArrayList<>();
-    private static InputStream stream;
+
 
     private Baza() {}
 
@@ -34,29 +26,11 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
         return instance;
     }
 
-    public static Baza getInstance(InputStream st) {
-        stream = st;
-        return instance;
-    }
-
-    public void dodajKviz(Kviz kviz) {
-        kvizovi.add(kviz);
-    }
-
-    public void azurirajKviz(int pozicija, Kviz kviz)
-    {
-        kvizovi.set(pozicija, kviz);
-    }
-
     public void dodajKategoriju(Kategorija kategorija)
     {
         kategorije.add(kategorija);
     }
 
-    public void dodajPitanje(Pitanje pitanje)
-    {
-        pitanja.add(pitanje);
-    }
 
     public Rang dajRang(String imeKviz) {
         for(Rang r : rangListe) {
@@ -76,62 +50,18 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
         return new ArrayList<>(kvizovi);
     }
 
-    public ArrayList<Rang> dajRangliste() {
-        return new ArrayList<>(rangListe);
-    }
-
-    public ArrayList<Kategorija> dajKategorije()  {
-        new GetListTask(stream, this).execute(TaskType.CATEGORY);
-        ArrayList<Kategorija> kat = new ArrayList<>();
-        try {
-            JSONObject obj = new JSONObject(listResponse);
-            JSONArray array = new JSONArray(obj.getJSONArray("documents"));
-            for (int i = 0; i < array.length(); i++) {
-                kat.add(Kategorija.convertFromJSON(array.getJSONObject(i)));
-            }
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<>(kat);
-    }
-
-    public ArrayList<Pitanje> dajPitanja() {
-        return new ArrayList<>(pitanja);
-    }
 
     public ArrayList<String> dajImenaKategorija() {
         ArrayList<String> imena = new ArrayList<>();
-        ArrayList<Kategorija> kat = dajKategorije();
-        for(Kategorija k : kat) imena.add(k.getNaziv());
+        for(Kategorija k : kategorije) imena.add(k.getNaziv());
+        Log.d("SIZE 3:", Integer.toString(kategorije.size()));
         return imena;
     }
 
-    public ArrayList<String> dajImenaPitanja() {
-        ArrayList<String> imena = new ArrayList<>();
-        for(Pitanje p : pitanja) imena.add(p.getNaziv());
-        return imena;
-    }
-
-    public ArrayList<String> dajImenaKvizova() {
-        ArrayList<String> imena = new ArrayList<>();
-        for(Kviz k : kvizovi) imena.add(k.getNaziv());
-        return imena;
-    }
 
     public ArrayList<Kviz> dajFiltriranuListu(String filter) {
         ArrayList<Kviz> temp = new ArrayList<>();
         for(Kviz k : kvizovi) if(k.getKategorija().getNaziv().equals(filter)) temp.add(k);
         return temp;
-    }
-
-    @Override
-    public void setJSONString(String response) {
-        instanceResponse = response;
-    }
-
-    @Override
-    public void setResponse(String response) {
-        listResponse = response;
     }
 }
