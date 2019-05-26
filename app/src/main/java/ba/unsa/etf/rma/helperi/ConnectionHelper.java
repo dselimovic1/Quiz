@@ -57,6 +57,9 @@ public class ConnectionHelper {
             case QUIZ:
                 URL += "Kvizovi";
                 break;
+            case RANGLIST:
+                URL += "Rangliste";
+                break;
         }
         return URL;
     }
