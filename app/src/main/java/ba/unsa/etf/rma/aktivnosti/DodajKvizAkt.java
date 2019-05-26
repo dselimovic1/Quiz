@@ -31,11 +31,9 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.singleton.Baza;
-import ba.unsa.etf.rma.taskovi.AddQuizTask;
-import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 
 
-public class DodajKvizAkt extends AppCompatActivity implements AddQuizTask.IDSetter {
+public class DodajKvizAkt extends AppCompatActivity {
 
     private static int ADD_CATEGORY = 1;
     private static int ADD_QUESTION = 2;
@@ -134,14 +132,12 @@ public class DodajKvizAkt extends AppCompatActivity implements AddQuizTask.IDSet
                     if (trenutni == null) {
                         trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja), odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
                         baza.dodajKviz(trenutni);
-                        new AddQuizTask(getResources().openRawResource(R.raw.secret), DodajKvizAkt.this).execute(trenutni);
                     } else {
                         trenutni.setNaziv(imeKviz.getText().toString());
                         trenutni.setPitanja(izdvojiPitanja(dodanaPitanja));
                         trenutni.setKategorija(odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
                         int pozicija = getIntent().getIntExtra("pozicija", 0);
                         baza.azurirajKviz(pozicija, trenutni);
-                        new UpdateItemTask(getResources().openRawResource(R.raw.secret)).execute(trenutni);
                     }
                     finish();
                 }
@@ -410,8 +406,4 @@ public class DodajKvizAkt extends AppCompatActivity implements AddQuizTask.IDSet
         alert.show();
     }
 
-    @Override
-    public void setID(Kviz kviz) {
-        trenutni.setDocumentID(kviz.getDocumentID());
-    }
 }

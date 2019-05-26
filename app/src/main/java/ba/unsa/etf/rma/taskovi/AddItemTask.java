@@ -17,7 +17,7 @@ public class AddItemTask extends AsyncTask<FirestoreStorable, Void, Void> {
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     private static String REQUEST_TYPE = "POST";
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
-    private static String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/";
+    private String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/";
 
     public AddItemTask(InputStream stream, Baza.TaskType type) {
         this.stream = stream;
