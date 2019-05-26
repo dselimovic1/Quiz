@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +33,7 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
             response = connectionHelper.getResponse(conn.getInputStream());
+            Log.d("TOKEN", TOKEN);
         }
         catch (IOException e) {
             e.printStackTrace();

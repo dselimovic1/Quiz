@@ -21,6 +21,7 @@ import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.GetListTask;
 
 
 public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory {
@@ -53,7 +54,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             list = (ListView) findViewById(R.id.lvKvizovi);
             ucitajKvizove();
             ucitajKategorije();
-
+            new GetListTask(getResources().openRawResource(R.raw.secret), baza).execute(Baza.TaskType.CATEGORY);
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {

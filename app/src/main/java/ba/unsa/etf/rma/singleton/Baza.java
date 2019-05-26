@@ -11,7 +11,7 @@ import ba.unsa.etf.rma.taskovi.GetListTask;
 
 public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListResponse {
 
-    public enum TaskType {QUIZ, CATEGORY, QUESTION};
+    public enum TaskType {QUIZ, CATEGORY, QUESTION, RANGLIST};
 
     private static String instanceResponse = "";
     private static String listResponse = "";
