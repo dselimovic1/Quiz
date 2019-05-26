@@ -18,6 +18,7 @@ import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.KvizAdapter;
 import ba.unsa.etf.rma.fragmenti.DetailFrag;
 import ba.unsa.etf.rma.fragmenti.ListaFrag;
+import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.singleton.Baza;
@@ -29,7 +30,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private static int UPDATE_QUIZ = 2;
 
     private ArrayList<Kviz> kvizovi;
-    private ArrayList<String> kategorijeIme;
+    private ArrayList<String> kategorijeIme = new ArrayList<>();
     private ArrayAdapter<String> kategorijeAdapter;
     private KvizAdapter kvizAdapter;
     private Spinner spinner;
@@ -43,8 +44,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
         if(listPlace == null) mode = false;
 
@@ -57,6 +56,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                     Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
+                    intent.putExtra("kvizovi", MiscHelper.izvdojiImenaKvizova(kvizovi));
                     if (position == kvizovi.size() - 1) {
                         intent.putExtra("add", ADD_QUIZ);
                         startActivityForResult(intent, ADD_QUIZ);
@@ -148,7 +148,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     }
 
     private void ucitajKategorije() {
-        kategorijeIme = baza.dajImenaKategorija();
+        //new GetListTask(getResources().openRawResource(R.raw.secret), this).execute(Baza.TaskType.CATEGORY);
         kategorijeIme.add("Svi");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
@@ -157,4 +157,5 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if(pozicija < 0) pozicija = 0;
         spinner.setSelection(pozicija);
     }
+
 }
