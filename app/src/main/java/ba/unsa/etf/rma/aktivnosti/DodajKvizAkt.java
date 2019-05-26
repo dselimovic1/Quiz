@@ -27,13 +27,17 @@ import java.util.Set;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.DodanaPitanjaAdapter;
 import ba.unsa.etf.rma.adapteri.MogucaPitanjaAdapter;
+import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.AddItemTask;
+import ba.unsa.etf.rma.taskovi.GetListTask;
+import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 
 
-public class DodajKvizAkt extends AppCompatActivity {
+public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded {
 
     private static int ADD_CATEGORY = 1;
     private static int ADD_QUESTION = 2;
@@ -73,17 +77,23 @@ public class DodajKvizAkt extends AppCompatActivity {
         sacuvajKviz = (Button) findViewById(R.id.btnDodajKviz);
         importujKviz = (Button) findViewById(R.id.btnImportKviz);
 
-        ucitajListe();
+
+        /*ucitajListe();
         ucitajTrenutniKviz();
         postaviAdapterKategorije();
         izdvojiDodanaPitanja();
-        izdvojiMogucaPitanja();
+        izdvojiMogucaPitanja();*/
+        ucitajKvizove();
+
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == dodanaPitanja.size() - 1) {
                     Intent intent = new Intent(DodajKvizAkt.this, DodajPitanjeAkt.class);
+                    intent.putExtra("pitanja", MiscHelper.izdvojiImenaPitanja(pitanja));
                     startActivityForResult(intent, ADD_QUESTION);
                 } else {
                     mogucaPitanja.add(dodanaPitanja.get(i));
@@ -110,6 +120,7 @@ public class DodajKvizAkt extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == kategorijeIme.size() - 1) {
                     Intent intent = new Intent(DodajKvizAkt.this, DodajKategorijuAkt.class);
+                    intent.putExtra("kategorije", MiscHelper.izdvojiImenaKategorija(kategorije));
                     startActivityForResult(intent, ADD_CATEGORY);
                 } else {
                     spinner.setSelection(i);
@@ -131,13 +142,15 @@ public class DodajKvizAkt extends AppCompatActivity {
                     imeKviz.setBackgroundColor(Color.WHITE);
                     if (trenutni == null) {
                         trenutni = new Kviz(imeKviz.getText().toString(), izdvojiPitanja(dodanaPitanja), odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
-                        baza.dodajKviz(trenutni);
+                        //baza.dodajKviz(trenutni);
+                        new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
                     } else {
                         trenutni.setNaziv(imeKviz.getText().toString());
                         trenutni.setPitanja(izdvojiPitanja(dodanaPitanja));
                         trenutni.setKategorija(odrediKategoriju(kategorijeIme.get(spinner.getSelectedItemPosition())));
-                        int pozicija = getIntent().getIntExtra("pozicija", 0);
-                        baza.azurirajKviz(pozicija, trenutni);
+                        //int pozicija = getIntent().getIntExtra("pozicija", 0);
+                        //baza.azurirajKviz(pozicija, trenutni);
+                        new UpdateItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
                     }
                     finish();
                 }
@@ -158,7 +171,6 @@ public class DodajKvizAkt extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ucitajListe();
         postaviAdapterKategorije();
         if (getIntent().getIntExtra("add", 0) == 2) {
             trenutni = (Kviz) getIntent().getParcelableExtra("updateKviz");
@@ -234,13 +246,6 @@ public class DodajKvizAkt extends AppCompatActivity {
         }
     }
 
-    private void ucitajListe() {
-        pitanja = baza.dajPitanja();
-        kategorije = baza.dajKategorije();
-        kategorijeIme = baza.dajImenaKategorija();
-        kvizoviIme = baza.dajImenaKvizova();
-    }
-
     private void postaviAdapterKategorije() {
         kategorijeIme.add(0, "Svi");
         kategorijeIme.add("Dodaj kategoriju");
@@ -260,13 +265,14 @@ public class DodajKvizAkt extends AppCompatActivity {
     }
 
     private void izdvojiMogucaPitanja() {
-        mogucaPitanja = baza.dajImenaPitanja();
+        mogucaPitanja = MiscHelper.izdvojiImenaPitanja(pitanja);
         mogucaPitanja.removeAll(dodanaPitanja);
         mogucaAdapter = new MogucaPitanjaAdapter(this, mogucaPitanja);
         mogucaPitanjaList.setAdapter(mogucaAdapter);
     }
 
-    private void ucitajTrenutniKviz() {
+    private void ucitajKvizove() {
+        kvizoviIme = getIntent().getStringArrayListExtra("kvizovi");
         if (getIntent().getIntExtra("add", 0) == 2) {
             trenutni = (Kviz) getIntent().getParcelableExtra("updateKviz");
             imeKviz.setText(trenutni.getNaziv());
@@ -406,4 +412,17 @@ public class DodajKvizAkt extends AppCompatActivity {
         alert.show();
     }
 
+    @Override
+    public void loadAllQuestion(ArrayList<Pitanje> load) {
+        pitanja = load;
+        izdvojiDodanaPitanja();
+        izdvojiMogucaPitanja();
+    }
+
+    @Override
+    public void loadAllCategory(ArrayList<Kategorija> load) {
+        kategorije = load;
+        kategorijeIme = MiscHelper.izdvojiImenaKategorija(kategorije);
+        postaviAdapterKategorije();
+    }
 }
