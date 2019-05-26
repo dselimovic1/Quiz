@@ -58,8 +58,7 @@ public class Baza implements GetItemTask.OnItemResponse, GetListTask.OnListRespo
 
     public void dodajRezultat(String imeKviza, Rang.Par par) {
         Rang temp = dajRang(imeKviza);
-        Integer pozicija = temp.dajPoziciju(par);
-        temp.getMapa().put(pozicija, par);
+        temp.dodajRezultat(par);
     }
 
     public ArrayList<Kviz> dajKvizove() {
