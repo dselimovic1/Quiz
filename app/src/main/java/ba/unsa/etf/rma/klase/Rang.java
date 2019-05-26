@@ -4,10 +4,10 @@ import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 
-import ba.unsa.etf.rma.interfejsi.Loadable;
+import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
 
-public class Rang implements Loadable {
+public class Rang implements FirestoreStorable {
 
     private String imeKviza;
     private HashMap<Integer, Par> mapa = new HashMap<>();

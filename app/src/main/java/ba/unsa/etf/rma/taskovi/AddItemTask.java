@@ -7,10 +7,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
-import ba.unsa.etf.rma.interfejsi.Loadable;
+import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 import ba.unsa.etf.rma.singleton.Baza;
 
-public class AddItemTask extends AsyncTask<Loadable, Void, Void> {
+public class AddItemTask extends AsyncTask<FirestoreStorable, Void, Void> {
 
     private Baza.TaskType type;
     private InputStream stream;
@@ -25,15 +25,15 @@ public class AddItemTask extends AsyncTask<Loadable, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Loadable... loadables) {
+    protected Void doInBackground(FirestoreStorable... firestoreStorables) {
         try {
             URL = connectionHelper.setListURL(type, URL);
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
-            String document = loadables[0].getJSONFormat();
+            String document = firestoreStorables[0].getJSONFormat();
             connectionHelper.writeDocument(conn, document);
             String response = connectionHelper.getResponse(conn.getInputStream());
-            loadables[0].setDocumentID(connectionHelper.getDocumentID(response));
+            firestoreStorables[0].setDocumentID(connectionHelper.getDocumentID(response));
         }
         catch (IOException e) {
             e.printStackTrace();

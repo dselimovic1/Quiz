@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-import ba.unsa.etf.rma.interfejsi.Loadable;
+import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
-public class Pitanje implements Parcelable, Loadable {
+public class Pitanje implements Parcelable, FirestoreStorable {
 
     private String naziv;
     private String tekstPitanja;

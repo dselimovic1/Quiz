@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import ba.unsa.etf.rma.interfejsi.Loadable;
+import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
-public class Kviz implements Parcelable, Loadable {
+public class Kviz implements Parcelable, FirestoreStorable {
 
     private String naziv;
     private ArrayList<Pitanje> pitanja;

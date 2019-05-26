@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ba.unsa.etf.rma.interfejsi.Loadable;
+import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
-public class Kategorija implements Parcelable, Loadable {
+public class Kategorija implements Parcelable, FirestoreStorable {
 
     private String naziv;
     private String id;
