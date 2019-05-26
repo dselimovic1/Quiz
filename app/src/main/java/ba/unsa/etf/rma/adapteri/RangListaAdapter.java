@@ -30,12 +30,13 @@ public class RangListaAdapter extends ArrayAdapter<Rang.Par> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.ranglista, parent, false);
 
         Rang.Par current = lista.get(position);
+        String proc = String.format("%.2f", current.procenatTacnih);
         TextView pozicija = (TextView)convertView.findViewById(R.id.pozicija);
         TextView igrac = (TextView)convertView.findViewById(R.id.igrac);
         TextView procenat = (TextView)convertView.findViewById(R.id.procenat);
         pozicija.setText(Integer.toString(position + 1) + ".");
         igrac.setText(current.imeIgraca);
-        procenat.setText(Double.toString(current.procenatTacnih));
+        procenat.setText(proc);
         return convertView;
     }
 }
