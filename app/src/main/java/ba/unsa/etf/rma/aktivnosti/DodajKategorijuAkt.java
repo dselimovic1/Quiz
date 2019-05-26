@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.aktivnosti;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -62,12 +63,14 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                 provjeriNaziv();
                 provjeriIDIkone();
                 if (validacija) {
+                    Intent intent = new Intent(DodajKategorijuAkt.this, DodajKvizAkt.class);
                     k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
                     imeKategorije.setBackgroundColor(Color.WHITE);
                     icondID.setBackgroundColor(Color.WHITE);
                     //baza.dodajKategoriju(k);
+                    intent.putExtra("kategorija", k.getNaziv());
                     new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
-                    setResult(RESULT_OK);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
             }
