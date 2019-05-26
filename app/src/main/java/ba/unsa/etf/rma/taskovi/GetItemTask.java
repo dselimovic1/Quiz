@@ -11,17 +11,15 @@ import ba.unsa.etf.rma.singleton.Baza;
 
 public class GetItemTask extends AsyncTask<Baza.TaskType, Void, String> {
 
-    private OnItemResponse itemResponse;
     private InputStream stream;
     private String documentID;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     private static String REQUEST_TYPE = "GET";
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
-    private static String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/";
+    private String URL = "https://firestore.googleapis.com/v1/projects/rmaspirala-2a3e2/databases/(default)/documents/";
 
-    public GetItemTask(InputStream stream, OnItemResponse itemResponse, String documentID) {
+    public GetItemTask(InputStream stream, String documentID) {
         this.stream = stream;
-        this.itemResponse = itemResponse;
         this.documentID = documentID;
     }
 
@@ -40,12 +38,4 @@ public class GetItemTask extends AsyncTask<Baza.TaskType, Void, String> {
         return response;
     }
 
-    @Override
-    protected void onPostExecute(String response) {
-        itemResponse.setJSONString(response);
-    }
-
-    public interface OnItemResponse {
-        void setJSONString(String response);
-    }
 }
