@@ -16,6 +16,7 @@ import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriAdapter;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.AddItemTask;
 
 public class DodajPitanjeAkt extends AppCompatActivity {
 
@@ -53,7 +54,8 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         odgovoriAdapter = new OdgovoriAdapter(this,odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
 
-        pitanja = baza.dajImenaPitanja();
+        //pitanja = baza.dajImenaPitanja();
+        pitanja = getIntent().getStringArrayListExtra("pitanja");
 
         odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -104,7 +106,8 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                     odgovorText.setBackgroundColor(Color.WHITE);
                     p.setNaziv(nazivText.getText().toString());
                     p.setTekstPitanja(nazivText.getText().toString());
-                    baza.dodajPitanje(p);
+                    //baza.dodajPitanje(p);
+                    new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUESTION).execute(p);
                     sendQuestion.putExtra("pitanje", p.getNaziv());
                     setResult(RESULT_OK, sendQuestion);
                     finish();
