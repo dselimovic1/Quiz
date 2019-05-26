@@ -2,12 +2,13 @@ package ba.unsa.etf.rma.klase;
 
 import android.support.annotation.NonNull;
 
-import java.util.HashSet;
+import java.util.HashMap;
+
 
 public class Rang {
 
     private String imeKviza;
-    private HashSet<Par> set = new HashSet<>();
+    private HashMap<Integer, Par> mapa = new HashMap<>();
 
     public Rang() {}
 
@@ -24,9 +25,10 @@ public class Rang {
         this.imeKviza = imeKviza;
     }
 
-    public HashSet<Par> getSet() {
-        return set;
+    public HashMap<Integer, Par> getMapa() {
+        return mapa;
     }
+
 
     public static class Par implements Comparable<Par>{
         public String imeIgraca;
