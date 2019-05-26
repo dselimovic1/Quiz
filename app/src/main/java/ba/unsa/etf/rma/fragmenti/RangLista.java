@@ -36,7 +36,7 @@ public class RangLista extends Fragment {
 
         Bundle argument = getArguments();
         rang = baza.dajRang(argument.getString("imeKviza"));
-        ArrayList<Rang.Par> parovi = new ArrayList<>(rang.getSet());
+        ArrayList<Rang.Par> parovi = new ArrayList<>(rang.getMapa().values());
         Collections.sort(parovi);
         adapter = new RangListaAdapter(getContext(), parovi);
         rangList.setAdapter(adapter);
