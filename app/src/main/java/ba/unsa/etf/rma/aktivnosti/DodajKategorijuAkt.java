@@ -31,18 +31,12 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
     private Kategorija k;
     private boolean validacija = true;
 
-    private Baza baza;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kategoriju_akt);
-
-        baza = Baza.getInstance();
-        //kategorije = baza.dajImenaKategorija();
         kategorije = getIntent().getStringArrayListExtra("kategorije");
-
-
         final IconDialog dialog = new IconDialog();
         iconDialogButton = (Button) findViewById(R.id.btnDodajIkonu);
         saveButton = (Button) findViewById(R.id.btnDodajKategoriju);
@@ -67,7 +61,6 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
                     k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
                     imeKategorije.setBackgroundColor(Color.WHITE);
                     icondID.setBackgroundColor(Color.WHITE);
-                    //baza.dodajKategoriju(k);
                     intent.putExtra("kategorija", k.getNaziv());
                     new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
                     setResult(RESULT_OK, intent);
