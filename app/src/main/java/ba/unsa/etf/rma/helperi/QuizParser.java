@@ -80,4 +80,14 @@ public class QuizParser {
          if(num1 == num2)
              throw new WrongParseException(msg);
     }
+
+    public static void doParse(ArrayList<String> temp, ArrayList<String> kvizoviIme) {
+        QuizParser.checkLines(temp.size(), 0, "Datoteka kviza kojeg importujete nema ispravan format!");
+        String[] quizData = temp.get(0).split(",");
+        checkLength(quizData.length);
+        QuizParser.validirajImeKviza(quizData[0], kvizoviIme);
+        QuizParser.checkNumbers(Integer.parseInt(quizData[2]), temp.size() - 1, "Kviz kojeg importujete ima neispravan broj pitanja!");
+        QuizParser.checkAnswers(quizData, temp);
+        QuizParser.checkDuplicatesOnImport(quizData, temp);
+    }
 }
