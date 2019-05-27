@@ -161,6 +161,6 @@ public class Kviz implements Parcelable, FirestoreStorable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+        return kviz;
     }
 }
