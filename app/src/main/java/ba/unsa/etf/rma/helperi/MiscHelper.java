@@ -51,4 +51,8 @@ public class MiscHelper {
         }
         return new Kategorija("Svi", "1");
     }
+
+    public static void azurirajKvizove(ArrayList<Kviz> kvizovi, ArrayList<Pitanje> pitanja, ArrayList<Kategorija> kategorije) {
+
+    }
 }

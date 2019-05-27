@@ -145,7 +145,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     public void loadAllQuiz(ArrayList<Kviz> load) {
         kvizovi = load;
-        MiscHelper.azuirajKvizove(kvizovi, pitanja, kategorije);
+        MiscHelper.azurirajKvizove(kvizovi, pitanja, kategorije);
         Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
         kvizovi.add(temp);
         kvizAdapter = new KvizAdapter(this, kvizovi);
