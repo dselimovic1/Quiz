@@ -11,6 +11,11 @@ import java.util.Objects;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
+import static ba.unsa.etf.rma.helperi.JSONQuizConverter.findID;
+import static ba.unsa.etf.rma.helperi.JSONQuizConverter.findName;
+import static ba.unsa.etf.rma.helperi.JSONQuizConverter.getCategory;
+import static ba.unsa.etf.rma.helperi.JSONQuizConverter.getQuestions;
+
 public class Kviz implements Parcelable, FirestoreStorable {
 
     private String naziv;
