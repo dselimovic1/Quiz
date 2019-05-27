@@ -3,7 +3,6 @@ package ba.unsa.etf.rma.klase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +11,11 @@ import java.util.Collections;
 import java.util.Objects;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
+
+import static ba.unsa.etf.rma.helperi.JSONQuestionConverter.findID;
+import static ba.unsa.etf.rma.helperi.JSONQuestionConverter.findIndex;
+import static ba.unsa.etf.rma.helperi.JSONQuestionConverter.findName;
+import static ba.unsa.etf.rma.helperi.JSONQuestionConverter.getAnswers;
 
 public class Pitanje implements Parcelable, FirestoreStorable {
 
@@ -139,27 +143,6 @@ public class Pitanje implements Parcelable, FirestoreStorable {
         }
         json += "]}}, \"indexTacnog\": {\"integerValue\": \"" + index + "\"}}}";
         return json;
-    }
-
-    private static String findID(String name) {
-        String[] atr = name.split("/");
-        return atr[atr.length - 1];
-    }
-
-    private static String findName(JSONObject json) throws JSONException {
-        return json.getString("stringValue");
-    }
-
-    private static int findIndex(JSONObject json) throws JSONException {
-        return json.getInt("integerValue");
-    }
-
-    private static ArrayList<String> getAnswers(JSONArray json) throws JSONException{
-        ArrayList<String> answer = new ArrayList<>();
-        for(int i = 0; i < json.length(); i++) {
-            answer.add(findName(json.getJSONObject(i)));
-        }
-        return answer;
     }
 
     public static Pitanje convertFromJSON(JSONObject json) {
