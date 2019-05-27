@@ -64,7 +64,6 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     private Button importujKviz;
 
 
-    private Baza baza = Baza.getInstance();
     private Kviz trenutni = new Kviz();
     private boolean firstTime = true;
     private String lastCategory = null;
