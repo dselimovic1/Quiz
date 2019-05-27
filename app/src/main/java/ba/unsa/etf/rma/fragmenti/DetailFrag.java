@@ -96,8 +96,9 @@ public class DetailFrag extends Fragment {
 
     private void ucitajKvizove() {
         Bundle argumenti = getArguments();
-        if(argumenti != null && argumenti.containsKey("filter")) kvizovi = baza.dajFiltriranuListu(argumenti.getString("filter"));
-        else kvizovi = baza.dajKvizove();
+        //TODO
+        //if(argumenti != null && argumenti.containsKey("filter")) kvizovi = baza.dajFiltriranuListu(argumenti.getString("filter"));
+        //else kvizovi = baza.dajKvizove();
         kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("",  "671")));
         adapter = new GridAdapter(getContext(), kvizovi);
         kvizGrid.setAdapter(adapter);

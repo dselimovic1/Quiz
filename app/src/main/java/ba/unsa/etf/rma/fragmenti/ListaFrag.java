@@ -63,7 +63,8 @@ public class ListaFrag extends Fragment {
     }
 
     private void postaviAdapterKategorije() {
-        kategorije = baza.dajImenaKategorija();
+        //TODO
+        //kategorije = baza.dajImenaKategorija();
         kategorije.add("Svi");
         kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, kategorije);
         listaKategorije.setAdapter(kategorijeAdapter);
