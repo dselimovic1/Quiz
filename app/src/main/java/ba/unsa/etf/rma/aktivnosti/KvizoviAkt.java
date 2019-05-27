@@ -2,7 +2,6 @@ package ba.unsa.etf.rma.aktivnosti;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,24 +20,28 @@ import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
+import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.GetListTask;
 
 
-public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory {
+public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory, GetListTask.OnQuestionLoaded, GetListTask.OnCategoryLoaded, GetListTask.OnQuizLoaded {
 
     private static int ADD_QUIZ = 1;
     private static int UPDATE_QUIZ = 2;
 
     private ArrayList<Kviz> kvizovi;
+    private ArrayList<Pitanje> pitanja;
+    private ArrayList<Kategorija> kategorije;
     private ArrayList<String> kategorijeIme = new ArrayList<>();
+
     private ArrayAdapter<String> kategorijeAdapter;
     private KvizAdapter kvizAdapter;
+
     private Spinner spinner;
     private ListView list;
 
     private boolean mode = true;
-
-    private Baza baza = Baza.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if(mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
-            ucitajKvizove();
-            ucitajKategorije();
+
+            new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
+
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -64,7 +68,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                         Kviz k = kvizovi.get(position);
                         intent.putExtra("add", UPDATE_QUIZ);
                         intent.putExtra("updateKviz",k);
-                        intent.putExtra("pozicija",position);
                         startActivityForResult(intent, UPDATE_QUIZ);
                     }
                     return true;
@@ -76,7 +79,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     if (position == kvizovi.size() - 1) return;
                     Intent intent = new Intent(KvizoviAkt.this, IgrajKvizAkt.class);
-                    intent.putExtra("kviz", (Parcelable) kvizovi.get(position));
+                    intent.putExtra("kviz", kvizovi.get(position));
                     startActivity(intent);
                 }
             });
@@ -84,13 +87,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String filter = spinner.getSelectedItem().toString();
-                    if (filter.equals("Svi")) kvizovi = baza.dajKvizove();
-                    else kvizovi = baza.dajFiltriranuListu(filter);
-                    Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
-                    if(kvizovi.contains(temp) == false) kvizovi.add(temp);
-                    kvizAdapter = new KvizAdapter(KvizoviAkt.this, kvizovi);
-                    list.setAdapter(kvizAdapter);
+
                 }
 
                 @Override
@@ -118,8 +115,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(mode == false) {
-            ucitajKvizove();
-            ucitajKategorije();
+            new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
         }
     }
 
@@ -140,22 +136,30 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
     }
 
-    private void ucitajKvizove() {
-        kvizovi = baza.dajKvizove();
-        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija(null, "671")));
+    @Override
+    public void loadAllQuestion(ArrayList<Pitanje> load) {
+        pitanja = load;
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
+    }
+
+    @Override
+    public void loadAllQuiz(ArrayList<Kviz> load) {
+        kvizovi = load;
+        MiscHelper.azuirajKvizove(kvizovi, pitanja, kategorije);
+        Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
+        kvizovi.add(temp);
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
     }
 
-    private void ucitajKategorije() {
-        //new GetListTask(getResources().openRawResource(R.raw.secret), this).execute(Baza.TaskType.CATEGORY);
+    @Override
+    public void loadAllCategory(ArrayList<Kategorija> load) {
+        kategorije = load;
+        kategorijeIme = MiscHelper.izdvojiImenaKategorija(kategorije);
         kategorijeIme.add("Svi");
-        kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, kategorijeIme);
-        kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, kategorijeIme);
         spinner.setAdapter(kategorijeAdapter);
-        int pozicija = kategorijeIme.size() - 1;
-        if(pozicija < 0) pozicija = 0;
-        spinner.setSelection(pozicija);
+        spinner.setSelection(kategorijeIme.size() - 1);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded) this).execute(Baza.TaskType.QUIZ);
     }
-
 }
