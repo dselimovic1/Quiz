@@ -8,6 +8,10 @@ import org.json.JSONObject;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
+import static ba.unsa.etf.rma.helperi.JSONCategoryConverter.findCategoryID;
+import static ba.unsa.etf.rma.helperi.JSONCategoryConverter.findCategoryName;
+import static ba.unsa.etf.rma.helperi.JSONCategoryConverter.findID;
+
 public class Kategorija implements Parcelable, FirestoreStorable {
 
     private String naziv;
@@ -81,20 +85,6 @@ public class Kategorija implements Parcelable, FirestoreStorable {
                 "\"naziv\": {\"stringValue\": \"" + getNaziv() + "\"}}}";
         return json;
     }
-
-    public static String findID(String name) {
-        String[] atr = name.split("/");
-        return atr[atr.length - 1];
-    }
-
-    public static String findCategoryID(JSONObject json) throws JSONException {
-        return json.getString("stringValue");
-    }
-
-    public static String findCategoryName(JSONObject object) throws JSONException {
-        return object.getString("stringValue");
-    }
-
 
     public static Kategorija convertFromJSON(JSONObject json) {
         Kategorija kategorija = new Kategorija();
