@@ -258,8 +258,8 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             spinner.setSelection(pozicija);
         } else {
             Kategorija k = new Kategorija(imeKategorije, "2");
-            //baza.dodajKategoriju(k);
-            //kategorijeIme = baza.dajImenaKategorija();
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
+            kategorijeIme.add(kategorijeIme.size() - 1, k.getNaziv());
             kategorijeAdapter.notifyDataSetChanged();
             spinner.setSelection(MiscHelper.nadjiPozicijuUSpinneru(kategorijeIme, k.getNaziv()));
         }
