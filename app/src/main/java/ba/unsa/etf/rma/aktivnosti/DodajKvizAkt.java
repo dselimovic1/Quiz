@@ -64,6 +64,8 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     private Baza baza = Baza.getInstance();
     private Kviz trenutni = new Kviz();
+    private boolean firstTime = true;
+    private String lastCategory = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,12 +176,10 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         }
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_CATEGORY) {
-                int pozicija = kategorijeIme.size() - 1;
-                if(pozicija < 0) pozicija = 0;
-                kategorijeIme.add(pozicija, data.getStringExtra("kategorija"));
-                kategorijeAdapter.notifyDataSetChanged();
-                spinner.setSelection(pozicija);
+                lastCategory = data.getStringExtra("kategorija");
+                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
             } else if (requestCode == ADD_QUESTION) {
+                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
                 int position = dodanaPitanja.size() - 1;
                 if (position < 0) position = 0;
                 dodanaPitanja.add(position, data.getStringExtra("pitanje"));
@@ -251,6 +251,10 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         spinner.setAdapter(kategorijeAdapter);
         if (trenutni != null)
             spinner.setSelection(MiscHelper.nadjiPozicijuUSpinneru(kategorijeIme, trenutni.getKategorija().getNaziv()));
+        if (lastCategory != null) {
+            spinner.setSelection(MiscHelper.nadjiPozicijuUSpinneru(kategorijeIme, lastCategory));
+            lastCategory = null;
+        }
     }
 
     public void izdvojiDodanaPitanja() {
@@ -383,8 +387,11 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         pitanja = load;
-        izdvojiDodanaPitanja();
-        izdvojiMogucaPitanja();
+        if(firstTime) {
+            izdvojiDodanaPitanja();
+            izdvojiMogucaPitanja();
+            firstTime = false;
+        }
     }
 
     @Override
