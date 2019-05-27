@@ -52,7 +52,32 @@ public class MiscHelper {
         return new Kategorija("Svi", "1");
     }
 
-    public static void azurirajKvizove(ArrayList<Kviz> kvizovi, ArrayList<Pitanje> pitanja, ArrayList<Kategorija> kategorije) {
+    private static Kategorija nadjiKategorijuPoID(ArrayList<Kategorija> kategorije, String ID) {
+        for (Kategorija k : kategorije) {
+            if (k.getDocumentID().equals(ID)) {
+                return k;
+            }
+        }
+        return new Kategorija("Svi", "1");
+    }
 
+    private static ArrayList<Pitanje> nadjiPitanjaPoID(ArrayList<Pitanje> pitanja, ArrayList<Pitanje> pitanjaID) {
+        ArrayList<Pitanje> novaPitanja = new ArrayList<>();
+        for(Pitanje p : pitanja) {
+            for(Pitanje temp : pitanjaID) {
+                if(temp.getDocumentID().equals(p.getDocumentID())) {
+                    novaPitanja.add(p);
+                    break;
+                }
+            }
+        }
+        return novaPitanja;
+    }
+
+    public static void azurirajKvizove(ArrayList<Kviz> kvizovi, ArrayList<Pitanje> pitanja, ArrayList<Kategorija> kategorije) {
+        for(int i = 0; i < kvizovi.size(); i++) {
+            kvizovi.get(i).setKategorija(nadjiKategorijuPoID(kategorije, kvizovi.get(i).getKategorija().getDocumentID()));
+            kvizovi.get(i).setPitanja(nadjiPitanjaPoID(pitanja, kvizovi.get(i).getPitanja()));
+        }
     }
 }
