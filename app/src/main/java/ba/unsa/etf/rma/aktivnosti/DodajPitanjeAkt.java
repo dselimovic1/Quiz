@@ -35,14 +35,11 @@ public class DodajPitanjeAkt extends AppCompatActivity {
     private Pitanje p = new Pitanje();
     private int pozicijaTacnog = -1;
 
-    private Baza baza;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_pitanje_akt);
-
-        baza = Baza.getInstance();
 
         odgovoriList = (ListView)findViewById(R.id.lvOdgovori);
         nazivText = (EditText)findViewById(R.id.etNaziv);
@@ -54,7 +51,6 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         odgovoriAdapter = new OdgovoriAdapter(this,odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
 
-        //pitanja = baza.dajImenaPitanja();
         pitanja = getIntent().getStringArrayListExtra("pitanja");
 
         odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -106,7 +102,6 @@ public class DodajPitanjeAkt extends AppCompatActivity {
                     odgovorText.setBackgroundColor(Color.WHITE);
                     p.setNaziv(nazivText.getText().toString());
                     p.setTekstPitanja(nazivText.getText().toString());
-                    //baza.dodajPitanje(p);
                     new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUESTION).execute(p);
                     sendQuestion.putExtra("pitanje", p.getNaziv());
                     setResult(RESULT_OK, sendQuestion);
