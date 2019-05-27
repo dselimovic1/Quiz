@@ -267,7 +267,6 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     private void izvdojiSvaPitanja(String[] quizData, ArrayList<String> temp) {
         dodanaPitanja.clear();
-        pitanja.clear();
         for (int i = 0; i < Integer.parseInt(quizData[2]); i++) {
             Pitanje p = izdvojiPitanje(temp.get(i + 1).split(","));
             pitanja.add(p);
