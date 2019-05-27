@@ -389,9 +389,9 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         pitanja = load;
         if(firstTime) {
             izdvojiDodanaPitanja();
-            izdvojiMogucaPitanja();
             firstTime = false;
         }
+        izdvojiMogucaPitanja();
     }
 
     @Override
