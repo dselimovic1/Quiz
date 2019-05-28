@@ -85,7 +85,7 @@ public class Rang implements FirestoreStorable {
         try {
             JSONObject fields = json.getJSONObject("fields");
             rang.setDocumentID(JSONRangListConverter.findID(json.getString("name")));
-            rang.setImeKviza(JSONRangListConverter.setName(fields));
+            rang.setImeKviza(JSONRangListConverter.setName(fields.getJSONObject("nazivKviza")));
             ArrayList<Par> pairs = JSONRangListConverter.setPairs(fields.getJSONObject("lista").getJSONObject("mapValue").getJSONObject("fields"));
             rang.setHashMap(pairs);
         } catch (JSONException e) {

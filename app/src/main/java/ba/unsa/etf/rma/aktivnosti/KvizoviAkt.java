@@ -21,6 +21,7 @@ import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.singleton.Baza;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
@@ -40,6 +41,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
     private Spinner spinner;
     private ListView list;
+    private ArrayList<Rang> rangovi;
 
     private boolean mode = true;
 
@@ -162,4 +164,5 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         spinner.setSelection(kategorijeIme.size() - 1);
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded) this).execute(Baza.TaskType.QUIZ);
     }
+
 }

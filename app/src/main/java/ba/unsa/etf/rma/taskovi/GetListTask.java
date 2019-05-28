@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +26,7 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
     private OnCategoryLoaded categoryLoaded;
     private OnQuestionLoaded questionLoaded;
     private OnQuizLoaded quizLoaded;
+    private OnRangLoaded rangLoaded;
     private InputStream stream;
     private Baza.TaskType type;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
@@ -47,6 +49,11 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
         this.categoryLoaded = categoryLoaded;
     }
 
+    public GetListTask(InputStream stream, OnRangLoaded rangLoaded) {
+        this.stream = stream;
+        this.rangLoaded = rangLoaded;
+    }
+
     @Override
     protected String doInBackground(Baza.TaskType... enums) {
         String response = null;
@@ -56,6 +63,7 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
             response = connectionHelper.getResponse(conn.getInputStream());
+            Log.d("TOKEN", TOKEN);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -90,6 +98,8 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
             case CATEGORY:
                 categoryLoaded.loadAllCategory((ArrayList<Kategorija>) store);
                 break;
+            case RANGLIST:
+                rangLoaded.loadAllRang((ArrayList<Rang>) store);
         }
     }
 
@@ -117,5 +127,9 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
 
     public interface OnCategoryLoaded {
         void loadAllCategory(ArrayList<Kategorija> load);
+    }
+
+    public interface OnRangLoaded {
+        void loadAllRang(ArrayList<Rang> load);
     }
 }

@@ -30,9 +30,9 @@ public class JSONRangListConverter  {
     }
 
     private static Rang.Par setPair(JSONObject json) throws JSONException {
-        JSONObject player = json.getJSONObject("mapValue");
+        JSONObject player = json.getJSONObject("mapValue").getJSONObject("fields");
         String name = getName(player);
-        JSONObject result = player.getJSONObject("fields");
+        JSONObject result = player.getJSONObject(name);
         double proc = getResult(result);
         return new Rang.Par(name, proc);
     }
