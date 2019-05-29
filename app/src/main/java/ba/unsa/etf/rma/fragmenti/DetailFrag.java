@@ -19,19 +19,22 @@ import ba.unsa.etf.rma.aktivnosti.DodajKvizAkt;
 import ba.unsa.etf.rma.aktivnosti.IgrajKvizAkt;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
+import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.taskovi.GetListTask;
 
-public class DetailFrag extends Fragment {
+public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, GetListTask.OnQuizLoaded {
 
 
     private static final int ADD_QUIZ = 1;
     private static final int UPDATE_QUIZ = 2;
 
+    private ArrayList<Pitanje> pitanja;
+    private ArrayList<Kategorija> kategorije;
     private ArrayList<Kviz> kvizovi;
     private GridAdapter adapter;
     private GridView kvizGrid;
 
-    private Baza baza;
     private CategoryAdd categoryAdd;
 
     public DetailFrag() {
@@ -48,9 +51,8 @@ public class DetailFrag extends Fragment {
             e.printStackTrace();
         }
 
-        baza = Baza.getInstance();
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
-        ucitajKvizove();
+        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
 
         kvizGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -91,17 +93,26 @@ public class DetailFrag extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         categoryAdd.onCategoryAdded();
-        ucitajKvizove();
+        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
     }
 
-    private void ucitajKvizove() {
-        Bundle argumenti = getArguments();
-        //TODO
-        //if(argumenti != null && argumenti.containsKey("filter")) kvizovi = baza.dajFiltriranuListu(argumenti.getString("filter"));
-        //else kvizovi = baza.dajKvizove();
-        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija("",  "671")));
+    @Override
+    public void loadAllQuestion(ArrayList<Pitanje> load) {
+        pitanja = load;
+        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
+    }
+
+    @Override
+    public void loadAllQuiz(ArrayList<Kviz> load) {
+        kvizovi = load;
         adapter = new GridAdapter(getContext(), kvizovi);
         kvizGrid.setAdapter(adapter);
+    }
+
+    @Override
+    public void loadAllCategory(ArrayList<Kategorija> load) {
+        kategorije = load;
+        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded) this).execute(Baza.TaskType.QUIZ);
     }
 
     public interface CategoryAdd {
