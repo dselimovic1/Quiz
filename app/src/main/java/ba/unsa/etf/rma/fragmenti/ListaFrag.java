@@ -8,15 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
-import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.klase.Kategorija;
+import ba.unsa.etf.rma.taskovi.GetListTask;
 
-public class ListaFrag extends Fragment {
+public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded {
 
 
     private ArrayList<String> kategorije;
@@ -24,7 +24,6 @@ public class ListaFrag extends Fragment {
     private ListView listaKategorije;
 
     private FilterCategory filterCategory;
-    private Baza baza;
 
     public ListaFrag() {
     }
@@ -33,17 +32,13 @@ public class ListaFrag extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        baza = Baza.getInstance();
-
         try {
             filterCategory = (FilterCategory)getActivity();
         }
         catch (ClassCastException e) {
             e.printStackTrace();
         }
-
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
-        postaviAdapterKategorije();
         setListViewHeightBasedOnChildren(listaKategorije);
 
         listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,31 +57,9 @@ public class ListaFrag extends Fragment {
         return inflater.inflate(R.layout.fragment_lista, container, false);
     }
 
-    private void postaviAdapterKategorije() {
-        //TODO
-        //kategorije = baza.dajImenaKategorija();
-        kategorije.add("Svi");
-        kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, kategorije);
-        listaKategorije.setAdapter(kategorijeAdapter);
-    }
-    private static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
+    @Override
+    public void loadAllCategory(ArrayList<Kategorija> load) {
 
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
     }
 
     public interface FilterCategory{
