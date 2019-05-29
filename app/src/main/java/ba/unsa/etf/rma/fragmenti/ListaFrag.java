@@ -40,7 +40,6 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
             e.printStackTrace();
         }
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
-        MiscHelper.setListViewHeightBasedOnChildren(listaKategorije);
 
         listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -60,7 +59,10 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
-
+        kategorije = MiscHelper.izdvojiImenaKategorija(load);
+        kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, kategorije);
+        listaKategorije.setAdapter(kategorijeAdapter);
+        MiscHelper.setListViewHeightBasedOnChildren(listaKategorije);
     }
 
     public interface FilterCategory{
