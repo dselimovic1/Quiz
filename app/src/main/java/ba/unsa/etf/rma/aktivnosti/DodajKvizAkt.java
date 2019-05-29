@@ -39,7 +39,7 @@ import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 import static ba.unsa.etf.rma.helperi.QuizParser.izdvojiPitanje;
 
 
-public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded {
+public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, GetListTask.OnQuizLoaded {
 
     private static int ADD_CATEGORY = 1;
     private static int ADD_QUESTION = 2;
@@ -64,7 +64,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     private Button importujKviz;
 
 
-    private Kviz trenutni = new Kviz();
+    private Kviz trenutni = null;
     private boolean firstTime = true;
     private String lastCategory = null;
 
@@ -80,10 +80,8 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         sacuvajKviz = (Button) findViewById(R.id.btnDodajKviz);
         importujKviz = (Button) findViewById(R.id.btnImportKviz);
 
-        ucitajKvizove();
-
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded)this).execute(Baza.TaskType.QUIZ);
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -169,18 +167,12 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        kvizoviIme = getIntent().getStringArrayListExtra("kvizovi");
-        if (getIntent().getIntExtra("add", 0) == 2) {
-            trenutni = (Kviz) getIntent().getParcelableExtra("updateKviz");
-            imeKviz.setText(trenutni.getNaziv());
-            kvizoviIme.remove(trenutni.getNaziv());
-        }
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded) this).execute(Baza.TaskType.QUIZ);
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_CATEGORY) {
                 lastCategory = data.getStringExtra("kategorija");
-                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
             } else if (requestCode == ADD_QUESTION) {
-                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
                 int position = dodanaPitanja.size() - 1;
                 if (position < 0) position = 0;
                 dodanaPitanja.add(position, data.getStringExtra("pitanje"));
@@ -234,20 +226,6 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         mogucaPitanja.removeAll(dodanaPitanja);
         mogucaAdapter = new MogucaPitanjaAdapter(this, mogucaPitanja);
         mogucaPitanjaList.setAdapter(mogucaAdapter);
-    }
-
-    private void ucitajKvizove() {
-        kvizoviIme = getIntent().getStringArrayListExtra("kvizovi");
-        if (getIntent().getIntExtra("add", 0) == 2) {
-            trenutni = (Kviz) getIntent().getParcelableExtra("updateKviz");
-            imeKviz.setText(trenutni.getNaziv());
-            kvizoviIme.remove(trenutni.getNaziv());
-        }
-        else {
-            trenutni = null;
-            imeKviz.setText("");
-            spinner.setSelection(0);
-        }
     }
 
     private void izdvojiKategorijuImport(String[] quizData) {
@@ -331,5 +309,16 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         kategorije = load;
         kategorijeIme = MiscHelper.izdvojiImenaKategorija(kategorije);
         postaviAdapterKategorije();
+    }
+
+    @Override
+    public void loadAllQuiz(ArrayList<Kviz> load) {
+        kvizoviIme = MiscHelper.izvdojiImenaKvizova(load);
+        if (getIntent().getIntExtra("add", 0) == 2) {
+            trenutni = (Kviz) getIntent().getParcelableExtra("updateKviz");
+            imeKviz.setText(trenutni.getNaziv());
+            kvizoviIme.remove(trenutni.getNaziv());
+        }
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
     }
 }
