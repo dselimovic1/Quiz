@@ -15,7 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import ba.unsa.etf.rma.singleton.Baza;
+import ba.unsa.etf.rma.enumi.Baza;
 
 public class ConnectionHelper {
 

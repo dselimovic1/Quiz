@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
+import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
-import ba.unsa.etf.rma.singleton.Baza;
 
 public class AddItemTask extends AsyncTask<FirestoreStorable, Void, Void> {
 

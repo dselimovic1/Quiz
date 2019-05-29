@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriAdapter;
+import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.klase.Pitanje;
-import ba.unsa.etf.rma.singleton.Baza;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
 
 public class DodajPitanjeAkt extends AppCompatActivity {

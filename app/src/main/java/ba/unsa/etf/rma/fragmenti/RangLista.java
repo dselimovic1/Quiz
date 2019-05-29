@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.RangListaAdapter;
+import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.klase.Rang;
-import ba.unsa.etf.rma.singleton.Baza;
 
 public class RangLista extends Fragment {
 
@@ -31,10 +31,8 @@ public class RangLista extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         rangList = (ListView)getView().findViewById(R.id.rangLista);
-        baza = Baza.getInstance();
 
         Bundle argument = getArguments();
-        rang = baza.dajRang(argument.getString("imeKviza"));
         ArrayList<Rang.Par> parovi = new ArrayList<>(rang.getMapa().values());
         adapter = new RangListaAdapter(getContext(), parovi);
         rangList.setAdapter(adapter);

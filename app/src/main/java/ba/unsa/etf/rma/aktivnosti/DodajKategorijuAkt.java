@@ -14,8 +14,8 @@ import com.maltaisn.icondialog.IconDialog;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.klase.Kategorija;
-import ba.unsa.etf.rma.singleton.Baza;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
 
 public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.Callback {

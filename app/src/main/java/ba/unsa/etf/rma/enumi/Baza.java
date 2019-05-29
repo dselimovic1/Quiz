@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.singleton;
+package ba.unsa.etf.rma.enumi;
 
 public class Baza  {
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.KvizAdapter;
+import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.fragmenti.DetailFrag;
 import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.helperi.MiscHelper;
@@ -22,7 +23,6 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
-import ba.unsa.etf.rma.singleton.Baza;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
 

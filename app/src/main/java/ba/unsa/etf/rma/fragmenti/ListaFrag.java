@@ -13,9 +13,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
+import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
-import ba.unsa.etf.rma.singleton.Baza;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
 public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded {

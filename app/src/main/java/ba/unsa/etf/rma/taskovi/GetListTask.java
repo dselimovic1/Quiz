@@ -12,13 +12,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
+import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
-import ba.unsa.etf.rma.singleton.Baza;
 
 public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
 
