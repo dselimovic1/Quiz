@@ -21,19 +21,6 @@ public class Baza  {
     }
 
 
-    public Rang dajRang(String imeKviz) {
-        for(Rang r : rangListe) {
-            if(r.getImeKviza().equals(imeKviz)) return r;
-        }
-        Rang noviRang = new Rang(imeKviz);
-        rangListe.add(noviRang);
-        return noviRang;
-    }
-
-    public void dodajRezultat(String imeKviza, Rang.Par par) {
-        Rang temp = dajRang(imeKviza);
-        temp.dodajRezultat(par);
-    }
 
 
 }
