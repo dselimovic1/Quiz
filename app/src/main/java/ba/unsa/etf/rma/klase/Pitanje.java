@@ -12,10 +12,10 @@ import java.util.Objects;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
-import static ba.unsa.etf.rma.helperi.JSONQuestionConverter.findID;
-import static ba.unsa.etf.rma.helperi.JSONQuestionConverter.findIndex;
-import static ba.unsa.etf.rma.helperi.JSONQuestionConverter.findName;
-import static ba.unsa.etf.rma.helperi.JSONQuestionConverter.getAnswers;
+import static ba.unsa.etf.rma.converteri.JSONQuestionConverter.findID;
+import static ba.unsa.etf.rma.converteri.JSONQuestionConverter.findIndex;
+import static ba.unsa.etf.rma.converteri.JSONQuestionConverter.findName;
+import static ba.unsa.etf.rma.converteri.JSONQuestionConverter.getAnswers;
 
 public class Pitanje implements Parcelable, FirestoreStorable {
 

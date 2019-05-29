@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import ba.unsa.etf.rma.helperi.JSONRangListConverter;
+import ba.unsa.etf.rma.converteri.JSONRangListConverter;
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
 

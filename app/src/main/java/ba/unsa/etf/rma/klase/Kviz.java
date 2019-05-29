@@ -11,10 +11,10 @@ import java.util.Objects;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
-import static ba.unsa.etf.rma.helperi.JSONQuizConverter.findID;
-import static ba.unsa.etf.rma.helperi.JSONQuizConverter.findName;
-import static ba.unsa.etf.rma.helperi.JSONQuizConverter.getCategory;
-import static ba.unsa.etf.rma.helperi.JSONQuizConverter.getQuestions;
+import static ba.unsa.etf.rma.converteri.JSONQuizConverter.findID;
+import static ba.unsa.etf.rma.converteri.JSONQuizConverter.findName;
+import static ba.unsa.etf.rma.converteri.JSONQuizConverter.getCategory;
+import static ba.unsa.etf.rma.converteri.JSONQuizConverter.getQuestions;
 
 public class Kviz implements Parcelable, FirestoreStorable {
 

@@ -8,9 +8,9 @@ import org.json.JSONObject;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
-import static ba.unsa.etf.rma.helperi.JSONCategoryConverter.findCategoryID;
-import static ba.unsa.etf.rma.helperi.JSONCategoryConverter.findCategoryName;
-import static ba.unsa.etf.rma.helperi.JSONCategoryConverter.findID;
+import static ba.unsa.etf.rma.converteri.JSONCategoryConverter.findCategoryID;
+import static ba.unsa.etf.rma.converteri.JSONCategoryConverter.findCategoryName;
+import static ba.unsa.etf.rma.converteri.JSONCategoryConverter.findID;
 
 public class Kategorija implements Parcelable, FirestoreStorable {
 
