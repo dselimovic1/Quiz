@@ -17,6 +17,7 @@ import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.GridAdapter;
 import ba.unsa.etf.rma.aktivnosti.DodajKvizAkt;
 import ba.unsa.etf.rma.aktivnosti.IgrajKvizAkt;
+import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
@@ -105,6 +106,8 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     @Override
     public void loadAllQuiz(ArrayList<Kviz> load) {
         kvizovi = load;
+        MiscHelper.azurirajKvizove(kvizovi, pitanja, kategorije);
+        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija(null, "671")));
         adapter = new GridAdapter(getContext(), kvizovi);
         kvizGrid.setAdapter(adapter);
     }

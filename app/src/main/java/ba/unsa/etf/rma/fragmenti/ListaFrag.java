@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
+import ba.unsa.etf.rma.singleton.Baza;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
 public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded {
@@ -40,6 +41,7 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
             e.printStackTrace();
         }
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
+        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
 
         listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
