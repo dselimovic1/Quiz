@@ -214,9 +214,9 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
         if (trenutni != null)
-            spinner.setSelection(MiscHelper.nadjiPozicijuUSpinneru(kategorijeIme, trenutni.getKategorija().getNaziv()));
+            spinner.setSelection(MiscHelper.odrediIndeks(kategorijeIme, trenutni.getKategorija().getNaziv()));
         if (lastCategory != null) {
-            spinner.setSelection(MiscHelper.nadjiPozicijuUSpinneru(kategorijeIme, lastCategory));
+            spinner.setSelection(MiscHelper.odrediIndeks(kategorijeIme, lastCategory));
             lastCategory = null;
         }
     }
@@ -252,7 +252,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     private void izdvojiKategorijuImport(String[] quizData) {
         String imeKategorije = quizData[1];
-        int pozicija = MiscHelper.nadjiPozicijuUSpinneru(kategorijeIme, imeKategorije);
+        int pozicija = MiscHelper.odrediIndeks(kategorijeIme, imeKategorije);
         if (pozicija != -1) {
             spinner.setSelection(pozicija);
         } else {
@@ -260,7 +260,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
             kategorijeIme.add(kategorijeIme.size() - 1, k.getNaziv());
             kategorijeAdapter.notifyDataSetChanged();
-            spinner.setSelection(MiscHelper.nadjiPozicijuUSpinneru(kategorijeIme, k.getNaziv()));
+            spinner.setSelection(MiscHelper.odrediIndeks(kategorijeIme, k.getNaziv()));
         }
     }
 

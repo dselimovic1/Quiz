@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +21,9 @@ import ba.unsa.etf.rma.adapteri.OdgovoriFragmentAdapter;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
+
+import static ba.unsa.etf.rma.helperi.MiscHelper.odrediIndeks;
+import static ba.unsa.etf.rma.helperi.MiscHelper.setListViewHeightBasedOnChildren;
 
 public class PitanjeFrag extends Fragment {
 
@@ -110,17 +112,10 @@ public class PitanjeFrag extends Fragment {
         return inflater.inflate(R.layout.fragment_pitanje, container, false);
     }
 
-    private int odrediPozicijuTacnog(ArrayList<String> list, String s) {
-        for(int i = 0; i < list.size(); i++) {
-            if(s.equals(list.get(i))) return i;
-        }
-        return -1;
-    }
-
     private void dajRandomPitanje() {
         int index = new Random().nextInt(pitanja.size());
         odgovori = pitanja.get(index).dajRandomOdgovore();
-        pozicijaTacnog = odrediPozicijuTacnog(odgovori, pitanja.get(index).getTacan());
+        pozicijaTacnog = odrediIndeks(odgovori, pitanja.get(index).getTacan());
         tekstPitanja.setText(pitanja.get(index).getNaziv());
         pitanja.remove(index);
         preostali = pitanja.size();
@@ -131,6 +126,10 @@ public class PitanjeFrag extends Fragment {
 
     private void zavrsiKviz() {
         tekstPitanja.setText("Kviz je završen!");
+        prikaziAlertDialog();
+    }
+
+    private void prikaziAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         alertDialog.setMessage("Unesite ime: ");
         final EditText input = new EditText(getContext());
@@ -145,26 +144,6 @@ public class PitanjeFrag extends Fragment {
         });
 
         alertDialog.show();
-    }
-
-    private static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
     }
 
     public interface SendData {

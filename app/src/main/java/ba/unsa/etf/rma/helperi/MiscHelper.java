@@ -41,7 +41,7 @@ public class MiscHelper {
         return pitanja;
     }
 
-    public static int nadjiPozicijuUSpinneru(ArrayList<String> spinner, String imeKategorije) {
+    public static int odrediIndeks(ArrayList<String> spinner, String imeKategorije) {
         for(int i = 0; i < spinner.size(); i++) {
             if(spinner.get(i).equals(imeKategorije)) return i;
         }
