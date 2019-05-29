@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import ba.unsa.etf.rma.izuzeci.WrongParseException;
 import ba.unsa.etf.rma.klase.Pitanje;
 
 public class QuizParser {

@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.helperi;
+package ba.unsa.etf.rma.izuzeci;
 
 public class WrongParseException extends RuntimeException {
 

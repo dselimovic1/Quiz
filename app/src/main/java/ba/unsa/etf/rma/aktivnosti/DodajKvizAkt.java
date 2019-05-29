@@ -27,7 +27,7 @@ import ba.unsa.etf.rma.adapteri.DodanaPitanjaAdapter;
 import ba.unsa.etf.rma.adapteri.MogucaPitanjaAdapter;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.helperi.QuizParser;
-import ba.unsa.etf.rma.helperi.WrongParseException;
+import ba.unsa.etf.rma.izuzeci.WrongParseException;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
