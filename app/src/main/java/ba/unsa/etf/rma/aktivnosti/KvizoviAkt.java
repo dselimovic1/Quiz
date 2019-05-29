@@ -62,7 +62,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                     Intent intent = new Intent(KvizoviAkt.this, DodajKvizAkt.class);
-                    intent.putExtra("kvizovi", MiscHelper.izvdojiImenaKvizova(kvizovi));
                     if (position == kvizovi.size() - 1) {
                         intent.putExtra("add", ADD_QUIZ);
                         startActivityForResult(intent, ADD_QUIZ);
