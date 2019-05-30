@@ -89,7 +89,6 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == dodanaPitanja.size() - 1) {
                     Intent intent = new Intent(DodajKvizAkt.this, DodajPitanjeAkt.class);
-                    intent.putExtra("pitanja", MiscHelper.izdvojiImenaPitanja(pitanja));
                     startActivityForResult(intent, ADD_QUESTION);
                 } else {
                     mogucaPitanja.add(dodanaPitanja.get(i));
