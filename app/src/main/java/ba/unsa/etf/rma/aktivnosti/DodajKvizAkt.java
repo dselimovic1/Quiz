@@ -115,7 +115,6 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == kategorijeIme.size() - 1) {
                     Intent intent = new Intent(DodajKvizAkt.this, DodajKategorijuAkt.class);
-                    intent.putExtra("kategorije", MiscHelper.izdvojiImenaKategorija(kategorije));
                     startActivityForResult(intent, ADD_CATEGORY);
                 } else {
                     spinner.setSelection(i);
