@@ -65,8 +65,10 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
 
     private Kviz trenutni = null;
+
     private boolean firstTime = true;
-    private String lastCategory = null;
+    private String lastCategoryAdded = null;
+    private static String lastCategoryChosen = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,6 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         sacuvajKviz = (Button) findViewById(R.id.btnDodajKviz);
         importujKviz = (Button) findViewById(R.id.btnImportKviz);
 
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded)this).execute(Baza.TaskType.QUIZ);
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,6 +120,9 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
                     startActivityForResult(intent, ADD_CATEGORY);
                 } else {
                     spinner.setSelection(i);
+                    lastCategoryChosen = kategorijeIme.get(spinner.getSelectedItemPosition());
+                    if(trenutni != null)
+                    trenutni.setKategorija(MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
                 }
             }
 
@@ -138,16 +142,14 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
                     if (trenutni == null) {
                         trenutni = new Kviz(imeKviz.getText().toString(), MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja),
                                 MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
-                        //baza.dodajKviz(trenutni);
                         new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
                     } else {
                         trenutni.setNaziv(imeKviz.getText().toString());
                         trenutni.setPitanja(MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja));
                         trenutni.setKategorija(MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
-                        //int pozicija = getIntent().getIntExtra("pozicija", 0);
-                        //baza.azurirajKviz(pozicija, trenutni);
                         new UpdateItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
                     }
+                    lastCategoryChosen = null;
                     finish();
                 }
 
@@ -167,11 +169,10 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded) this).execute(Baza.TaskType.QUIZ);
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_CATEGORY) {
-                lastCategory = data.getStringExtra("kategorija");
+                lastCategoryAdded = data.getStringExtra("kategorija");
             } else if (requestCode == ADD_QUESTION) {
                 int position = dodanaPitanja.size() - 1;
                 if (position < 0) position = 0;
@@ -205,12 +206,20 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
         kategorijeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(kategorijeAdapter);
-        if (trenutni != null)
+        if (trenutni != null) {
             spinner.setSelection(MiscHelper.odrediIndeks(kategorijeIme, trenutni.getKategorija().getNaziv()));
-        if (lastCategory != null) {
-            spinner.setSelection(MiscHelper.odrediIndeks(kategorijeIme, lastCategory));
-            lastCategory = null;
         }
+        else if(lastCategoryChosen != null) {
+            spinner.setSelection(MiscHelper.odrediIndeks(kategorijeIme, lastCategoryChosen));
+        }
+        else {
+            spinner.setSelection(0);
+        }
+        if (lastCategoryAdded != null) {
+            spinner.setSelection(MiscHelper.odrediIndeks(kategorijeIme, lastCategoryAdded));
+            lastCategoryAdded = null;
+        }
+
     }
 
     public void izdvojiDodanaPitanja() {
@@ -320,5 +329,6 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             kvizoviIme.remove(trenutni.getNaziv());
         }
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
     }
 }
