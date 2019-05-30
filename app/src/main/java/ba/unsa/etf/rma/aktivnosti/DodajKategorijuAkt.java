@@ -15,10 +15,12 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
+import ba.unsa.etf.rma.taskovi.GetListTask;
 
-public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.Callback {
+public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.Callback, GetListTask.OnCategoryLoaded {
 
 
     private Icon[] ikone;
@@ -36,7 +38,6 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kategoriju_akt);
-        kategorije = getIntent().getStringArrayListExtra("kategorije");
         final IconDialog dialog = new IconDialog();
         iconDialogButton = (Button) findViewById(R.id.btnDodajIkonu);
         saveButton = (Button) findViewById(R.id.btnDodajKategoriju);
@@ -54,18 +55,7 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                provjeriNaziv();
-                provjeriIDIkone();
-                if (validacija) {
-                    Intent intent = new Intent(DodajKategorijuAkt.this, DodajKvizAkt.class);
-                    k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
-                    imeKategorije.setBackgroundColor(Color.WHITE);
-                    icondID.setBackgroundColor(Color.WHITE);
-                    intent.putExtra("kategorija", k.getNaziv());
-                    new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
+               new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)DodajKategorijuAkt.this).execute(Baza.TaskType.CATEGORY);
             }
         });
     }
@@ -102,4 +92,20 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
        icondID.setBackgroundColor(Color.WHITE);
     }
 
+    @Override
+    public void loadAllCategory(ArrayList<Kategorija> load) {
+        kategorije = MiscHelper.izdvojiImenaKategorija(load);
+        provjeriNaziv();
+        provjeriIDIkone();
+        if (validacija) {
+            Intent intent = new Intent(DodajKategorijuAkt.this, DodajKvizAkt.class);
+            k = new Kategorija(imeKategorije.getText().toString(), icondID.getText().toString());
+            imeKategorije.setBackgroundColor(Color.WHITE);
+            icondID.setBackgroundColor(Color.WHITE);
+            intent.putExtra("kategorija", k.getNaziv());
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+    }
 }
