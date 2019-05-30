@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriAdapter;
 import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
+import ba.unsa.etf.rma.taskovi.GetListTask;
 
-public class DodajPitanjeAkt extends AppCompatActivity {
+public class DodajPitanjeAkt extends AppCompatActivity implements GetListTask.OnQuestionLoaded {
 
     private ArrayList<String> odgovori = new ArrayList<>();
     private OdgovoriAdapter odgovoriAdapter;
@@ -51,7 +53,6 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         odgovoriAdapter = new OdgovoriAdapter(this,odgovori);
         odgovoriList.setAdapter(odgovoriAdapter);
 
-        pitanja = getIntent().getStringArrayListExtra("pitanja");
 
         odgovoriList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -94,20 +95,7 @@ public class DodajPitanjeAkt extends AppCompatActivity {
         sacuvajPitanje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validirajNaziv();
-                validirajOdgovore();
-                if(validacija) {
-                    Intent sendQuestion = new Intent(DodajPitanjeAkt.this, DodajKvizAkt.class);
-                    nazivText.setBackgroundColor(Color.WHITE);
-                    odgovorText.setBackgroundColor(Color.WHITE);
-                    p.setNaziv(nazivText.getText().toString());
-                    p.setTekstPitanja(nazivText.getText().toString());
-                    new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUESTION).execute(p);
-                    sendQuestion.putExtra("pitanje", p.getNaziv());
-                    setResult(RESULT_OK, sendQuestion);
-                    finish();
-                }
-
+                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)DodajPitanjeAkt.this).execute(Baza.TaskType.QUESTION);
             }
         });
     }
@@ -136,5 +124,23 @@ public class DodajPitanjeAkt extends AppCompatActivity {
             return;
         }
         odgovorText.setBackgroundColor(Color.WHITE);
+    }
+
+    @Override
+    public void loadAllQuestion(ArrayList<Pitanje> load) {
+        pitanja = MiscHelper.izdvojiImenaPitanja(load);
+        validirajNaziv();
+        validirajOdgovore();
+        if(validacija) {
+            Intent sendQuestion = new Intent(DodajPitanjeAkt.this, DodajKvizAkt.class);
+            nazivText.setBackgroundColor(Color.WHITE);
+            odgovorText.setBackgroundColor(Color.WHITE);
+            p.setNaziv(nazivText.getText().toString());
+            p.setTekstPitanja(nazivText.getText().toString());
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUESTION).execute(p);
+            sendQuestion.putExtra("pitanje", p.getNaziv());
+            setResult(RESULT_OK, sendQuestion);
+            finish();
+        }
     }
 }
