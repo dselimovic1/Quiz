@@ -133,7 +133,10 @@ public class Kviz implements Parcelable, FirestoreStorable {
             JSONObject fields = json.getJSONObject("fields");
             kviz.setDocumentID(findID(json.getString("name")));
             kviz.setNaziv(findName(fields.getJSONObject("naziv")));
-            kviz.setPitanja(getQuestions(fields.getJSONObject("pitanja").getJSONObject("arrayValue").getJSONArray("values")));
+            if(fields.getJSONObject("pitanja").getJSONObject("arrayValue").has("values"))
+                kviz.setPitanja(getQuestions(fields.getJSONObject("pitanja").getJSONObject("arrayValue").getJSONArray("values")));
+            else
+                kviz.setPitanja(new ArrayList<Pitanje>());
             kviz.setKategorija(getCategory(fields.getJSONObject("idKategorije")));
 
         } catch (JSONException e) {
