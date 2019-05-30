@@ -121,6 +121,6 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
             setResult(RESULT_OK, intent);
             finish();
         }
-        prikaziAlertDialog("Unesena kategorija već postoji!");
+        else prikaziAlertDialog("Unesena kategorija već postoji!");
     }
 }
