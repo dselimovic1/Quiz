@@ -10,6 +10,7 @@ import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.fragmenti.InformacijeFrag;
 import ba.unsa.etf.rma.fragmenti.PitanjeFrag;
+import ba.unsa.etf.rma.fragmenti.RangLista;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Rang;
@@ -73,5 +74,8 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
         current = null;
         Bundle bundle = new Bundle();
         bundle.putSerializable("rang", rang);
+        RangLista rangListaFragment = new RangLista();
+        rangListaFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.pitanjePlace, rangListaFragment).commit();
     }
 }
