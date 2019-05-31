@@ -50,7 +50,10 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
         ArrayList<Kviz> filter = new ArrayList<>();
         try {
             JSONArray array = new JSONArray(response);
-            for(int i = 0; i < array.length(); i++) filter.add(Kviz.convertFromJSON(array.getJSONObject(i).getJSONObject("document")));
+            for(int i = 0; i < array.length(); i++)  {
+                if(array.getJSONObject(i).has("document"))
+                filter.add(Kviz.convertFromJSON(array.getJSONObject(i).getJSONObject("document")));
+            }
         }
         catch (JSONException e) {
             e.printStackTrace();
