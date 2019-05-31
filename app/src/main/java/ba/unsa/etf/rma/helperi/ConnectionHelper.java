@@ -120,17 +120,20 @@ public class ConnectionHelper {
     }
 
     public String setQuery(String categoryID) {
-        return  "{\n" +
-                "    \"structuredQuery\": {\n" +
-                "        \"where\" : {\n" +
-                "            \"fieldFilter\" : { \n" +
-                "                \"field\": {\"fieldPath\": \"idKategorije\"}, \n" +
-                "                \"op\":\"EQUAL\", \n" +
-                "                \"value\": {\"stringValue\": \"" + categoryID +"\"}\n" +
-                "            }\n" +
-                "        },\n" +
-                "        \"from\": [{\"collectionId\": \"Kvizovi\"}]\n" +
+        String document =  "{\n" +
+                "    \"structuredQuery\": {\n";
+        if(categoryID.equals("Svi") == false) {
+            document += "        \"where\" : {\n" +
+                    "            \"fieldFilter\" : { \n" +
+                    "                \"field\": {\"fieldPath\": \"idKategorije\"}, \n" +
+                    "                \"op\":\"EQUAL\", \n" +
+                    "                \"value\": {\"stringValue\": \"" + categoryID + "\"}\n" +
+                    "            }\n" +
+                    "        },\n";
+        }
+         document +=  "        \"from\": [{\"collectionId\": \"Kvizovi\"}]\n" +
                 "    }\n" +
                 "}";
+        return document;
     }
 }
