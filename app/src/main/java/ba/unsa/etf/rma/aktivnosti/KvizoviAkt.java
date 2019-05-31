@@ -23,16 +23,16 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
+import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
 
-public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory, GetListTask.OnQuestionLoaded, GetListTask.OnCategoryLoaded, GetListTask.OnQuizLoaded {
+public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory, GetListTask.OnQuestionLoaded, GetListTask.OnCategoryLoaded, FilterQuizTask.OnListFiltered {
 
     private static int ADD_QUIZ = 1;
     private static int UPDATE_QUIZ = 2;
 
     private ArrayList<Kviz> kvizovi;
-    private ArrayList<Pitanje> pitanja;
     private ArrayList<Kategorija> kategorije;
     private ArrayList<String> kategorijeIme = new ArrayList<>();
 
@@ -56,7 +56,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
 
-            new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
+            new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this).execute("Svi");
 
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -116,7 +116,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(mode == false) {
-            new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
+            new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this).execute("Svi");
         }
     }
 
@@ -139,19 +139,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
-        pitanja = load;
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
+        MiscHelper.azurirajKvizove(kvizovi, load, kategorije);
     }
 
-    @Override
-    public void loadAllQuiz(ArrayList<Kviz> load) {
-        kvizovi = load;
-        MiscHelper.azurirajKvizove(kvizovi, pitanja, kategorije);
-        Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
-        kvizovi.add(temp);
-        kvizAdapter = new KvizAdapter(this, kvizovi);
-        list.setAdapter(kvizAdapter);
-    }
 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
@@ -161,7 +151,16 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, kategorijeIme);
         spinner.setAdapter(kategorijeAdapter);
         spinner.setSelection(kategorijeIme.size() - 1);
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded) this).execute(Baza.TaskType.QUIZ);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
     }
 
+    @Override
+    public void filterList(ArrayList<Kviz> load) {
+        kvizovi = load;
+        Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
+        kvizovi.add(temp);
+        kvizAdapter = new KvizAdapter(this, kvizovi);
+        list.setAdapter(kvizAdapter);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
+    }
 }
