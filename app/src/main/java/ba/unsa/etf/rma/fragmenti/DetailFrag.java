@@ -22,9 +22,10 @@ import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
-public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, GetListTask.OnQuizLoaded {
+public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, FilterQuizTask.OnListFiltered {
 
 
     private static final int ADD_QUIZ = 1;
@@ -100,22 +101,23 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         pitanja = load;
-        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
-    }
-
-    @Override
-    public void loadAllQuiz(ArrayList<Kviz> load) {
-        kvizovi = load;
         MiscHelper.azurirajKvizove(kvizovi, pitanja, kategorije);
         kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija(null, "671")));
         adapter = new GridAdapter(getContext(), kvizovi);
         kvizGrid.setAdapter(adapter);
     }
 
+
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
         kategorije = load;
-        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded) this).execute(Baza.TaskType.QUIZ);
+        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
+    }
+
+    @Override
+    public void filterList(ArrayList<Kviz> load) {
+        kvizovi = load;
+        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Baza.TaskType.CATEGORY);
     }
 
     public interface CategoryAdd {
