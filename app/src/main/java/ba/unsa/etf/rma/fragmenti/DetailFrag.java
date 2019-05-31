@@ -54,7 +54,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
         }
 
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
-        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
+        new FilterQuizTask(getActivity().getResources().openRawResource(R.raw.secret), this).execute(getArguments().getString("filter"));
 
         kvizGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -95,7 +95,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         categoryAdd.onCategoryAdded();
-        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
+        new FilterQuizTask(getActivity().getResources().openRawResource(R.raw.secret), this).execute("Svi");
     }
 
     @Override
