@@ -141,7 +141,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         FragmentManager fm = getSupportFragmentManager();
         DetailFrag detailFrag = new DetailFrag();
         Bundle bundle = new Bundle();
-        if(categoryName != null)  bundle.putString("filter", categoryName);
+        bundle.putString("filter", categoryName);
         detailFrag.setArguments(bundle);
         fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
     }
