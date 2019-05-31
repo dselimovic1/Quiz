@@ -44,6 +44,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private ArrayList<Rang> rangovi;
 
     private boolean mode = true;
+    private boolean firstTime = true;
+    private static int lastSelected = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +90,13 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String filter = "";
-                    if(i == kategorijeIme.size() - 1) filter = "Svi";
-                    else filter = kategorije.get(i).getDocumentID();
-                    new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this).execute(filter);
+                    if(i != lastSelected) {
+                        lastSelected = i;
+                        String filter = "";
+                        if (i == kategorijeIme.size() - 1) filter = "Svi";
+                        else filter = kategorije.get(i).getDocumentID();
+                        new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this).execute(filter);
+                    }
                 }
 
                 @Override
@@ -119,6 +124,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(mode == false) {
+            firstTime = true;
             new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this).execute("Svi");
         }
     }
@@ -157,7 +163,13 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         kategorijeIme.add("Svi");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, kategorijeIme);
         spinner.setAdapter(kategorijeAdapter);
-        spinner.setSelection(kategorijeIme.size() - 1);
+        if(firstTime == true) {
+            spinner.setSelection(kategorijeIme.size() - 1);
+            firstTime = false;
+        }
+        else {
+            spinner.setSelection(lastSelected);
+        }
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
     }
 
