@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -47,18 +48,19 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private boolean firstTime = true;
     private static int lastSelected = -1;
 
+    private LinearLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
         if(listPlace == null) mode = false;
-
         if(mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
-
-            new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this).execute("Svi");
+            layout = (LinearLayout)findViewById(R.id.linlaHeaderProgress);
+            new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this, layout).execute("Svi");
 
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -95,7 +97,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                         String filter = "";
                         if (i == kategorijeIme.size() - 1) filter = "Svi";
                         else filter = kategorije.get(i).getDocumentID();
-                        new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this).execute(filter);
+                        new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this, layout).execute(filter);
                     }
                 }
 
@@ -128,7 +130,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         super.onActivityResult(requestCode, resultCode, data);
         if(mode == false) {
             firstTime = true;
-            new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this).execute("Svi");
+            new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this, layout).execute("Svi");
         }
     }
 
@@ -156,6 +158,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         kvizovi.add(temp);
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
+        layout.setVisibility(View.GONE);
     }
 
 
