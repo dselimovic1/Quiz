@@ -88,7 +88,10 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                    String filter = "";
+                    if(i == kategorijeIme.size() - 1) filter = "Svi";
+                    else filter = kategorije.get(i).getDocumentID();
+                    new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this).execute(filter);
                 }
 
                 @Override
@@ -140,6 +143,10 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         MiscHelper.azurirajKvizove(kvizovi, load, kategorije);
+        Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
+        kvizovi.add(temp);
+        kvizAdapter = new KvizAdapter(this, kvizovi);
+        list.setAdapter(kvizAdapter);
     }
 
 
@@ -157,10 +164,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     public void filterList(ArrayList<Kviz> load) {
         kvizovi = load;
-        Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
-        kvizovi.add(temp);
-        kvizAdapter = new KvizAdapter(this, kvizovi);
-        list.setAdapter(kvizAdapter);
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
     }
 }
