@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,13 +14,14 @@ import ba.unsa.etf.rma.converteri.JSONRangListConverter;
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 
 
-public class Rang implements FirestoreStorable {
+public class Rang implements FirestoreStorable, Serializable {
 
     private String imeKviza;
     private HashMap<Integer, Par> mapa = new HashMap<>();
     private String documentID;
 
-    public Rang() {}
+
+    private Rang() {}
 
     public Rang(String imeKviza) {
         this.imeKviza = imeKviza;
