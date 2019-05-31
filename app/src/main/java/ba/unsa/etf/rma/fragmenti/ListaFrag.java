@@ -64,7 +64,9 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
         kategorije = load;
-        kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, MiscHelper.izdvojiImenaKategorija(load));
+        ArrayList<String> kategorijeZaAdapter = MiscHelper.izdvojiImenaKategorija(kategorije);
+        kategorijeZaAdapter.add("Svi");
+        kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, kategorijeZaAdapter);
         listaKategorije.setAdapter(kategorijeAdapter);
         MiscHelper.setListViewHeightBasedOnChildren(listaKategorije);
     }
