@@ -1,6 +1,8 @@
 package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +19,7 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
 
     private InputStream stream;
     private OnListFiltered listFiltered;
+    private LinearLayout layout;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     private static String REQUEST_TYPE = "POST";
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
@@ -25,6 +28,17 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
     public FilterQuizTask(InputStream stream, OnListFiltered listFiltered) {
         this.stream = stream;
         this.listFiltered = listFiltered;
+    }
+
+    public FilterQuizTask(InputStream stream, OnListFiltered listFiltered, LinearLayout layout) {
+        this.stream = stream;
+        this.listFiltered = listFiltered;
+        this.layout = layout;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        if(layout != null) layout.setVisibility(View.VISIBLE);
     }
 
     @Override
