@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.klase.Rang;
 
 public class MiscHelper {
 
@@ -84,6 +85,13 @@ public class MiscHelper {
             kvizovi.get(i).setKategorija(nadjiKategorijuPoID(kategorije, kvizovi.get(i).getKategorija().getDocumentID()));
             kvizovi.get(i).setPitanja(nadjiPitanjaPoID(pitanja, kvizovi.get(i).getPitanja()));
         }
+    }
+
+    public static Rang findRang(ArrayList<Rang> list, String name) {
+        for(Rang rang : list) {
+            if(rang.getImeKviza().equals(name)) return rang;
+        }
+        return null;
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
