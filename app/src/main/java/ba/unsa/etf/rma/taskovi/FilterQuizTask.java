@@ -2,6 +2,10 @@ package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -30,7 +34,7 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
         try{
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
-            String document = "";
+            String document = connectionHelper.setQuery(strings[0]);
             connectionHelper.writeDocument(conn, document);
             response = connectionHelper.getResponse(conn.getInputStream());
         }
@@ -42,7 +46,16 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-
+        ArrayList<Kviz> filter = new ArrayList<>();
+        try {
+            JSONObject obj = new JSONObject(response);
+            JSONArray array = obj.getJSONArray("documents");
+            for(int i = 0; i < array.length(); i++) filter.add(Kviz.convertFromJSON(array.getJSONObject(i)));
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        listFiltered.filterList(filter);
     }
 
     public interface OnListFiltered {
