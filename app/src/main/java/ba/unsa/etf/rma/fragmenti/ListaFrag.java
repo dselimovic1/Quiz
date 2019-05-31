@@ -21,7 +21,7 @@ import ba.unsa.etf.rma.taskovi.GetListTask;
 public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded {
 
 
-    private ArrayList<String> kategorije;
+    private ArrayList<Kategorija> kategorije;
     private ArrayAdapter<String> kategorijeAdapter;
     private ListView listaKategorije;
 
@@ -48,7 +48,7 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String currentCategory = "";
                 if(i != kategorije.size() - 1)
-                    currentCategory = kategorije.get(i);
+                    currentCategory = kategorije.get(i).getDocumentID();
                 else
                     currentCategory = "Svi";
                 filterCategory.onCategorySelected(currentCategory);
@@ -63,8 +63,8 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
-        kategorije = MiscHelper.izdvojiImenaKategorija(load);
-        kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, kategorije);
+        kategorije = load;
+        kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, MiscHelper.izdvojiImenaKategorija(load));
         listaKategorije.setAdapter(kategorijeAdapter);
         MiscHelper.setListViewHeightBasedOnChildren(listaKategorije);
     }
