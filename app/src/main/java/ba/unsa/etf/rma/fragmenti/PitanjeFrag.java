@@ -139,7 +139,7 @@ public class PitanjeFrag extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Rang.Par par = new Rang.Par(input.getText().toString(), (double)brojTacnih / ukupno * 100);
-                data.showRangList(imeKviza, par);
+                data.showRangList(par);
             }
         });
 
@@ -148,6 +148,6 @@ public class PitanjeFrag extends Fragment {
 
     public interface SendData {
         void onQuestionAnswered(int correct, int remainder, int total);
-        void showRangList(String quizName, Rang.Par par);
+        void showRangList(Rang.Par par);
     }
 }
