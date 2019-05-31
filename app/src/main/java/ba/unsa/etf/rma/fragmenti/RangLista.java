@@ -8,11 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.RangListaAdapter;
-import ba.unsa.etf.rma.enumi.Baza;
 import ba.unsa.etf.rma.klase.Rang;
 
 public class RangLista extends Fragment {
@@ -21,7 +18,6 @@ public class RangLista extends Fragment {
     private Rang rang;
     private ListView rangList;
     private RangListaAdapter adapter;
-    private Baza baza;
 
     public RangLista() {
     }
@@ -32,10 +28,6 @@ public class RangLista extends Fragment {
 
         rangList = (ListView)getView().findViewById(R.id.rangLista);
 
-        Bundle argument = getArguments();
-        ArrayList<Rang.Par> parovi = new ArrayList<>(rang.getMapa().values());
-        adapter = new RangListaAdapter(getContext(), parovi);
-        rangList.setAdapter(adapter);
     }
 
     @Override
