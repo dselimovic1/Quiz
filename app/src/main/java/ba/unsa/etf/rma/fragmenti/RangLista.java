@@ -21,8 +21,7 @@ public class RangLista extends Fragment {
     private ListView rangList;
     private RangListaAdapter adapter;
 
-    public RangLista() {
-    }
+    public RangLista() { }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
