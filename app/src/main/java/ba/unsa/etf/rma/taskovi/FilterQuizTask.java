@@ -1,10 +1,10 @@
 package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +41,7 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
         catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d("RESPONSE:", response);
         return response;
     }
 
@@ -48,9 +49,8 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String response) {
         ArrayList<Kviz> filter = new ArrayList<>();
         try {
-            JSONObject obj = new JSONObject(response);
-            JSONArray array = obj.getJSONArray("documents");
-            for(int i = 0; i < array.length(); i++) filter.add(Kviz.convertFromJSON(array.getJSONObject(i)));
+            JSONArray array = new JSONArray(response);
+            for(int i = 0; i < array.length(); i++) filter.add(Kviz.convertFromJSON(array.getJSONObject(i).getJSONObject("document")));
         }
         catch (JSONException e) {
             e.printStackTrace();
