@@ -1,7 +1,6 @@
 package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +40,6 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
         catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("RESPONSE:", response);
         return response;
     }
 
