@@ -47,7 +47,7 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String currentCategory = "";
-                if(i != kategorije.size() - 1)
+                if(i != kategorijeAdapter.getCount() - 1)
                     currentCategory = kategorije.get(i).getDocumentID();
                 else
                     currentCategory = "Svi";
