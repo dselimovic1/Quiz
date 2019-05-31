@@ -118,4 +118,19 @@ public class ConnectionHelper {
         }
         return null;
     }
+
+    public String setQuery(String categoryID) {
+        return  "{\n" +
+                "    \"structuredQuery\": {\n" +
+                "        \"where\" : {\n" +
+                "            \"fieldFilter\" : { \n" +
+                "                \"field\": {\"fieldPath\": \"idKategorije\"}, \n" +
+                "                \"op\":\"EQUAL\", \n" +
+                "                \"value\": {\"stringValue\": \"" + categoryID +"\"}\n" +
+                "            }\n" +
+                "        },\n" +
+                "        \"from\": [{\"collectionId\": \"Kvizovi\"}]\n" +
+                "    }\n" +
+                "}";
+    }
 }
