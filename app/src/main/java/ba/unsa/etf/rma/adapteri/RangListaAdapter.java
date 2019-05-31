@@ -36,7 +36,7 @@ public class RangListaAdapter extends ArrayAdapter<Rang.Par> {
         TextView procenat = (TextView)convertView.findViewById(R.id.procenat);
         pozicija.setText(Integer.toString(position + 1) + ".");
         igrac.setText(current.imeIgraca);
-        procenat.setText(proc);
+        procenat.setText(proc + " %");
         return convertView;
     }
 }
