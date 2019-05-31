@@ -46,9 +46,11 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
         listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String currentCategory = null;
+                String currentCategory = "";
                 if(i != kategorije.size() - 1)
                     currentCategory = kategorije.get(i);
+                else
+                    currentCategory = "Svi";
                 filterCategory.onCategorySelected(currentCategory);
             }
         });
