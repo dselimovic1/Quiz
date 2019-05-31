@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Objects;
 
 import ba.unsa.etf.rma.converteri.JSONRangListConverter;
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
@@ -97,6 +98,19 @@ public class Rang implements FirestoreStorable {
     private void setHashMap(ArrayList<Par> pairs) {
         Iterator<Par> iterator = pairs.listIterator();
         while(iterator.hasNext()) dodajRezultat(iterator.next());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rang rang = (Rang) o;
+        return Objects.equals(imeKviza, rang.imeKviza);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imeKviza);
     }
 
     public static class Par implements Comparable<Par>{
