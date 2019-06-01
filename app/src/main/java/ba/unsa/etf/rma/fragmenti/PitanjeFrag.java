@@ -68,7 +68,7 @@ public class PitanjeFrag extends Fragment {
             dajRandomPitanje();
             setListViewHeightBasedOnChildren(odg);
         }
-        else zavrsiKviz();
+        else zavrsiKviz(false);
 
 
         odg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,7 +92,7 @@ public class PitanjeFrag extends Fragment {
                             setListViewHeightBasedOnChildren(odg);
                         }
                         else{
-                            zavrsiKviz();
+                            zavrsiKviz(true);
                             odgovori.clear();
                             adapterOdgovori.notifyDataSetChanged();
                         }
@@ -124,9 +124,9 @@ public class PitanjeFrag extends Fragment {
         adapterOdgovori.notifyDataSetChanged();
     }
 
-    private void zavrsiKviz() {
+    private void zavrsiKviz(boolean showAlertDialog) {
         tekstPitanja.setText("Kviz je završen!");
-        prikaziAlertDialog();
+        if(showAlertDialog) prikaziAlertDialog();
     }
 
     private void prikaziAlertDialog() {
