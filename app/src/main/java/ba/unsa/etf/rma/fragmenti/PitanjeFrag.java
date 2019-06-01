@@ -1,7 +1,6 @@
 package ba.unsa.etf.rma.fragmenti;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -9,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -130,21 +130,23 @@ public class PitanjeFrag extends Fragment {
     }
 
     private void prikaziAlertDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-        alertDialog.setMessage("Unesite ime: ");
         final EditText input = new EditText(getContext());
-        alertDialog.setView(input);
-
-        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                .setView(input)
+                .setMessage("Unesite ime: ")
+                .setCancelable(false)
+                .setPositiveButton("OK", null)
+                .show();
+        Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View view) {
                 if(input.getText().toString().equals("")) return;
                 Rang.Par par = new Rang.Par(input.getText().toString(), (double)brojTacnih / ukupno * 100);
                 data.showRangList(par);
+                alertDialog.dismiss();
             }
         });
-
-        alertDialog.show();
     }
 
     public interface SendData {
