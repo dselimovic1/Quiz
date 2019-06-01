@@ -113,4 +113,11 @@ public class MiscHelper {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
+    public static Kviz getQuizByID(String id, ArrayList<Kviz> load) {
+        for(Kviz k : load) {
+            if(k.getDocumentID().equals(id)) return k;
+        }
+        return null;
+    }
 }
