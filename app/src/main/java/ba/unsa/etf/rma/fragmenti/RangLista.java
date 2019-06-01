@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.RangListaAdapter;
+import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Rang;
 
 public class RangLista extends Fragment {
@@ -31,6 +32,7 @@ public class RangLista extends Fragment {
         rang = (Rang) getArguments().getSerializable("rang");
         adapter = new RangListaAdapter(getContext(), new ArrayList<Rang.Par>(rang.getMapa().values()));
         rangList.setAdapter(adapter);
+        MiscHelper.setListViewHeightBasedOnChildren(rangList);
     }
 
     @Override
