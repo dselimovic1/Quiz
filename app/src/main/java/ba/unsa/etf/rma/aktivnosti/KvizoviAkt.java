@@ -20,6 +20,7 @@ import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.fragmenti.DetailFrag;
 import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.helperi.MiscHelper;
+import ba.unsa.etf.rma.helperi.ViewHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
@@ -59,6 +60,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if(mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
+            ViewHelper.setInvisible(spinner, list);
             layout = (LinearLayout)findViewById(R.id.linlaHeaderProgress);
             new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this, layout).execute("Svi");
 
@@ -129,6 +131,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(mode == false) {
+            ViewHelper.setInvisible(spinner, list);
             firstTime = true;
             new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this, layout).execute("Svi");
         }
@@ -159,6 +162,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         kvizAdapter = new KvizAdapter(this, kvizovi);
         list.setAdapter(kvizAdapter);
         layout.setVisibility(View.GONE);
+        ViewHelper.setVisible(spinner, list);
     }
 
 
