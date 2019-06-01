@@ -138,6 +138,7 @@ public class PitanjeFrag extends Fragment {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                if(input.getText().toString().equals("")) return;
                 Rang.Par par = new Rang.Par(input.getText().toString(), (double)brojTacnih / ukupno * 100);
                 data.showRangList(par);
             }
