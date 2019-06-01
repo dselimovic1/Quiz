@@ -61,7 +61,7 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
 
     @Override
     public void loadAllRang(ArrayList<Rang> load) {
-        Rang rang = MiscHelper.findRang(load, kviz.getNaziv());
+        Rang rang = MiscHelper.traziRang(load, kviz.getNaziv());
         if(rang == null) {
             rang = new Rang(kviz.getNaziv());
             rang.dodajRezultat(current);

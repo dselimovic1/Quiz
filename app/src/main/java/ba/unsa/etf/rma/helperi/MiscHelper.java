@@ -87,7 +87,7 @@ public class MiscHelper {
         }
     }
 
-    public static Rang findRang(ArrayList<Rang> list, String name) {
+    public static Rang traziRang(ArrayList<Rang> list, String name) {
         for(Rang rang : list) {
             if(rang.getImeKviza().equals(name)) return rang;
         }
@@ -114,7 +114,7 @@ public class MiscHelper {
         listView.requestLayout();
     }
 
-    public static Kviz getQuizByID(String id, ArrayList<Kviz> load) {
+    public static Kviz nadjiKvizPoID(String id, ArrayList<Kviz> load) {
         for(Kviz k : load) {
             if(k.getDocumentID().equals(id)) return k;
         }
