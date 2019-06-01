@@ -72,7 +72,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                     } else {
                         Kviz k = kvizovi.get(position);
                         intent.putExtra("add", UPDATE_QUIZ);
-                        intent.putExtra("updateKviz",k.getDocumentID());
+                        intent.putExtra("updateKviz",k);
                         startActivityForResult(intent, UPDATE_QUIZ);
                     }
                     return true;
