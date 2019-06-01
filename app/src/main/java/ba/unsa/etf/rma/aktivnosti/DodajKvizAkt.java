@@ -33,13 +33,14 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
+import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 
 import static ba.unsa.etf.rma.helperi.QuizParser.izdvojiPitanje;
 
 
-public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, GetListTask.OnQuizLoaded {
+public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, GetListTask.OnQuizLoaded, FilterQuizTask.OnListFiltered {
 
     private static int ADD_CATEGORY = 1;
     private static int ADD_QUESTION = 2;
@@ -133,24 +134,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         sacuvajKviz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validirajNaslov() == false) {
-                    imeKviz.setBackgroundColor(Color.RED);
-                } else {
-                    imeKviz.setBackgroundColor(Color.WHITE);
-                    if (trenutni == null) {
-                        trenutni = new Kviz(imeKviz.getText().toString(), MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja),
-                                MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
-                        new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
-                    } else {
-                        trenutni.setNaziv(imeKviz.getText().toString());
-                        trenutni.setPitanja(MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja));
-                        trenutni.setKategorija(MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
-                        new UpdateItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
-                    }
-                    lastCategoryChosen = null;
-                    finish();
-                }
-
+                new FilterQuizTask(getResources().openRawResource(R.raw.secret), DodajKvizAkt.this).execute("Svi");
             }
         });
 
@@ -220,7 +204,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     }
 
-    public void izdvojiDodanaPitanja() {
+    private void izdvojiDodanaPitanja() {
         dodanaPitanja.clear();
         if(trenutni != null) dodanaPitanja.addAll(0, trenutni.dajImenaPitanja());
         dodanaPitanja.add("Dodaj Pitanje");
@@ -331,5 +315,27 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         }
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
+    }
+
+    @Override
+    public void filterList(ArrayList<Kviz> load) {
+        kvizoviIme = MiscHelper.izvdojiImenaKvizova(load);
+        if (validirajNaslov() == false) {
+            imeKviz.setBackgroundColor(Color.RED);
+        } else {
+            imeKviz.setBackgroundColor(Color.WHITE);
+            if (trenutni == null) {
+                trenutni = new Kviz(imeKviz.getText().toString(), MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja),
+                        MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
+                new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
+            } else {
+                trenutni.setNaziv(imeKviz.getText().toString());
+                trenutni.setPitanja(MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja));
+                trenutni.setKategorija(MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
+                new UpdateItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
+            }
+            lastCategoryChosen = null;
+            finish();
+        }
     }
 }
