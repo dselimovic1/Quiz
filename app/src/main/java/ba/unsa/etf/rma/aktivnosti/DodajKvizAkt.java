@@ -320,6 +320,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     @Override
     public void filterList(ArrayList<Kviz> load) {
         kvizoviIme = MiscHelper.izvdojiImenaKvizova(load);
+        if(trenutni != null) kvizoviIme.remove(trenutni.getNaziv());
         if (validirajNaslov() == false) {
             imeKviz.setBackgroundColor(Color.RED);
         } else {
