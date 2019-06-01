@@ -185,7 +185,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
                         String[] quizData = temp.get(0).split(",");
                         izvdojiSvaPitanja(quizData, temp);
                         imeKviz.setText(quizData[0]);
-                        izdvojiKategorijuImport(quizData);
+                        izdvojiKategoriju(quizData);
                     }
                     catch (NumberFormatException e) {
                         prikaziAlertDialog("Datoteka kviza kojeg importujete nema ispravan format!");
@@ -235,7 +235,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         mogucaPitanjaList.setAdapter(mogucaAdapter);
     }
 
-    private void izdvojiKategorijuImport(String[] quizData) {
+    private void izdvojiKategoriju(String[] quizData) {
         String imeKategorije = quizData[1];
         int pozicija = MiscHelper.odrediIndeks(kategorijeIme, imeKategorije);
         if (pozicija != -1) {
@@ -250,14 +250,17 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     }
 
     private void izvdojiSvaPitanja(String[] quizData, ArrayList<String> temp) {
-        dodanaPitanja.clear();
+        ArrayList<Pitanje> provjera = new ArrayList<>();
         for (int i = 0; i < Integer.parseInt(quizData[2]); i++) {
             Pitanje p = izdvojiPitanje(temp.get(i + 1).split(","));
-            pitanja.add(p);
-            dodanaPitanja.add(p.getNaziv());
+            provjera.add(p);
         }
+        QuizParser.checkDuplicatesAfterImport(provjera, pitanja);
+        dodanaPitanja.clear();
+        dodanaPitanja.addAll(MiscHelper.izdvojiImenaPitanja(provjera));
         dodanaPitanja.add("Dodaj Pitanje");
         dodanaAdapter.notifyDataSetChanged();
+        for(Pitanje p : provjera) new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUESTION).execute(p);
     }
 
     private boolean validirajNaslov() {
