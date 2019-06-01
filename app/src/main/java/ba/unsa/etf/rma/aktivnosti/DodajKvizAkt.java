@@ -32,6 +32,7 @@ import ba.unsa.etf.rma.izuzeci.WrongParseException;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
@@ -40,7 +41,7 @@ import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 import static ba.unsa.etf.rma.helperi.QuizParser.izdvojiPitanje;
 
 
-public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, GetListTask.OnQuizLoaded, FilterQuizTask.OnListFiltered {
+public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, FilterQuizTask.OnListFiltered, GetListTask.OnRangLoaded {
 
     private static int ADD_CATEGORY = 1;
     private static int ADD_QUESTION = 2;
@@ -48,6 +49,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     private ArrayList<Pitanje> pitanja;
     private ArrayList<Kategorija> kategorije;
+    private ArrayList<Rang> rangliste;
 
     private ArrayList<String> kategorijeIme;
     private ArrayAdapter<String> kategorijeAdapter;
@@ -83,7 +85,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         sacuvajKviz = (Button) findViewById(R.id.btnDodajKviz);
         importujKviz = (Button) findViewById(R.id.btnImportKviz);
 
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded)this).execute(Baza.TaskType.QUIZ);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded)this).execute(Baza.TaskType.RANGLIST);
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -151,7 +153,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuizLoaded) this).execute(Baza.TaskType.QUIZ);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Baza.TaskType.RANGLIST);
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_CATEGORY) {
                 lastCategoryAdded = data.getStringExtra("kategorija");
@@ -306,12 +308,11 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     }
 
     @Override
-    public void loadAllQuiz(ArrayList<Kviz> load) {
-        kvizoviIme = MiscHelper.izvdojiImenaKvizova(load);
+    public void loadAllRang(ArrayList<Rang> load) {
+        rangliste = load;
         if (getIntent().getIntExtra("add", 0) == 2) {
             trenutni = (Kviz) getIntent().getParcelableExtra("updateKviz");
             imeKviz.setText(trenutni.getNaziv());
-            kvizoviIme.remove(trenutni.getNaziv());
         }
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
@@ -330,6 +331,11 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
                         MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
                 new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
             } else {
+                Rang rang = MiscHelper.traziRang(rangliste, trenutni.getNaziv());
+                if(rang != null)  {
+                    rang.setImeKviza(imeKviz.getText().toString());
+                    new UpdateItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.RANGLIST).execute(rang);
+                }
                 trenutni.setNaziv(imeKviz.getText().toString());
                 trenutni.setPitanja(MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja));
                 trenutni.setKategorija(MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
