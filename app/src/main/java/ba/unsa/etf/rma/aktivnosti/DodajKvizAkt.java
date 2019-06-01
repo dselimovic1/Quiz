@@ -309,8 +309,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     public void loadAllQuiz(ArrayList<Kviz> load) {
         kvizoviIme = MiscHelper.izvdojiImenaKvizova(load);
         if (getIntent().getIntExtra("add", 0) == 2) {
-            String id = getIntent().getStringExtra("updateKviz");
-            trenutni = MiscHelper.nadjiKvizPoID(id, load);
+            trenutni = (Kviz) getIntent().getSerializableExtra("updateKviz");
             imeKviz.setText(trenutni.getNaziv());
             kvizoviIme.remove(trenutni.getNaziv());
         }
