@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriAdapter;
-import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
@@ -95,7 +95,7 @@ public class DodajPitanjeAkt extends AppCompatActivity implements GetListTask.On
         sacuvajPitanje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)DodajPitanjeAkt.this).execute(Baza.TaskType.QUESTION);
+                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)DodajPitanjeAkt.this).execute(Task.TaskType.QUESTION);
             }
         });
     }
@@ -137,7 +137,7 @@ public class DodajPitanjeAkt extends AppCompatActivity implements GetListTask.On
             odgovorText.setBackgroundColor(Color.WHITE);
             p.setNaziv(nazivText.getText().toString());
             p.setTekstPitanja(nazivText.getText().toString());
-            new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUESTION).execute(p);
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.QUESTION).execute(p);
             sendQuestion.putExtra("pitanje", p.getNaziv());
             setResult(RESULT_OK, sendQuestion);
             finish();

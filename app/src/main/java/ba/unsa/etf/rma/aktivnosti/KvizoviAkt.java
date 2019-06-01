@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.KvizAdapter;
-import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.fragmenti.DetailFrag;
 import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.helperi.MiscHelper;
@@ -176,12 +176,12 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         else {
             spinner.setSelection(lastSelected);
         }
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Baza.TaskType.QUESTION);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Task.TaskType.QUESTION);
     }
 
     @Override
     public void filterList(ArrayList<Kviz> load) {
         kvizovi = load;
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Task.TaskType.CATEGORY);
     }
 }

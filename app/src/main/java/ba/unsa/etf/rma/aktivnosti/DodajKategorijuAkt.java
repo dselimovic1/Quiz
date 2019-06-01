@@ -16,7 +16,7 @@ import com.maltaisn.icondialog.IconDialog;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
-import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
@@ -57,7 +57,7 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)DodajKategorijuAkt.this).execute(Baza.TaskType.CATEGORY);
+               new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)DodajKategorijuAkt.this).execute(Task.TaskType.CATEGORY);
             }
         });
     }
@@ -117,7 +117,7 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
             imeKategorije.setBackgroundColor(Color.WHITE);
             icondID.setBackgroundColor(Color.WHITE);
             intent.putExtra("kategorija", k.getNaziv());
-            new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.CATEGORY).execute(k);
             setResult(RESULT_OK, intent);
             finish();
         }

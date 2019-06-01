@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 import ba.unsa.etf.rma.klase.Kategorija;
@@ -20,7 +20,7 @@ import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
 
-public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
+public class GetListTask extends AsyncTask<Task.TaskType, Void, String> {
 
 
     private OnCategoryLoaded categoryLoaded;
@@ -28,7 +28,7 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
     private OnQuizLoaded quizLoaded;
     private OnRangLoaded rangLoaded;
     private InputStream stream;
-    private Baza.TaskType type;
+    private Task.TaskType type;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     private static String REQUEST_TYPE = "GET";
     private static String AUTH = "https://www.googleapis.com/auth/datastore";
@@ -55,7 +55,7 @@ public class GetListTask extends AsyncTask<Baza.TaskType, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Baza.TaskType... enums) {
+    protected String doInBackground(Task.TaskType... enums) {
         String response = null;
         try {
             type = enums[0];

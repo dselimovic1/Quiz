@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.DodanaPitanjaAdapter;
 import ba.unsa.etf.rma.adapteri.MogucaPitanjaAdapter;
-import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.helperi.QuizParser;
 import ba.unsa.etf.rma.izuzeci.WrongParseException;
@@ -85,7 +85,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         sacuvajKviz = (Button) findViewById(R.id.btnDodajKviz);
         importujKviz = (Button) findViewById(R.id.btnImportKviz);
 
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded)this).execute(Baza.TaskType.RANGLIST);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded)this).execute(Task.TaskType.RANGLIST);
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -153,7 +153,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Baza.TaskType.RANGLIST);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_CATEGORY) {
                 lastCategoryAdded = data.getStringExtra("kategorija");
@@ -228,7 +228,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             spinner.setSelection(pozicija);
         } else {
             Kategorija k = new Kategorija(imeKategorije, "2");
-            new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.CATEGORY).execute(k);
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.CATEGORY).execute(k);
             kategorijeIme.add(kategorijeIme.size() - 1, k.getNaziv());
             kategorijeAdapter.notifyDataSetChanged();
             spinner.setSelection(MiscHelper.odrediIndeks(kategorijeIme, k.getNaziv()));
@@ -246,7 +246,7 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         dodanaPitanja.addAll(MiscHelper.izdvojiImenaPitanja(provjera));
         dodanaPitanja.add("Dodaj Pitanje");
         dodanaAdapter.notifyDataSetChanged();
-        for(Pitanje p : provjera) new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUESTION).execute(p);
+        for(Pitanje p : provjera) new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.QUESTION).execute(p);
     }
 
     private boolean validirajNaslov() {
@@ -314,8 +314,8 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             trenutni = (Kviz) getIntent().getParcelableExtra("updateKviz");
             imeKviz.setText(trenutni.getNaziv());
         }
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Baza.TaskType.QUESTION);
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Baza.TaskType.CATEGORY);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)this).execute(Task.TaskType.QUESTION);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Task.TaskType.CATEGORY);
     }
 
     @Override
@@ -329,17 +329,17 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             if (trenutni == null) {
                 trenutni = new Kviz(imeKviz.getText().toString(), MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja),
                         MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
-                new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
+                new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.QUIZ).execute(trenutni);
             } else {
                 Rang rang = MiscHelper.traziRang(rangliste, trenutni.getNaziv());
                 if(rang != null)  {
                     rang.setImeKviza(imeKviz.getText().toString());
-                    new UpdateItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.RANGLIST).execute(rang);
+                    new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(rang);
                 }
                 trenutni.setNaziv(imeKviz.getText().toString());
                 trenutni.setPitanja(MiscHelper.izdvojiPitanja(pitanja, dodanaPitanja));
                 trenutni.setKategorija(MiscHelper.odrediKategoriju(kategorije, kategorijeIme.get(spinner.getSelectedItemPosition())));
-                new UpdateItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.QUIZ).execute(trenutni);
+                new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.QUIZ).execute(trenutni);
             }
             lastCategoryChosen = null;
             finish();

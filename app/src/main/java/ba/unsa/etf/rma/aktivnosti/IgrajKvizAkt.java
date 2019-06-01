@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
-import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.fragmenti.InformacijeFrag;
 import ba.unsa.etf.rma.fragmenti.PitanjeFrag;
 import ba.unsa.etf.rma.fragmenti.RangLista;
@@ -55,7 +55,7 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
 
     @Override
     public void showRangList(Rang.Par par) {
-        new GetListTask(getResources().openRawResource(R.raw.secret), this).execute(Baza.TaskType.RANGLIST);
+        new GetListTask(getResources().openRawResource(R.raw.secret), this).execute(Task.TaskType.RANGLIST);
         current = par;
     }
 
@@ -65,11 +65,11 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
         if(rang == null) {
             rang = new Rang(kviz.getNaziv());
             rang.dodajRezultat(current);
-            new AddItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.RANGLIST).execute(rang);
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(rang);
         }
         else {
             rang.dodajRezultat(current);
-            new UpdateItemTask(getResources().openRawResource(R.raw.secret), Baza.TaskType.RANGLIST).execute(rang);
+            new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(rang);
         }
         current = null;
         Bundle bundle = new Bundle();

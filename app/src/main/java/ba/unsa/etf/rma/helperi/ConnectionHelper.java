@@ -15,7 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import ba.unsa.etf.rma.enumi.Baza;
+import ba.unsa.etf.rma.enumi.Task;
 
 public class ConnectionHelper {
 
@@ -36,17 +36,17 @@ public class ConnectionHelper {
         return TOKEN;
     }
 
-    public String setListURL(Baza.TaskType type, String URL) {
+    public String setListURL(Task.TaskType type, String URL) {
         URL = setURL(type, URL);
         return URL + "?access_token=";
     }
 
-    public String setDocumentURL(Baza.TaskType type, String URL, String documentID) {
+    public String setDocumentURL(Task.TaskType type, String URL, String documentID) {
         URL = setURL(type, URL);
         return URL + "/" + documentID + "?access_token=";
     }
 
-    public String setURL(Baza.TaskType type, String URL) {
+    public String setURL(Task.TaskType type, String URL) {
         switch (type) {
             case QUESTION:
                 URL += "Pitanja";
