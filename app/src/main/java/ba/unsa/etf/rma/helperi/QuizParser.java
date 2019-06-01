@@ -91,4 +91,12 @@ public class QuizParser {
         QuizParser.checkAnswers(quizData, temp);
         QuizParser.checkDuplicatesOnImport(quizData, temp);
     }
+
+    public static void checkDuplicatesAfterImport(ArrayList<Pitanje> temp, ArrayList<Pitanje> added) {
+         for(Pitanje t : temp) {
+             for(Pitanje a : added) {
+                 if(a.getNaziv().equals(t.getNaziv())) throw new WrongParseException("Pitanja iz datoteke su već dodana!");
+             }
+         }
+    }
 }
