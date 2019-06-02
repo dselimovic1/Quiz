@@ -68,7 +68,6 @@ public class FilterQuizTask extends AsyncTask<String, Void, String> {
             }
         }
         catch (JSONException e) {
-            e.printStackTrace();
         }
         listFiltered.filterList(filter);
     }
