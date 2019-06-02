@@ -34,7 +34,6 @@ public class PitanjeFrag extends Fragment {
     private ArrayList<String> odgovori;
     private OdgovoriFragmentAdapter adapterOdgovori;
 
-    private String imeKviza;
     private int pozicijaTacnog;
     private int brojTacnih = 0;
     private int preostali = 0;
@@ -42,8 +41,7 @@ public class PitanjeFrag extends Fragment {
 
     private SendData data;
 
-    public PitanjeFrag() {
-    }
+    public PitanjeFrag() { }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -60,7 +58,6 @@ public class PitanjeFrag extends Fragment {
         odg = (ListView)getView().findViewById(R.id.odgovoriPitanja);
 
         Kviz k = (Kviz)getActivity().getIntent().getParcelableExtra("kviz");
-        imeKviza = k.getNaziv();
         pitanja = k.getPitanja();
         preostali = pitanja.size() - 1;
         if(preostali < 0 ) preostali = 0;
@@ -68,7 +65,7 @@ public class PitanjeFrag extends Fragment {
             dajRandomPitanje();
             setListViewHeightBasedOnChildren(odg);
         }
-        else zavrsiKviz(false);
+        else zavrsiKviz(true);
 
 
         odg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,7 +89,7 @@ public class PitanjeFrag extends Fragment {
                             setListViewHeightBasedOnChildren(odg);
                         }
                         else{
-                            zavrsiKviz(true);
+                            zavrsiKviz(false);
                             odgovori.clear();
                             adapterOdgovori.notifyDataSetChanged();
                         }
@@ -124,12 +121,12 @@ public class PitanjeFrag extends Fragment {
         adapterOdgovori.notifyDataSetChanged();
     }
 
-    private void zavrsiKviz(boolean showAlertDialog) {
+    private void zavrsiKviz(boolean emptyQuiz) {
         tekstPitanja.setText("Kviz je završen!");
-        if(showAlertDialog) prikaziAlertDialog();
+        prikaziAlertDialog(emptyQuiz);
     }
 
-    private void prikaziAlertDialog() {
+    private void prikaziAlertDialog(final boolean emptyQuiz) {
         final EditText input = new EditText(getContext());
         final AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                 .setView(input)
@@ -142,7 +139,9 @@ public class PitanjeFrag extends Fragment {
             @Override
             public void onClick(View view) {
                 if(input.getText().toString().equals("")) return;
-                Rang.Par par = new Rang.Par(input.getText().toString(), (double)brojTacnih / ukupno * 100);
+                Rang.Par par = null;
+                if(!emptyQuiz) par = new Rang.Par(input.getText().toString(), (double)brojTacnih / ukupno * 100);
+                else par = new Rang.Par(input.getText().toString(), 0);
                 data.showRangList(par);
                 alertDialog.dismiss();
             }
