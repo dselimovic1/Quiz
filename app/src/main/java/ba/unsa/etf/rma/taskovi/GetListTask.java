@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.taskovi;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,6 +63,7 @@ public class GetListTask extends AsyncTask<Task.TaskType, Void, String> {
             String TOKEN = connectionHelper.setAccessToken(stream, AUTH);
             HttpURLConnection conn = connectionHelper.setConnection(URL, TOKEN, REQUEST_TYPE);
             response = connectionHelper.getResponse(conn.getInputStream());
+            Log.d("Response", response);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +82,6 @@ public class GetListTask extends AsyncTask<Task.TaskType, Void, String> {
             }
         }
         catch (JSONException e) {
-            e.printStackTrace();
         }
         callback(store);
     }
