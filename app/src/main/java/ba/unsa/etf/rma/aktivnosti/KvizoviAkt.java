@@ -2,6 +2,7 @@ package ba.unsa.etf.rma.aktivnosti;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -99,9 +101,14 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     if (position == kvizovi.size() - 1) return;
-                    Intent intent = new Intent(KvizoviAkt.this, IgrajKvizAkt.class);
-                    intent.putExtra("kviz", kvizovi.get(position));
-                    startActivity(intent);
+                    if(checkEvents(kvizovi.get(position).getPitanja().size())) {
+                        Intent intent = new Intent(KvizoviAkt.this, IgrajKvizAkt.class);
+                        intent.putExtra("kviz", kvizovi.get(position));
+                        startActivity(intent);
+                    }
+                    else {
+                        showAlertDialog("Imate događaj u kalendaru za " + nextEvent + " minuta!");
+                    }
                 }
             });
 
@@ -219,6 +226,18 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
         }
         return true;
+    }
+
+    private void showAlertDialog(String message) {
+        final AlertDialog alert = new AlertDialog.Builder(this).create();
+        alert.setMessage(message);
+        alert.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alert.cancel();
+            }
+        });
+        alert.show();
     }
 
 }
