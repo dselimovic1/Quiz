@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.helperi;
 
+import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -119,5 +120,19 @@ public class MiscHelper {
             if(k.getDocumentID().equals(id)) return k;
         }
         return null;
+    }
+
+    public static long getFirstEventTime(Cursor cursor) {
+        long min = 0;
+        boolean first = true;
+        while(cursor.moveToNext()) {
+            long ID = cursor.getLong(0);
+            if(first) {
+                min = ID;
+                first = false;
+            }
+            if(ID < min) min = ID;
+        }
+        return min;
     }
 }
