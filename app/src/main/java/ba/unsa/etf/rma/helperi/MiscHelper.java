@@ -7,6 +7,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
@@ -134,5 +136,10 @@ public class MiscHelper {
             if(ID < min) min = ID;
         }
         return min;
+    }
+
+    public static long getDifferenceInMinutes(long ID) {
+        long diffInMiliseconds = ID - Calendar.getInstance().getTimeInMillis();
+        return TimeUnit.MILLISECONDS.toMinutes(diffInMiliseconds);
     }
 }
