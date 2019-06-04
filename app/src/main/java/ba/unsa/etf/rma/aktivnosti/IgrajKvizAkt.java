@@ -1,10 +1,13 @@
 package ba.unsa.etf.rma.aktivnosti;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.enumi.Task;
@@ -40,6 +43,7 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
             fm.beginTransaction().replace(R.id.pitanjePlace, pitanjeFrag).commit();
         }
         kviz = (Kviz) getIntent().getParcelableExtra("kviz");
+        setAlarm(kviz.getPitanja().size());
     }
 
     @Override
@@ -77,5 +81,16 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
         RangLista rangListaFragment = new RangLista();
         rangListaFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.pitanjePlace, rangListaFragment).commit();
+    }
+
+    public void setAlarm(int numOfQuestions) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setLenient(true);
+        calendar.add(Calendar.MINUTE, numOfQuestions / 2);
+        Intent setAlarmActivity = new Intent(AlarmClock.ACTION_SET_ALARM);
+        setAlarmActivity.putExtra(AlarmClock.EXTRA_HOUR, calendar.get(calendar.HOUR_OF_DAY));
+        setAlarmActivity.putExtra(AlarmClock.EXTRA_MINUTES, calendar.get(calendar.MINUTE));
+        setAlarmActivity.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+        startActivity(setAlarmActivity);
     }
 }
