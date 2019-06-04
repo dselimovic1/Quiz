@@ -1,7 +1,14 @@
 package ba.unsa.etf.rma.aktivnosti;
 
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.KvizAdapter;
@@ -33,6 +41,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
     private static int ADD_QUIZ = 1;
     private static int UPDATE_QUIZ = 2;
+    private static int PERMISSION_REQUEST = 0;
 
     private ArrayList<Kviz> kvizovi;
     private ArrayList<Kategorija> kategorije;
@@ -48,8 +57,13 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private boolean mode = true;
     private boolean firstTime = true;
     private static int lastSelected = -1;
+    private long nextEvent = 0;
 
     private LinearLayout layout;
+
+    private static final String[] INSTANCE_PROJECTION = new String[]{CalendarContract.Events.DTSTART};
+    private static final String SELECTION = INSTANCE_PROJECTION[0] + " >= ?";
+    private static final String SORT_ORDER = INSTANCE_PROJECTION[0] + " ASC";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,4 +202,23 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         kvizovi = load;
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Task.TaskType.CATEGORY);
     }
+
+    public boolean checkEvents(int numOfQuestions) {
+        ContentResolver cr = getContentResolver();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, PERMISSION_REQUEST);
+        }
+        Uri uri = CalendarContract.Events.CONTENT_URI;
+        String[] selectionArgs = new String[] {Long.toString(Calendar.getInstance().getTimeInMillis())};
+        Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
+        if(cursor != null && cursor.getCount() >= 1) {
+            long ID = MiscHelper.getFirstEventTime(cursor);
+            cursor.close();
+            nextEvent = MiscHelper.getDifferenceInMinutes(ID);
+            if(nextEvent < numOfQuestions / 2) return false;
+
+        }
+        return true;
+    }
+
 }
