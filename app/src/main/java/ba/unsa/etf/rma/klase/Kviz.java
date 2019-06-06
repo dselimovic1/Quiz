@@ -50,6 +50,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
         pitanja = parcel.readArrayList(getClass().getClassLoader());
         kategorija = parcel.readParcelable(getClass().getClassLoader());
         documentID = parcel.readString();
+        ID = parcel.readInt();
     }
 
     public String getNaziv() {
@@ -87,6 +88,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
         parcel.writeList(pitanja);
         parcel.writeParcelable(kategorija, 0);
         parcel.writeString(documentID);
+        parcel.writeInt(ID);
     }
 
     @Override
@@ -167,7 +169,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
         private PitanjaKvizaEntry() {}
 
         public static final String TABLE_NAME = "PitanjaKviza";
-        public static final String COLUMND_ID = "id";
+        public static final String COLUMN_ID = "id";
         public static final String COLUMN_QUIZ_ID = "id_kviza";
         public static final String COLUMN_QUESTION_ID = "id_pitanja";
     }

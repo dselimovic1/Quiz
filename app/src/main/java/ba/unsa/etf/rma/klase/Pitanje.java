@@ -24,6 +24,7 @@ public class Pitanje implements Parcelable, FirestoreStorable {
     private ArrayList<String> odgovori = new ArrayList<>();
     private String tacan;
     private String documentID;
+    private int ID;
 
     public Pitanje() {
     }
@@ -41,6 +42,7 @@ public class Pitanje implements Parcelable, FirestoreStorable {
         odgovori = parcel.createStringArrayList();
         tacan = parcel.readString();
         documentID = parcel.readString();
+        ID = parcel.readInt();
     }
 
     public static final Creator<Pitanje> CREATOR = new Creator<Pitanje>() {
@@ -122,6 +124,7 @@ public class Pitanje implements Parcelable, FirestoreStorable {
         parcel.writeStringList(odgovori);
         parcel.writeString(tacan);
         parcel.writeString(documentID);
+        parcel.writeInt(ID);
     }
 
     public String getDocumentID() {
@@ -159,5 +162,31 @@ public class Pitanje implements Parcelable, FirestoreStorable {
             e.printStackTrace();
         }
         return pitanje;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public static class PitanjeEntry {
+        private PitanjeEntry() {}
+
+        public static final String TABLE_NAME = "Pitanja";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_NAME = "naziv";
+        public static final String COLUMN_INDEX = "index";
+    }
+
+    public static class OdgovorEntry {
+        private OdgovorEntry() {}
+
+        public static final String TABLE_NAME = "Odgovori";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_NAME = "naziv";
+        public static final String COLUMN_QUESTION_ID = "id_pitanja";
     }
 }
