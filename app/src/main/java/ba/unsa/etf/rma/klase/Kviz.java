@@ -170,7 +170,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
                 COLUMN_CATEGORY_ID + " INTEGER," +
                 "FOREIGN KEY (" + COLUMN_CATEGORY_ID + ") REFERENCES " + Kategorija.KategorijaEntry.TABLE_NAME +
                 "(" + Kategorija.KategorijaEntry.COLUMN_ID + "));";
-        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     }
 
     public static class PitanjaKvizaEntry {
@@ -180,5 +180,15 @@ public class Kviz implements Parcelable, FirestoreStorable {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_QUIZ_ID = "id_kviza";
         public static final String COLUMN_QUESTION_ID = "id_pitanja";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_QUESTION_ID + " INTEGER NOT NULL," +
+                COLUMN_QUIZ_ID + " INTEGER NOT NULL," +
+                "FOREIGN KEY (" + COLUMN_QUESTION_ID + ") REFERENCES " + Pitanje.PitanjeEntry.TABLE_NAME +
+                "(" + Pitanje.PitanjeEntry.COLUMN_ID + ")," +
+                "FOREIGN KEY (" + COLUMN_QUIZ_ID + ") REFERENCES " + KvizEntry.TABLE_NAME +
+                "(" + KvizEntry.COLUMN_ID + "));";
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     }
 }
