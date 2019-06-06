@@ -117,5 +117,12 @@ public class Kategorija implements Parcelable, FirestoreStorable {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "naziv";
         public static final String COLUMN_ICON = "id_ikone";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_NAME + " TEXT NOT NULL," +
+                COLUMN_ICON + " TEXT NOT NULL);";
+
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     }
 }
