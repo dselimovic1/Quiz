@@ -200,7 +200,7 @@ public class Pitanje implements Parcelable, FirestoreStorable {
                 COLUMN_NAME + " TEXT NOT NULL," +
                 COLUMN_QUESTION_ID + " INTEGER NOT NULL," +
                 "FOREIGN KEY (" + COLUMN_QUESTION_ID + ") REFERENCES " + PitanjeEntry.TABLE_NAME +
-                "(" + PitanjeEntry.COLUMN_ID + "));";
+                "(" + PitanjeEntry.COLUMN_ID + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     }
 }
