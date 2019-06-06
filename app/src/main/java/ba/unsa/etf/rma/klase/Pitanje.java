@@ -178,7 +178,7 @@ public class Pitanje implements Parcelable, FirestoreStorable {
         public static final String TABLE_NAME = "Pitanja";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "naziv";
-        public static final String COLUMN_INDEX = "index";
+        public static final String COLUMN_INDEX = "index_tacnog";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
