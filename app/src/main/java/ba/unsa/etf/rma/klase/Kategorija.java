@@ -17,6 +17,7 @@ public class Kategorija implements Parcelable, FirestoreStorable {
     private String naziv;
     private String id;
     private String documentID;
+    private int ID;
 
     public Kategorija() {
     }
@@ -30,6 +31,7 @@ public class Kategorija implements Parcelable, FirestoreStorable {
         naziv = parcel.readString();
         id = parcel.readString();
         documentID = parcel.readString();
+        ID = parcel.readInt();
     }
 
     public String getNaziv() {
@@ -70,6 +72,7 @@ public class Kategorija implements Parcelable, FirestoreStorable {
         parcel.writeString(naziv);
         parcel.writeString(id);
         parcel.writeString(documentID);
+        parcel.writeInt(ID);
     }
 
     public String getDocumentID() {
@@ -97,5 +100,22 @@ public class Kategorija implements Parcelable, FirestoreStorable {
             e.printStackTrace();
         }
         return kategorija;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public static class KategorijaEntry {
+        private KategorijaEntry() {}
+
+        public static final String TABLE_NAME = "Kategorije";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_NAME = "naziv";
+        public static final String COLUMN_ICON = "id_ikone";
     }
 }
