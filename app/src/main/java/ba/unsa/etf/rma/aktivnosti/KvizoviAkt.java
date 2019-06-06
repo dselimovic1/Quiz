@@ -60,6 +60,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private boolean firstTime = true;
     private static int lastSelected = -1;
     private long nextEvent = 0;
+    private int numOfQuestions = 0;
+    private boolean isPlayable = true;
 
     private LinearLayout layout;
 
@@ -71,14 +73,14 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FrameLayout listPlace = (FrameLayout)findViewById(R.id.listPlace);
-        if(listPlace == null) mode = false;
-        if(mode == false) {
+        FrameLayout listPlace = (FrameLayout) findViewById(R.id.listPlace);
+        if (listPlace == null) mode = false;
+        if (mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
             ViewHelper.setInvisible(spinner, list);
-            layout = (LinearLayout)findViewById(R.id.linlaHeaderProgress);
-            new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this, layout).execute("Svi");
+            layout = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
+            new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
 
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -90,7 +92,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                     } else {
                         Kviz k = kvizovi.get(position);
                         intent.putExtra("add", UPDATE_QUIZ);
-                        intent.putExtra("updateKviz",k);
+                        intent.putExtra("updateKviz", k);
                         startActivityForResult(intent, UPDATE_QUIZ);
                     }
                     return true;
@@ -101,12 +103,13 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     if (position == kvizovi.size() - 1) return;
-                    if(checkEvents(kvizovi.get(position).getPitanja().size())) {
+                    numOfQuestions = kvizovi.get(position).getPitanja().size();
+                    getPermission();
+                    if (isPlayable) {
                         Intent intent = new Intent(KvizoviAkt.this, IgrajKvizAkt.class);
                         intent.putExtra("kviz", kvizovi.get(position));
                         startActivity(intent);
-                    }
-                    else {
+                    } else {
                         showAlertDialog("Imate događaj u kalendaru za " + nextEvent + " minuta!");
                     }
                 }
@@ -115,7 +118,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if(i != lastSelected) {
+                    if (i != lastSelected) {
                         lastSelected = i;
                         String filter = "";
                         if (i == kategorijeIme.size() - 1) filter = "Svi";
@@ -129,16 +132,15 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
                 }
             });
-        }
-        else {
+        } else {
             FragmentManager fm = getSupportFragmentManager();
-            ListaFrag listaFrag = (ListaFrag)fm.findFragmentById(R.id.listPlace);
+            ListaFrag listaFrag = (ListaFrag) fm.findFragmentById(R.id.listPlace);
             if (listaFrag == null) {
                 listaFrag = new ListaFrag();
             }
             fm.beginTransaction().replace(R.id.listPlace, listaFrag).commit();
-            DetailFrag detailFrag = (DetailFrag)fm.findFragmentById(R.id.detailPlace);
-            if(detailFrag == null) {
+            DetailFrag detailFrag = (DetailFrag) fm.findFragmentById(R.id.detailPlace);
+            if (detailFrag == null) {
                 detailFrag = new DetailFrag();
             }
             Bundle bundle = new Bundle();
@@ -149,12 +151,12 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(mode == false) {
+        if (mode == false) {
             ViewHelper.setInvisible(spinner, list);
             firstTime = true;
-            new FilterQuizTask(getResources().openRawResource(R.raw.secret),(FilterQuizTask.OnListFiltered)this, layout).execute("Svi");
+            new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
         }
     }
 
@@ -194,11 +196,10 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         kategorijeIme.add("Svi");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, kategorijeIme);
         spinner.setAdapter(kategorijeAdapter);
-        if(firstTime == true) {
+        if (firstTime == true) {
             spinner.setSelection(kategorijeIme.size() - 1);
             firstTime = false;
-        }
-        else {
+        } else {
             spinner.setSelection(lastSelected);
         }
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Task.TaskType.QUESTION);
@@ -207,25 +208,36 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     public void filterList(ArrayList<Kviz> load) {
         kvizovi = load;
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Task.TaskType.CATEGORY);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Task.TaskType.CATEGORY);
     }
 
-    public boolean checkEvents(int numOfQuestions) {
-        ContentResolver cr = getContentResolver();
+    public void getPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, PERMISSION_REQUEST);
         }
-        Uri uri = CalendarContract.Events.CONTENT_URI;
-        String[] selectionArgs = new String[] {Long.toString(Calendar.getInstance().getTimeInMillis())};
-        Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
-        if(cursor != null && cursor.getCount() >= 1) {
-            long ID = MiscHelper.getFirstEventTime(cursor);
-            cursor.close();
-            nextEvent = MiscHelper.getDifferenceInMinutes(ID);
-            if(nextEvent < numOfQuestions / 2) return false;
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                ContentResolver cr = getContentResolver();
+                Uri uri = CalendarContract.Events.CONTENT_URI;
+                String[] selectionArgs = new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())};
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
+                if(cursor != null && cursor.getCount() >= 1) {
+                    long ID = MiscHelper.getFirstEventTime(cursor);
+                    cursor.close();
+                    nextEvent = MiscHelper.getDifferenceInMinutes(ID);
+                    if(nextEvent < numOfQuestions / 2) isPlayable = false;
+
+                }
+                isPlayable = true;
+            }
         }
-        return true;
     }
 
     private void showAlertDialog(String message) {
