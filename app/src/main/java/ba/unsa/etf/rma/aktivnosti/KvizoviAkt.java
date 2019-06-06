@@ -62,6 +62,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private long nextEvent = 0;
     private int numOfQuestions = 0;
     private boolean isPlayable = true;
+    private static boolean offlineMode = true;
 
     private LinearLayout layout;
 
