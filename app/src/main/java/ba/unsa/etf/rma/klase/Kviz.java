@@ -22,6 +22,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
     private ArrayList<Pitanje> pitanja = new ArrayList<>();
     private Kategorija kategorija;
     private String documentID;
+    private int ID;
 
     public Kviz() {
     }
@@ -143,5 +144,31 @@ public class Kviz implements Parcelable, FirestoreStorable {
             e.printStackTrace();
         }
         return kviz;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public static class KvizEntry {
+        private KvizEntry() {}
+
+        public static final String TABLE_NAME = "Kvizovi";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_NAME = "naziv";
+        public static final String COLUMN_CATEGORY_ID = "id_kategorije";
+    }
+
+    public static class PitanjaKvizaEntry {
+        private PitanjaKvizaEntry() {}
+
+        public static final String TABLE_NAME = "PitanjaKviza";
+        public static final String COLUMND_ID = "id";
+        public static final String COLUMN_QUIZ_ID = "id_kviza";
+        public static final String COLUMN_QUESTION_ID = "id_pitanja";
     }
 }
