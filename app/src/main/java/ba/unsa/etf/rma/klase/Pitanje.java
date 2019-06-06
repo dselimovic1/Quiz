@@ -179,6 +179,12 @@ public class Pitanje implements Parcelable, FirestoreStorable {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "naziv";
         public static final String COLUMN_INDEX = "index";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_NAME + " TEXT NOT NULL," +
+                COLUMN_INDEX + " INTEGER NOT NULL);";
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     }
 
     public static class OdgovorEntry {
@@ -188,5 +194,13 @@ public class Pitanje implements Parcelable, FirestoreStorable {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "naziv";
         public static final String COLUMN_QUESTION_ID = "id_pitanja";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_NAME + " TEXT NOT NULL," +
+                COLUMN_QUESTION_ID + " INTEGER NOT NULL," +
+                "FOREIGN KEY (" + COLUMN_QUESTION_ID + ") REFERENCES " + PitanjeEntry.TABLE_NAME +
+                "(" + PitanjeEntry.COLUMN_ID + "));";
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     }
 }
