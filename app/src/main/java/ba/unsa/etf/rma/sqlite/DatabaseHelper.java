@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.klase.Rang;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -24,15 +25,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(Pitanje.PitanjeEntry.CREATE_TABLE);
         sqLiteDatabase.execSQL(Kviz.PitanjaKvizaEntry.CREATE_TABLE);
         sqLiteDatabase.execSQL(Pitanje.OdgovorEntry.CREATE_TABLE);
+        sqLiteDatabase.execSQL(Rang.RangEntry.CREATE_TABLE);
+        sqLiteDatabase.execSQL(Rang.ParEntry.CREATE_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL(Pitanje.OdgovorEntry.DROP_TABLE);
-        sqLiteDatabase.execSQL(Kviz.PitanjaKvizaEntry.DROP_TABLE);
-        sqLiteDatabase.execSQL(Pitanje.PitanjeEntry.DROP_TABLE);
-        sqLiteDatabase.execSQL(Kviz.KvizEntry.DROP_TABLE);
-        sqLiteDatabase.execSQL(Kategorija.KategorijaEntry.DROP_TABLE);
-        onCreate(sqLiteDatabase);
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        if(oldVersion != newVersion) {
+            sqLiteDatabase.execSQL(Rang.ParEntry.DROP_TABLE);
+            sqLiteDatabase.execSQL(Rang.RangEntry.DROP_TABLE);
+            sqLiteDatabase.execSQL(Pitanje.OdgovorEntry.DROP_TABLE);
+            sqLiteDatabase.execSQL(Kviz.PitanjaKvizaEntry.DROP_TABLE);
+            sqLiteDatabase.execSQL(Pitanje.PitanjeEntry.DROP_TABLE);
+            sqLiteDatabase.execSQL(Kviz.KvizEntry.DROP_TABLE);
+            sqLiteDatabase.execSQL(Kategorija.KategorijaEntry.DROP_TABLE);
+            onCreate(sqLiteDatabase);
+        }
     }
 }
