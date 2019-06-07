@@ -200,6 +200,8 @@ public class Pitanje implements Parcelable, FirestoreStorable {
                 COLUMN_NAME + " TEXT NOT NULL," +
                 COLUMN_INDEX + " INTEGER NOT NULL);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_INDEX};
     }
 
     public static class OdgovorEntry {
@@ -217,5 +219,7 @@ public class Pitanje implements Parcelable, FirestoreStorable {
                 "FOREIGN KEY (" + COLUMN_QUESTION_ID + ") REFERENCES " + PitanjeEntry.TABLE_NAME +
                 "(" + PitanjeEntry.COLUMN_ID + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_QUESTION_ID};
     }
 }
