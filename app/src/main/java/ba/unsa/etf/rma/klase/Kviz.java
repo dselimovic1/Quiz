@@ -186,6 +186,8 @@ public class Kviz implements Parcelable, FirestoreStorable {
                 "FOREIGN KEY (" + COLUMN_CATEGORY_ID + ") REFERENCES " + Kategorija.KategorijaEntry.TABLE_NAME +
                 "(" + Kategorija.KategorijaEntry.COLUMN_ID + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY_ID};
     }
 
     public static class PitanjaKvizaEntry {
@@ -205,5 +207,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
                 "FOREIGN KEY (" + COLUMN_QUIZ_ID + ") REFERENCES " + KvizEntry.TABLE_NAME +
                 "(" + KvizEntry.COLUMN_ID + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_QUIZ_ID, COLUMN_QUESTION_ID};
     }
 }
