@@ -100,4 +100,14 @@ public class Query {
         cursor.close();
         return questions;
     }
+
+    public ArrayList<Kviz> getAllQuizzes() {
+        ArrayList<Kviz> quizzes = new ArrayList<>();
+        Cursor cursor = database.query(Kviz.KvizEntry.TABLE_NAME, Kviz.KvizEntry.PROJECTION, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            quizzes.add(getQuizFromCursor(cursor));
+        }
+        cursor.close();
+        return quizzes;
+    }
 }
