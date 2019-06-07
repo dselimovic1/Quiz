@@ -220,6 +220,6 @@ public class Pitanje implements Parcelable, FirestoreStorable {
                 "(" + PitanjeEntry.COLUMN_ID + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
-        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_QUESTION_ID};
+        public static final String[] PROJECTION = new String[]{COLUMN_NAME};
     }
 }
