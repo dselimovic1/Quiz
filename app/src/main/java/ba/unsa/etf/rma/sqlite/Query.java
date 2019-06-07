@@ -17,17 +17,6 @@ public class Query {
         this.database = database;
     }
 
-    public ArrayList<String> getAnswersByID(long ID) {
-        ArrayList<String> answers = new ArrayList<>();
-        String selection = Pitanje.OdgovorEntry.PROJECTION[1] + " = ?";
-        String[] selectionArgs = new String[]{Long.toString(ID)};
-        Cursor cursor = database.query(Pitanje.OdgovorEntry.TABLE_NAME, Pitanje.OdgovorEntry.PROJECTION, selection, selectionArgs, null, null, null);
-        while(cursor.moveToNext()) {
-            answers.add(cursor.getString(0));
-        }
-        return answers;
-    }
-
     public Pitanje getQuestionFromCursor(Cursor cursor) {
         Pitanje pitanje = new Pitanje();
         pitanje.setID(cursor.getLong(0));
@@ -46,15 +35,35 @@ public class Query {
         return kategorija;
     }
 
-    public ArrayList<Pitanje> getQuestionsByID(long ID) {
-        ArrayList<Pitanje> questions = new ArrayList<>();
-        return questions;
-    }
-
     public Kviz getQuizFromCursor(Cursor cursor) {
         Kviz kviz = new Kviz();
         return kviz;
     }
+
+    public ArrayList<String> getAnswersByID(long ID) {
+        ArrayList<String> answers = new ArrayList<>();
+        String selection = Pitanje.OdgovorEntry.PROJECTION[1] + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(ID)};
+        Cursor cursor = database.query(Pitanje.OdgovorEntry.TABLE_NAME, Pitanje.OdgovorEntry.PROJECTION, selection, selectionArgs, null, null, null);
+        while(cursor.moveToNext()) {
+            answers.add(cursor.getString(0));
+        }
+        cursor.close();
+        return answers;
+    }
+
+    public ArrayList<Pitanje> getQuestionsByID(long ID) {
+        ArrayList<Pitanje> questions = new ArrayList<>();
+        String selection = Kviz.PitanjaKvizaEntry.COLUMN_QUIZ_ID + " = ? AND " + Kviz.PitanjaKvizaEntry.COLUMN_QUESTION_ID + " = " + Pitanje.PitanjeEntry.COLUMN_ID;
+        String[] selectionArgs = new String[]{Long.toString(ID)};
+        Cursor cursor = database.query(Pitanje.PitanjeEntry.TABLE_NAME + "," + Kviz.PitanjaKvizaEntry.TABLE_NAME, Pitanje.PitanjeEntry.PROJECTION, selection, selectionArgs, null, null, null);
+        while (cursor.moveToNext()) {
+            questions.add(getQuestionFromCursor(cursor));
+        }
+        cursor.close();
+        return questions;
+    }
+
 
     public ArrayList<Kategorija> getAllCategories() {
         ArrayList<Kategorija> categories = new ArrayList<>();
@@ -62,6 +71,7 @@ public class Query {
         while(cursor.moveToNext()) {
             categories.add(getCategoryFromCursor(cursor));
         }
+        cursor.close();
         return categories;
     }
 
@@ -71,6 +81,7 @@ public class Query {
         while(cursor.moveToNext()) {
             questions.add(getQuestionFromCursor(cursor));
         }
+        cursor.close();
         return questions;
     }
 }
