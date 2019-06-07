@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.klase;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -154,6 +155,20 @@ public class Kviz implements Parcelable, FirestoreStorable {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public ContentValues getContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KvizEntry.COLUMN_NAME, naziv);
+        contentValues.put(KvizEntry.COLUMN_CATEGORY_ID, kategorija.getID());
+        return contentValues;
+    }
+
+    public ContentValues setContentValuesForQuestion(int ID) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PitanjaKvizaEntry.COLUMN_QUIZ_ID, this.ID);
+        contentValues.put(PitanjaKvizaEntry.COLUMN_QUESTION_ID, ID);
+        return contentValues;
     }
 
     public static class KvizEntry {
