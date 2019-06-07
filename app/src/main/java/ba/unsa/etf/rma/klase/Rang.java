@@ -19,6 +19,7 @@ public class Rang implements FirestoreStorable, Serializable {
     private String imeKviza;
     private HashMap<Integer, Par> mapa = new HashMap<>();
     private String documentID;
+    private int ID;
 
 
     private Rang() {}
@@ -99,6 +100,31 @@ public class Rang implements FirestoreStorable, Serializable {
     private void setHashMap(ArrayList<Par> pairs) {
         Iterator<Par> iterator = pairs.listIterator();
         while(iterator.hasNext()) dodajRezultat(iterator.next());
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public static class RangEntry {
+        private RangEntry() {}
+
+        public static final String TABLE_NAME = "Rang";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_NAME = "naziv_kviza";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_NAME + " TEXT NOT NULL," +
+                "FOREIGN KEY (" + COLUMN_NAME + ") REFERENCES " + Kviz.KvizEntry.TABLE_NAME +
+                "(" + Kviz.KvizEntry.COLUMN_NAME + ") ON DELETE CASCADE);";
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+
+        public static final String[] PROJECTION = new String[]{TABLE_NAME, COLUMN_ID, COLUMN_NAME};
     }
 
     public static class Par implements Comparable<Par>{
