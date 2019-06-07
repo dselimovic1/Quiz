@@ -165,7 +165,12 @@ public class Pitanje implements Parcelable, FirestoreStorable {
         return pitanje;
     }
 
-
+    public void setValues(long ID, String naziv, int indexTacnog) {
+        this.ID = ID;
+        this.naziv = naziv;
+        this.tacan = odgovori.get(indexTacnog);
+        this.tekstPitanja = naziv;
+    }
 
     public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
