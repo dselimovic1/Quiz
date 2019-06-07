@@ -124,12 +124,34 @@ public class Rang implements FirestoreStorable, Serializable {
                 "(" + Kviz.KvizEntry.COLUMN_NAME + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
-        public static final String[] PROJECTION = new String[]{TABLE_NAME, COLUMN_ID, COLUMN_NAME};
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME};
+    }
+
+    public static class ParEntry {
+        private ParEntry() {}
+
+        public static final String TABLE_NAME = "Par";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_PLAYER_NAME = "ime_igraca";
+        public static final String COLUMN_RESULT = "rezultat";
+        public static final String COLUMN_RANG_ID = "id_rangliste";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_PLAYER_NAME + " TEXT NOT NULL," +
+                COLUMN_RESULT + " REAL NOT NULL," +
+                COLUMN_RANG_ID + " INTEGER NOT NULL," +
+                "FOREIGN KEY (" + COLUMN_RANG_ID + ") REFERENCES " + RangEntry.TABLE_NAME +
+                "(" + RangEntry.COLUMN_ID + ") ON DELETE CASCADE);";
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_PLAYER_NAME, COLUMN_RESULT};
     }
 
     public static class Par implements Comparable<Par>{
         public String imeIgraca;
         public double procenatTacnih;
+        public int ID;
 
         public Par(String imeIgraca, double procenatTacnih) {
             this.imeIgraca = imeIgraca;
