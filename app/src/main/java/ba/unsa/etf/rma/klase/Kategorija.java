@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.klase;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -108,6 +109,13 @@ public class Kategorija implements Parcelable, FirestoreStorable {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public ContentValues getContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KategorijaEntry.COLUMN_NAME, naziv);
+        contentValues.put(KategorijaEntry.COLUMN_ICON, id);
+        return contentValues;
     }
 
     public static class KategorijaEntry {
