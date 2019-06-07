@@ -46,10 +46,31 @@ public class Query {
         return kategorija;
     }
 
+    public ArrayList<Pitanje> getQuestionsByID(long ID) {
+        ArrayList<Pitanje> questions = new ArrayList<>();
+        return questions;
+    }
+
     public Kviz getQuizFromCursor(Cursor cursor) {
         Kviz kviz = new Kviz();
         return kviz;
     }
 
+    public ArrayList<Kategorija> getAllCategories() {
+        ArrayList<Kategorija> categories = new ArrayList<>();
+        Cursor cursor = database.query(Kategorija.KategorijaEntry.TABLE_NAME, Kategorija.KategorijaEntry.PROJECTION, null, null, null, null, null);
+        while(cursor.moveToNext()) {
+            categories.add(getCategoryFromCursor(cursor));
+        }
+        return categories;
+    }
 
+    public ArrayList<Pitanje> getAllQuestions() {
+        ArrayList<Pitanje> questions = new ArrayList<>();
+        Cursor cursor = database.query(Pitanje.PitanjeEntry.TABLE_NAME, Pitanje.PitanjeEntry.PROJECTION, null, null, null, null, null);
+        while(cursor.moveToNext()) {
+            questions.add(getQuestionFromCursor(cursor));
+        }
+        return questions;
+    }
 }
