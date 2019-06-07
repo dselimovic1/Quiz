@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.klase;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -170,6 +171,20 @@ public class Pitanje implements Parcelable, FirestoreStorable {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public ContentValues getContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PitanjeEntry.COLUMN_NAME, naziv);
+        contentValues.put(PitanjeEntry.COLUMN_INDEX, odgovori.indexOf(tacan));
+        return contentValues;
+    }
+
+    public ContentValues setContentValuesForAnswer(String answer) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(OdgovorEntry.COLUMN_NAME, answer);
+        contentValues.put(OdgovorEntry.COLUMN_QUESTION_ID, ID);
+        return contentValues;
     }
 
     public static class PitanjeEntry {
