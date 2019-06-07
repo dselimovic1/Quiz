@@ -2,6 +2,7 @@ package ba.unsa.etf.rma.sqlite;
 
 import android.database.Cursor;
 
+import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Pitanje;
 
 public class Query {
@@ -23,5 +24,13 @@ public class Query {
         }
         pitanje.setTacan(pitanje.getOdgovori().get(indexTacnog));
         return pitanje;
+    }
+
+    public static Kategorija getCategoryFromCursor(Cursor cursor) {
+        Kategorija kategorija = new Kategorija();
+        kategorija.setID(cursor.getLong(0));
+        kategorija.setNaziv(cursor.getString(1));
+        kategorija.setId(cursor.getColumnName(2));
+        return kategorija;
     }
 }
