@@ -37,6 +37,11 @@ public class Query {
 
     public Kviz getQuizFromCursor(Cursor cursor) {
         Kviz kviz = new Kviz();
+        kviz.setID(cursor.getLong(0));
+        kviz.setNaziv(cursor.getString(1));
+        if(!cursor.isNull(2)) kviz.setKategorija(getCategoryByID(cursor.getLong(2)));
+        else kviz.setKategorija(new Kategorija("Svi", "1"));
+        kviz.setPitanja(getQuestionsByID(kviz.getID()));
         return kviz;
     }
 
@@ -64,6 +69,17 @@ public class Query {
         return questions;
     }
 
+    public Kategorija getCategoryByID(long ID) {
+        Kategorija category = null;
+        String selection = Kategorija.KategorijaEntry.COLUMN_ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(ID)};
+        Cursor cursor = database.query(Kategorija.KategorijaEntry.TABLE_NAME, Kategorija.KategorijaEntry.PROJECTION, selection, selectionArgs, null, null, null);
+        while(cursor.moveToNext()) {
+            category = getCategoryFromCursor(cursor);
+        }
+        cursor.close();
+        return category;
+    }
 
     public ArrayList<Kategorija> getAllCategories() {
         ArrayList<Kategorija> categories = new ArrayList<>();
