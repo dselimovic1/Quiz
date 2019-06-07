@@ -130,7 +130,8 @@ public class Kategorija implements Parcelable, FirestoreStorable {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_NAME + " TEXT NOT NULL," +
                 COLUMN_ICON + " TEXT NOT NULL);";
-
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_ICON};
     }
 }
