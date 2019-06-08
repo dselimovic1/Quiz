@@ -153,6 +153,12 @@ public class Rang implements FirestoreStorable, Serializable {
         public double procenatTacnih;
         public long ID;
 
+        public Par (long ID, String imeIgraca, double procenatTacnih) {
+            this.ID = ID;
+            this.imeIgraca = imeIgraca;
+            this.procenatTacnih = procenatTacnih;
+        }
+
         public Par(String imeIgraca, double procenatTacnih) {
             this.imeIgraca = imeIgraca;
             this.procenatTacnih = procenatTacnih;
