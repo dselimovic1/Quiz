@@ -180,4 +180,9 @@ public class Query {
         long ID = database.insert(Rang.RangEntry.TABLE_NAME, null, rangList.getContentValues());
         rangList.setID(ID);
     }
+
+    public void addResult(Rang rang, Rang.Par result) {
+        long ID = database.insert(Rang.ParEntry.TABLE_NAME, null, result.getContentValues(rang.getID()));
+        result.ID = ID;
+    }
 }
