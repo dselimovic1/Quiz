@@ -19,15 +19,19 @@ public class Rang implements FirestoreStorable, Serializable {
     private String imeKviza;
     private HashMap<Integer, Par> mapa = new HashMap<>();
     private String documentID;
-    private int ID;
+    private long ID;
 
 
     private Rang() {}
 
-    public Rang(String imeKviza) {
+    public Rang(long ID, String imeKviza) {
+        this.ID = ID;
         this.imeKviza = imeKviza;
     }
 
+    public Rang(String imeKviza) {
+        this.imeKviza = imeKviza;
+    }
 
     public String getImeKviza() {
         return imeKviza;
@@ -102,11 +106,11 @@ public class Rang implements FirestoreStorable, Serializable {
         while(iterator.hasNext()) dodajRezultat(iterator.next());
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(long ID) {
         this.ID = ID;
     }
 
