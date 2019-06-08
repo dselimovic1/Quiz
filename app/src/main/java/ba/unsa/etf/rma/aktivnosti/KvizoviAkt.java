@@ -233,7 +233,10 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                     long ID = MiscHelper.getFirstEventTime(cursor);
                     cursor.close();
                     nextEvent = MiscHelper.getDifferenceInMinutes(ID);
-                    if(nextEvent < numOfQuestions / 2) isPlayable = false;
+                    if(nextEvent < numOfQuestions / 2) {
+                        isPlayable = false;
+                        return;
+                    }
 
                 }
                 isPlayable = true;
