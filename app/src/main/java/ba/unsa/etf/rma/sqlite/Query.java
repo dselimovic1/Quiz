@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.klase.Rang;
 
 public class Query {
 
@@ -43,6 +44,28 @@ public class Query {
         else kviz.setKategorija(new Kategorija("Svi", "1"));
         kviz.setPitanja(getQuestionsByID(kviz.getID()));
         return kviz;
+    }
+
+    public Rang.Par getPairFromCursor(Cursor cursor) {
+        return new Rang.Par(cursor.getLong(0), cursor.getString(1), cursor.getDouble(2));
+    }
+
+    public Rang getRangListFromCursor(Cursor cursor) {
+        Rang rang = new Rang(cursor.getLong(0), cursor.getString(1));
+        rang.setHashMap(getResultsByID(rang.getID()));
+        return rang;
+    }
+
+    public ArrayList<Rang.Par> getResultsByID(long ID) {
+        ArrayList<Rang.Par> pairs = new ArrayList<>();
+        String selection = Rang.ParEntry.PROJECTION[3] + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(ID)};
+        Cursor cursor = database.query(Rang.ParEntry.TABLE_NAME, Rang.ParEntry.PROJECTION, selection, selectionArgs, null, null, null);
+        while (cursor.moveToNext()) {
+            pairs.add(getPairFromCursor(cursor));
+        }
+        cursor.close();
+        return pairs;
     }
 
     public ArrayList<String> getAnswersByID(long ID) {
@@ -109,5 +132,15 @@ public class Query {
         }
         cursor.close();
         return quizzes;
+    }
+
+    public ArrayList<Rang> getAllRangLists() {
+        ArrayList<Rang> rangs = new ArrayList<>();
+        Cursor cursor = database.query(Rang.RangEntry.TABLE_NAME, Rang.RangEntry.PROJECTION, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            rangs.add(getRangListFromCursor(cursor));
+        }
+        cursor.close();
+        return rangs;
     }
 }
