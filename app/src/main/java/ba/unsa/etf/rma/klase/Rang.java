@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.klase;
 
+import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
 import org.json.JSONException;
@@ -111,6 +112,12 @@ public class Rang implements FirestoreStorable, Serializable {
 
     public void setID(long ID) {
         this.ID = ID;
+    }
+
+    public ContentValues getContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(RangEntry.COLUMN_NAME, imeKviza);
+        return contentValues;
     }
 
     public static class RangEntry {
