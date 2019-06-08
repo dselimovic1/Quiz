@@ -45,10 +45,6 @@ public class Rang implements FirestoreStorable, Serializable {
         return mapa;
     }
 
-    public void postaviMapu(ArrayList<Par> parovi) {
-        for(Par p : parovi) dodajRezultat(p);
-    }
-
     public void dodajRezultat(Par par) {
         int pozicija = dajPoziciju(par);
         azurirajMapu(pozicija);
@@ -104,7 +100,7 @@ public class Rang implements FirestoreStorable, Serializable {
         return rang;
     }
 
-    private void setHashMap(ArrayList<Par> pairs) {
+    public void setHashMap(ArrayList<Par> pairs) {
         Iterator<Par> iterator = pairs.listIterator();
         while(iterator.hasNext()) dodajRezultat(iterator.next());
     }
