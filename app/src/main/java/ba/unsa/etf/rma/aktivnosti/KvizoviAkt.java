@@ -216,30 +216,16 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, PERMISSION_REQUEST);
         }
+        else {
+            checkEvents();
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSION_REQUEST) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                ContentResolver cr = getContentResolver();
-                Uri uri = CalendarContract.Events.CONTENT_URI;
-                String[] selectionArgs = new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())};
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
-                if(cursor != null && cursor.getCount() >= 1) {
-                    long ID = MiscHelper.getFirstEventTime(cursor);
-                    cursor.close();
-                    nextEvent = MiscHelper.getDifferenceInMinutes(ID);
-                    if(nextEvent < numOfQuestions / 2) {
-                        isPlayable = false;
-                        return;
-                    }
-
-                }
-                isPlayable = true;
+                checkEvents();
             }
         }
     }
@@ -256,4 +242,24 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         alert.show();
     }
 
+    public void checkEvents() {
+        ContentResolver cr = getContentResolver();
+        Uri uri = CalendarContract.Events.CONTENT_URI;
+        String[] selectionArgs = new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())};
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
+        if(cursor != null && cursor.getCount() >= 1) {
+            long ID = MiscHelper.getFirstEventTime(cursor);
+            cursor.close();
+            nextEvent = MiscHelper.getDifferenceInMinutes(ID);
+            if(nextEvent < numOfQuestions / 2) {
+                isPlayable = false;
+                return;
+            }
+
+        }
+        isPlayable = true;
+    }
 }
