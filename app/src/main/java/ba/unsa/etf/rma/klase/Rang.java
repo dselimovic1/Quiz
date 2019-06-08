@@ -174,6 +174,14 @@ public class Rang implements FirestoreStorable, Serializable {
             this.procenatTacnih = procenatTacnih;
         }
 
+        public ContentValues getContentValues(long ID) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(ParEntry.COLUMN_PLAYER_NAME, imeIgraca);
+            contentValues.put(ParEntry.COLUMN_RESULT, procenatTacnih);
+            contentValues.put(ParEntry.COLUMN_RANG_ID, ID);
+            return contentValues;
+        }
+
         @Override
         public int compareTo(@NonNull Par par) {
             if(procenatTacnih < par.procenatTacnih) return 1;
