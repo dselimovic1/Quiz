@@ -151,7 +151,7 @@ public class Rang implements FirestoreStorable, Serializable {
     public static class Par implements Comparable<Par>{
         public String imeIgraca;
         public double procenatTacnih;
-        public int ID;
+        public long ID;
 
         public Par(String imeIgraca, double procenatTacnih) {
             this.imeIgraca = imeIgraca;
