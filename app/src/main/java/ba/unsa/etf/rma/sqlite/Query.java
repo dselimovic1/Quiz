@@ -148,4 +148,12 @@ public class Query {
         long ID = database.insert(Kategorija.KategorijaEntry.TABLE_NAME, null, category.getContentValues());
         category.setID(ID);
     }
+
+    public void addQuestion(Pitanje question) {
+        long ID = database.insert(Pitanje.PitanjeEntry.TABLE_NAME, null, question.getContentValues());
+        question.setID(ID);
+        for(String answer : question.getOdgovori()) {
+            database.insert(Pitanje.OdgovorEntry.TABLE_NAME, null, question.setContentValuesForAnswer(answer));
+        }
+    }
 }
