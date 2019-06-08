@@ -156,4 +156,12 @@ public class Query {
             database.insert(Pitanje.OdgovorEntry.TABLE_NAME, null, question.setContentValuesForAnswer(answer));
         }
     }
+
+    public void addQuiz(Kviz quiz) {
+        long ID = database.insert(Kviz.KvizEntry.TABLE_NAME, null, quiz.getContentValues());
+        quiz.setID(ID);
+        for(Pitanje question : quiz.getPitanja()) {
+            database.insert(Kviz.PitanjaKvizaEntry.TABLE_NAME, null, quiz.setContentValuesForQuestion(question.getID()));
+        }
+    }
 }
