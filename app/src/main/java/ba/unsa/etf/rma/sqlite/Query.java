@@ -175,4 +175,9 @@ public class Query {
             database.insert(Kviz.PitanjaKvizaEntry.TABLE_NAME, null, quiz.setContentValuesForQuestion(question.getID()));
         }
     }
+
+    public void addRangList(Rang rangList) {
+        long ID = database.insert(Rang.RangEntry.TABLE_NAME, null, rangList.getContentValues());
+        rangList.setID(ID);
+    }
 }
