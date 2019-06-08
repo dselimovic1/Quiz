@@ -164,7 +164,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
         return contentValues;
     }
 
-    public ContentValues setContentValuesForQuestion(int ID) {
+    public ContentValues setContentValuesForQuestion(long ID) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(PitanjaKvizaEntry.COLUMN_QUIZ_ID, this.ID);
         contentValues.put(PitanjaKvizaEntry.COLUMN_QUESTION_ID, ID);
