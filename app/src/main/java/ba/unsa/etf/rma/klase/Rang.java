@@ -145,7 +145,7 @@ public class Rang implements FirestoreStorable, Serializable {
                 "(" + RangEntry.COLUMN_ID + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
-        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_PLAYER_NAME, COLUMN_RESULT};
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_PLAYER_NAME, COLUMN_RESULT, COLUMN_RANG_ID};
     }
 
     public static class Par implements Comparable<Par>{
