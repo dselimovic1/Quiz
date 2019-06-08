@@ -164,4 +164,15 @@ public class Query {
             database.insert(Kviz.PitanjaKvizaEntry.TABLE_NAME, null, quiz.setContentValuesForQuestion(question.getID()));
         }
     }
+
+    public void updateQuiz(Kviz quiz) {
+        String whereClause = Kviz.PitanjaKvizaEntry.COLUMN_QUIZ_ID + " = ?";
+        String updateClause = Kviz.KvizEntry.COLUMN_ID + " = ?";
+        String[] whereArgs = new String[]{Long.toString(quiz.getID())};
+        database.delete(Kviz.PitanjaKvizaEntry.TABLE_NAME, whereClause, whereArgs);
+        database.update(Kviz.KvizEntry.TABLE_NAME, quiz.getContentValues(), updateClause, whereArgs);
+        for(Pitanje question : quiz.getPitanja()) {
+            database.insert(Kviz.PitanjaKvizaEntry.TABLE_NAME, null, quiz.setContentValuesForQuestion(question.getID()));
+        }
+    }
 }
