@@ -23,7 +23,7 @@ public class Rang implements FirestoreStorable, Serializable {
     private long ID;
 
 
-    private Rang() {}
+    public Rang() {}
 
     public Rang(long ID, String imeKviza) {
         this.ID = ID;
