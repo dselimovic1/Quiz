@@ -143,4 +143,9 @@ public class Query {
         cursor.close();
         return rangs;
     }
+
+    public void addCategory(Kviz category) {
+        long ID = database.insert(Kategorija.KategorijaEntry.TABLE_NAME, null, category.getContentValues());
+        category.setID(ID);
+    }
 }
