@@ -134,6 +134,18 @@ public class Query {
         return quizzes;
     }
 
+    public ArrayList<Kviz> getQuizzesByCategory(long ID) {
+        ArrayList<Kviz> quizzes = new ArrayList<>();
+        String selection = Kviz.KvizEntry.COLUMN_CATEGORY_ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(ID)};
+        Cursor cursor = database.query(Kviz.KvizEntry.TABLE_NAME, Kviz.KvizEntry.PROJECTION, selection, selectionArgs, null, null, null);
+        while (cursor.moveToNext()) {
+            quizzes.add(getQuizFromCursor(cursor));
+        }
+        cursor.close();
+        return quizzes;
+    }
+
     public ArrayList<Rang> getAllRangLists() {
         ArrayList<Rang> rangs = new ArrayList<>();
         Cursor cursor = database.query(Rang.RangEntry.TABLE_NAME, Rang.RangEntry.PROJECTION, null, null, null, null, null);
@@ -185,4 +197,5 @@ public class Query {
         long ID = database.insert(Rang.ParEntry.TABLE_NAME, null, result.getContentValues(rang.getID()));
         result.ID = ID;
     }
+
 }
