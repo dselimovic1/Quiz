@@ -94,10 +94,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
             }
             else {
-                ViewHelper.setVisible(spinner, list);
-                kvizovi = queryHelper.getAllQuizzes();
-                setQuizAdapter();
-                setCategoryAdapter(queryHelper.getAllCategories());
+                readFromDatabase();
             }
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -177,7 +174,17 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 ViewHelper.setInvisible(spinner, list);
                 new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
             }
+            else {
+                readFromDatabase();
+            }
         }
+    }
+
+    public void readFromDatabase() {
+        ViewHelper.setVisible(spinner, list);
+        kvizovi = queryHelper.getAllQuizzes();
+        setQuizAdapter();
+        setCategoryAdapter(queryHelper.getAllCategories());
     }
 
     @Override
