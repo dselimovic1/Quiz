@@ -142,4 +142,21 @@ public class MiscHelper {
         long diffInMiliseconds = ID - Calendar.getInstance().getTimeInMillis();
         return TimeUnit.MILLISECONDS.toMinutes(diffInMiliseconds);
     }
+
+    public static boolean compareForUpdate(Kviz quiz1, Kviz quiz2) {
+        if(!quiz1.getNaziv().equals(quiz2.getNaziv())) return true;
+        if(!quiz1.getKategorija().getDocumentID().equals(quiz2.getKategorija().getDocumentID())) return true;
+        if(quiz1.getPitanja().size() != quiz2.getPitanja().size()) return true;
+        for(int i = 0; i < quiz1.getPitanja().size(); i++) {
+            boolean exists = false;
+            for(int j = 0; i < quiz2.getPitanja().size(); j++) {
+                if(quiz1.getPitanja().get(i).getNaziv().equals(quiz2.getPitanja().get(i).getNaziv())) {
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists) return true;
+        }
+        return false;
+    }
 }
