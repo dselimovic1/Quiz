@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.maltaisn.icondialog.Icon;
 import com.maltaisn.icondialog.IconDialog;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.enumi.Task;
+import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
@@ -57,7 +59,12 @@ public class DodajKategorijuAkt extends AppCompatActivity implements IconDialog.
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)DodajKategorijuAkt.this).execute(Task.TaskType.CATEGORY);
+                if(ConnectionHelper.isNetworkAvailable(DodajKategorijuAkt.this)) {
+                    new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) DodajKategorijuAkt.this).execute(Task.TaskType.CATEGORY);
+                }
+                else {
+                    Toast.makeText(DodajKategorijuAkt.this, "Uređaj nije konektovan na internet!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
