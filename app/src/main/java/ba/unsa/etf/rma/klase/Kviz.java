@@ -161,6 +161,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KvizEntry.COLUMN_NAME, naziv);
         contentValues.put(KvizEntry.COLUMN_CATEGORY_ID, kategorija.getID());
+        contentValues.put(KvizEntry.DOCUMENT_ID, documentID);
         return contentValues;
     }
 
@@ -178,16 +179,18 @@ public class Kviz implements Parcelable, FirestoreStorable {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "naziv";
         public static final String COLUMN_CATEGORY_ID = "id_kategorije";
+        public static final String DOCUMENT_ID = "document";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_NAME + " TEXT NOT NULL," +
                 COLUMN_CATEGORY_ID + " INTEGER," +
+                DOCUMENT_ID + " TEXT NOT NULL," +
                 "FOREIGN KEY (" + COLUMN_CATEGORY_ID + ") REFERENCES " + Kategorija.KategorijaEntry.TABLE_NAME +
                 "(" + Kategorija.KategorijaEntry.COLUMN_ID + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
-        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY_ID};
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY_ID, DOCUMENT_ID};
     }
 
     public static class PitanjaKvizaEntry {
