@@ -20,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +36,8 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
+import ba.unsa.etf.rma.sqlite.DatabaseHelper;
+import ba.unsa.etf.rma.sqlite.Query;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
@@ -72,6 +73,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private static final String SELECTION = INSTANCE_PROJECTION[0] + " >= ?";
     private static final String SORT_ORDER = INSTANCE_PROJECTION[0] + " ASC";
 
+    private DatabaseHelper databaseHelper;
+    private Query queryHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +85,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if (mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
+            databaseHelper = new DatabaseHelper(this);
+            queryHelper = new Query(databaseHelper.getWritableDatabase());
+
             if(ConnectionHelper.isNetworkAvailable(this)) {
                 ViewHelper.setInvisible(spinner, list);
                 layout = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
@@ -88,7 +95,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             }
             else {
                 ViewHelper.setVisible(spinner, list);
-                Toast.makeText(KvizoviAkt.this, "Nema interneta", Toast.LENGTH_LONG).show();
+                kvizovi = queryHelper.getAllQuizzes();
+                setQuizAdapter();
+                setCategoryAdapter(queryHelper.getAllCategories());
             }
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -131,7 +140,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                         String filter = "";
                         if (i == kategorijeIme.size() - 1) filter = "Svi";
                         else filter = kategorije.get(i).getDocumentID();
-                        new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this, layout).execute(filter);
+                        if(ConnectionHelper.isNetworkAvailable(KvizoviAkt.this))
+                            new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this, layout).execute(filter);
                     }
                 }
 
@@ -190,10 +200,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         MiscHelper.azurirajKvizove(kvizovi, load, kategorije);
-        Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
-        kvizovi.add(temp);
-        kvizAdapter = new KvizAdapter(this, kvizovi);
-        list.setAdapter(kvizAdapter);
+        setQuizAdapter();
         layout.setVisibility(View.GONE);
         ViewHelper.setVisible(spinner, list);
     }
@@ -201,7 +208,19 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
-        kategorije = load;
+        setCategoryAdapter(load);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Task.TaskType.QUESTION);
+    }
+
+    private void setQuizAdapter() {
+        Kviz temp = new Kviz("Dodaj Kviz", null, new Kategorija(null, "671"));
+        kvizovi.add(temp);
+        kvizAdapter = new KvizAdapter(this, kvizovi);
+        list.setAdapter(kvizAdapter);
+    }
+
+    private void setCategoryAdapter(ArrayList<Kategorija> list) {
+        kategorije = list;
         kategorijeIme = MiscHelper.izdvojiImenaKategorija(kategorije);
         kategorijeIme.add("Svi");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, kategorijeIme);
@@ -212,7 +231,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         } else {
             spinner.setSelection(lastSelected);
         }
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Task.TaskType.QUESTION);
     }
 
     @Override
