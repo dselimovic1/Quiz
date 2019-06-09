@@ -115,6 +115,7 @@ public class Kategorija implements Parcelable, FirestoreStorable {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KategorijaEntry.COLUMN_NAME, naziv);
         contentValues.put(KategorijaEntry.COLUMN_ICON, id);
+        contentValues.put(KategorijaEntry.DOCUMENT_ID, documentID);
         return contentValues;
     }
 
@@ -125,13 +126,15 @@ public class Kategorija implements Parcelable, FirestoreStorable {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "naziv";
         public static final String COLUMN_ICON = "id_ikone";
+        public static final String DOCUMENT_ID = "document_id";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_NAME + " TEXT NOT NULL," +
+                DOCUMENT_ID + " TEXT NOT NULL," +
                 COLUMN_ICON + " TEXT NOT NULL);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
-        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_ICON};
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_ICON, DOCUMENT_ID};
     }
 }
