@@ -32,6 +32,7 @@ public class LocalDBHelper {
             boolean remove = true;
             Kviz next = listIterator.next();
             for(Kviz quiz : local) {
+                if(quiz.getDocumentID() == null) continue;
                 if(next.getDocumentID().equals(quiz.getDocumentID()) && MiscHelper.compareForUpdate(next, quiz)) {
                     remove = false;
                     break;
