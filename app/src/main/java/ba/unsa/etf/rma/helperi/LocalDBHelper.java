@@ -15,6 +15,7 @@ public class LocalDBHelper {
             boolean remove = false;
             FirestoreStorable next = listIterator.next();
             for(FirestoreStorable firestoreStorable : local) {
+                if(firestoreStorable.getDocumentID() == null) continue;
                 if(next.getDocumentID().equals(firestoreStorable.getDocumentID())) {
                     remove = true;
                     break;
