@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
+import ba.unsa.etf.rma.klase.Kviz;
 
 public class LocalDBHelper {
 
@@ -24,4 +25,20 @@ public class LocalDBHelper {
         return entriesToAdd;
     }
 
+    public static ArrayList<Kviz> getUpdatedEntries(ArrayList<Kviz> firestore, ArrayList<Kviz> local) {
+        ArrayList<Kviz> updatedEntries = new ArrayList<>(firestore);
+        ListIterator<Kviz> listIterator = updatedEntries.listIterator();
+        while(listIterator.hasNext()) {
+            boolean remove = true;
+            Kviz next = listIterator.next();
+            for(Kviz quiz : local) {
+                if(next.getDocumentID().equals(quiz.getDocumentID()) && MiscHelper.compareForUpdate(next, quiz)) {
+                    remove = false;
+                    break;
+                }
+            }
+            if(remove) listIterator.remove();
+        }
+        return updatedEntries;
+    }
 }
