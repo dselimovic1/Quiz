@@ -229,6 +229,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         MiscHelper.azurirajKvizove(kvizovi, load, kategorije);
+        ArrayList<Kviz> temp2 = new ArrayList<>(kvizovi);
         setQuizAdapter();
         layout.setVisibility(View.GONE);
         ViewHelper.setVisible(spinner, list);
