@@ -65,7 +65,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     private long nextEvent = 0;
     private int numOfQuestions = 0;
     private boolean isPlayable = true;
-    private static boolean offlineMode = true;
+    private  boolean isConnected = false;
 
     private LinearLayout layout;
 
@@ -88,7 +88,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             databaseHelper = new DatabaseHelper(this);
             queryHelper = new Query(databaseHelper.getWritableDatabase());
 
-            if(ConnectionHelper.isNetworkAvailable(this)) {
+            isConnected = ConnectionHelper.isNetworkAvailable(this);
+            if(isConnected) {
                 ViewHelper.setInvisible(spinner, list);
                 layout = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
                 new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
@@ -134,7 +135,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if (i != lastSelected) {
                         lastSelected = i;
-                        if(ConnectionHelper.isNetworkAvailable(KvizoviAkt.this)) {
+                        if(isConnected) {
                             String filter = "";
                             if (i == kategorijeIme.size() - 1) filter = "Svi";
                             else filter = kategorije.get(i).getDocumentID();
@@ -179,7 +180,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         super.onActivityResult(requestCode, resultCode, data);
         if (mode == false) {
             firstTime = true;
-            if(ConnectionHelper.isNetworkAvailable(this)) {
+            isConnected = ConnectionHelper.isNetworkAvailable(this);
+            if(isConnected) {
                 ViewHelper.setInvisible(spinner, list);
                 new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
             }
@@ -209,6 +211,16 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         DetailFrag detailFrag = new DetailFrag();
         Bundle bundle = new Bundle();
         bundle.putString("filter", categoryName);
+        detailFrag.setArguments(bundle);
+        fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
+    }
+
+    @Override
+    public void onCategorySelected(long ID) {
+        FragmentManager fm = getSupportFragmentManager();
+        DetailFrag detailFrag = new DetailFrag();
+        Bundle bundle = new Bundle();
+        bundle.putLong("filter", ID);
         detailFrag.setArguments(bundle);
         fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
     }
