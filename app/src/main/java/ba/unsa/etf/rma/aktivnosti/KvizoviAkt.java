@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +30,7 @@ import ba.unsa.etf.rma.adapteri.KvizAdapter;
 import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.fragmenti.DetailFrag;
 import ba.unsa.etf.rma.fragmenti.ListaFrag;
+import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.helperi.ViewHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
@@ -79,10 +81,15 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if (mode == false) {
             spinner = (Spinner) findViewById(R.id.spPostojeceKategorije);
             list = (ListView) findViewById(R.id.lvKvizovi);
-            ViewHelper.setInvisible(spinner, list);
-            layout = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
-            new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
-
+            if(ConnectionHelper.isNetworkAvailable(this)) {
+                ViewHelper.setInvisible(spinner, list);
+                layout = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
+                new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
+            }
+            else {
+                ViewHelper.setVisible(spinner, list);
+                Toast.makeText(KvizoviAkt.this, "Nema interneta", Toast.LENGTH_LONG).show();
+            }
             list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -155,9 +162,11 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (mode == false) {
-            ViewHelper.setInvisible(spinner, list);
             firstTime = true;
-            new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
+            if(ConnectionHelper.isNetworkAvailable(this)) {
+                ViewHelper.setInvisible(spinner, list);
+                new FilterQuizTask(getResources().openRawResource(R.raw.secret), (FilterQuizTask.OnListFiltered) this, layout).execute("Svi");
+            }
         }
     }
 
