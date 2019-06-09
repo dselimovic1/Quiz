@@ -25,6 +25,7 @@ public class Query {
         pitanje.setTekstPitanja(pitanje.getNaziv());
         pitanje.setOdgovori(getAnswersByID(pitanje.getID()));
         pitanje.setTacan(pitanje.getOdgovori().get(cursor.getInt(2)));
+        pitanje.setDocumentID(cursor.getString(3));
         return pitanje;
     }
 
@@ -32,7 +33,8 @@ public class Query {
         Kategorija kategorija = new Kategorija();
         kategorija.setID(cursor.getLong(0));
         kategorija.setNaziv(cursor.getString(1));
-        kategorija.setId(cursor.getColumnName(2));
+        kategorija.setId(cursor.getString(2));
+        kategorija.setDocumentID(cursor.getString(3));
         return kategorija;
     }
 
