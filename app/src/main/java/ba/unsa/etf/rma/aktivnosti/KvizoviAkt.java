@@ -170,6 +170,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             }
             Bundle bundle = new Bundle();
             bundle.putString("filter", "Svi");
+            bundle.putLong("filter", 0);
             detailFrag.setArguments(bundle);
             fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
         }
