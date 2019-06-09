@@ -141,7 +141,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                             new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this, layout).execute(filter);
                         }
                         else {
-                            long ID = kategorije.get(i).getID();
+                            long ID = 0;
+                            if(i < kategorije.size())
+                                ID = kategorije.get(i).getID();
                             if(ID == 0) kvizovi = queryHelper.getAllQuizzes();
                             else kvizovi = queryHelper.getQuizzesByCategory(ID);
                             setQuizAdapter();
