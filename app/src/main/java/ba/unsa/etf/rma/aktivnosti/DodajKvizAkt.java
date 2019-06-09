@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -26,6 +27,7 @@ import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.DodanaPitanjaAdapter;
 import ba.unsa.etf.rma.adapteri.MogucaPitanjaAdapter;
 import ba.unsa.etf.rma.enumi.Task;
+import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.helperi.QuizParser;
 import ba.unsa.etf.rma.izuzeci.WrongParseException;
@@ -85,7 +87,9 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         sacuvajKviz = (Button) findViewById(R.id.btnDodajKviz);
         importujKviz = (Button) findViewById(R.id.btnImportKviz);
 
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded)this).execute(Task.TaskType.RANGLIST);
+        if(ConnectionHelper.isNetworkAvailable(this)) {
+            new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
+        }
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -136,7 +140,10 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         sacuvajKviz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new FilterQuizTask(getResources().openRawResource(R.raw.secret), DodajKvizAkt.this).execute("Svi");
+                if(ConnectionHelper.isNetworkAvailable(DodajKvizAkt.this))
+                    new FilterQuizTask(getResources().openRawResource(R.raw.secret), DodajKvizAkt.this).execute("Svi");
+                else
+                    Toast.makeText(DodajKvizAkt.this, "Uređaj nije konektovan na internet!", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -153,7 +160,8 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
+        if(ConnectionHelper.isNetworkAvailable(this))
+            new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_CATEGORY) {
                 lastCategoryAdded = data.getStringExtra("kategorija");
