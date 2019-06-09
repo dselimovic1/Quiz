@@ -134,11 +134,18 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if (i != lastSelected) {
                         lastSelected = i;
-                        String filter = "";
-                        if (i == kategorijeIme.size() - 1) filter = "Svi";
-                        else filter = kategorije.get(i).getDocumentID();
-                        if(ConnectionHelper.isNetworkAvailable(KvizoviAkt.this))
+                        if(ConnectionHelper.isNetworkAvailable(KvizoviAkt.this)) {
+                            String filter = "";
+                            if (i == kategorijeIme.size() - 1) filter = "Svi";
+                            else filter = kategorije.get(i).getDocumentID();
                             new FilterQuizTask(getResources().openRawResource(R.raw.secret), KvizoviAkt.this, layout).execute(filter);
+                        }
+                        else {
+                            long ID = kategorije.get(i).getID();
+                            if(ID == 0) kvizovi = queryHelper.getAllQuizzes();
+                            else kvizovi = queryHelper.getQuizzesByCategory(ID);
+                            setQuizAdapter();
+                        }
                     }
                 }
 
