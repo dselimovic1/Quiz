@@ -9,12 +9,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.OdgovoriAdapter;
 import ba.unsa.etf.rma.enumi.Task;
+import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
@@ -95,7 +97,12 @@ public class DodajPitanjeAkt extends AppCompatActivity implements GetListTask.On
         sacuvajPitanje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)DodajPitanjeAkt.this).execute(Task.TaskType.QUESTION);
+                if(ConnectionHelper.isNetworkAvailable(DodajPitanjeAkt.this)) {
+                    new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded)DodajPitanjeAkt.this).execute(Task.TaskType.QUESTION);
+                }
+                else {
+                    Toast.makeText(DodajPitanjeAkt.this, "Uređaj nije konektovan na internet!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
