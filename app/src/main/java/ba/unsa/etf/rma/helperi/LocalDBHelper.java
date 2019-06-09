@@ -8,8 +8,8 @@ import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 public class LocalDBHelper {
 
     public static ArrayList<? extends FirestoreStorable> getEntriesToAdd(ArrayList<? extends FirestoreStorable> firestore, ArrayList<? extends FirestoreStorable> local) {
-        ArrayList<? extends FirestoreStorable> temp = new ArrayList<>(firestore);
-        ListIterator<? extends FirestoreStorable> listIterator = temp.listIterator();
+        ArrayList<? extends FirestoreStorable> entriesToAdd = new ArrayList<>(firestore);
+        ListIterator<? extends FirestoreStorable> listIterator = entriesToAdd.listIterator();
         while (listIterator.hasNext()) {
             boolean remove = false;
             FirestoreStorable next = listIterator.next();
@@ -21,7 +21,7 @@ public class LocalDBHelper {
             }
             if(remove) listIterator.remove();
         }
-        return temp;
+        return entriesToAdd;
     }
 
 }
