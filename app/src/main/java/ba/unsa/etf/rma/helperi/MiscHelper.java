@@ -145,7 +145,12 @@ public class MiscHelper {
 
     public static boolean compareForUpdate(Kviz quiz1, Kviz quiz2) {
         if(!quiz1.getNaziv().equals(quiz2.getNaziv())) return true;
-        if(!quiz1.getKategorija().getDocumentID().equals(quiz2.getKategorija().getDocumentID())) return true;
+        if(quiz1.getKategorija() == null || quiz2.getKategorija() == null) {
+            if(quiz1.getKategorija().getDocumentID() == null || quiz2.getKategorija().getDocumentID() == null) {
+
+            }
+        }
+        else if(!quiz1.getKategorija().getDocumentID().equals(quiz2.getKategorija().getDocumentID())) return true;
         if(quiz1.getPitanja().size() != quiz2.getPitanja().size()) return true;
         for(int i = 0; i < quiz1.getPitanja().size(); i++) {
             boolean exists = false;

@@ -85,9 +85,9 @@ public class Query {
 
     public ArrayList<Pitanje> getQuestionsByID(long ID) {
         ArrayList<Pitanje> questions = new ArrayList<>();
-        String selection = Kviz.PitanjaKvizaEntry.COLUMN_QUIZ_ID + " = ? AND " + Kviz.PitanjaKvizaEntry.COLUMN_QUESTION_ID + " = " + Pitanje.PitanjeEntry.COLUMN_ID;
-        String[] selectionArgs = new String[]{Long.toString(ID)};
-        Cursor cursor = database.query(Pitanje.PitanjeEntry.TABLE_NAME + "," + Kviz.PitanjaKvizaEntry.TABLE_NAME, Pitanje.PitanjeEntry.PROJECTION, selection, selectionArgs, null, null, null);
+        String query = "SELECT p.id, p.naziv, p.index_tacnog, p.document_id FROM Pitanja p, PitanjaKviza pk WHERE pk.id_kviza = ? AND pk.id_pitanja = p.id";
+        String[] selection = new String[]{Long.toString(ID)};
+        Cursor cursor = database.rawQuery(query, selection);
         while (cursor.moveToNext()) {
             questions.add(getQuestionFromCursor(cursor));
         }
@@ -159,7 +159,7 @@ public class Query {
         return rangs;
     }
 
-    public void addCategory(Kviz category) {
+    public void addCategory(Kategorija category) {
         long ID = database.insert(Kategorija.KategorijaEntry.TABLE_NAME, null, category.getContentValues());
         category.setID(ID);
     }
