@@ -18,10 +18,13 @@ import ba.unsa.etf.rma.adapteri.GridAdapter;
 import ba.unsa.etf.rma.aktivnosti.DodajKvizAkt;
 import ba.unsa.etf.rma.aktivnosti.IgrajKvizAkt;
 import ba.unsa.etf.rma.enumi.Task;
+import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.sqlite.DatabaseHelper;
+import ba.unsa.etf.rma.sqlite.Query;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
@@ -39,6 +42,11 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
 
     private CategoryAdd categoryAdd;
 
+    private boolean isConnected = false;
+
+    private DatabaseHelper databaseHelper;
+    private Query query;
+
     public DetailFrag() {
     }
 
@@ -54,8 +62,16 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
         }
 
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
-        new FilterQuizTask(getActivity().getResources().openRawResource(R.raw.secret), this).execute(getArguments().getString("filter"));
-
+        isConnected = ConnectionHelper.isNetworkAvailable(getContext());
+        if(isConnected)  {
+            new FilterQuizTask(getActivity().getResources().openRawResource(R.raw.secret), this).execute(getArguments().getString("filter"));
+        }
+        else {
+            long ID = getArguments().getLong("filter");
+            if(ID == 0) kvizovi = query.getAllQuizzes();
+            else kvizovi = query.getQuizzesByCategory(ID);
+            setGridAdapter();
+        }
         kvizGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -95,18 +111,22 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         categoryAdd.onCategoryAdded();
-        new FilterQuizTask(getActivity().getResources().openRawResource(R.raw.secret), this).execute("Svi");
+        isConnected = ConnectionHelper.isNetworkAvailable(getContext());
+        if(isConnected) {
+            new FilterQuizTask(getActivity().getResources().openRawResource(R.raw.secret), this).execute("Svi");
+        }
+        else {
+            kvizovi = query.getAllQuizzes();
+            setGridAdapter();
+        }
     }
 
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         pitanja = load;
         MiscHelper.azurirajKvizove(kvizovi, pitanja, kategorije);
-        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija(null, "671")));
-        adapter = new GridAdapter(getContext(), kvizovi);
-        kvizGrid.setAdapter(adapter);
+        setGridAdapter();
     }
-
 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
@@ -118,6 +138,12 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     public void filterList(ArrayList<Kviz> load) {
         kvizovi = load;
         new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Task.TaskType.CATEGORY);
+    }
+
+    public void setGridAdapter() {
+        kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija(null, "671")));
+        adapter = new GridAdapter(getContext(), kvizovi);
+        kvizGrid.setAdapter(adapter);
     }
 
     public interface CategoryAdd {
