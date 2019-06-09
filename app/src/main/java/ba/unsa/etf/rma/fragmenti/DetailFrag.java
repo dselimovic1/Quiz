@@ -61,6 +61,9 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
             e.printStackTrace();
         }
 
+        databaseHelper = new DatabaseHelper(getContext());
+        query = new Query(databaseHelper.getWritableDatabase());
+
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
         isConnected = ConnectionHelper.isNetworkAvailable(getContext());
         if(isConnected)  {
