@@ -1,5 +1,9 @@
 package ba.unsa.etf.rma.helperi;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.common.collect.Lists;
 
@@ -135,5 +139,12 @@ public class ConnectionHelper {
                 "    }\n" +
                 "}";
         return document;
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
     }
 }
