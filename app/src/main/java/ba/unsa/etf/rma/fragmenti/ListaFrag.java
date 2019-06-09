@@ -14,8 +14,11 @@ import java.util.ArrayList;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.enumi.Task;
+import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
+import ba.unsa.etf.rma.sqlite.DatabaseHelper;
+import ba.unsa.etf.rma.sqlite.Query;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
 public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded {
@@ -26,6 +29,10 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
     private ListView listaKategorije;
 
     private FilterCategory filterCategory;
+    private boolean isConnected = false;
+
+    private DatabaseHelper databaseHelper;
+    private Query query;
 
     public ListaFrag() {
     }
@@ -34,6 +41,9 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        databaseHelper = new DatabaseHelper(getActivity());
+        query = new Query(databaseHelper.getWritableDatabase());
+
         try {
             filterCategory = (FilterCategory)getActivity();
         }
@@ -41,17 +51,29 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
             e.printStackTrace();
         }
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
-        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded)this).execute(Task.TaskType.CATEGORY);
-
+        isConnected = ConnectionHelper.isNetworkAvailable(getActivity());
+        if(isConnected) {
+            new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Task.TaskType.CATEGORY);
+        }
+        else {
+            kategorije = query.getAllCategories();
+            setCategoryAdapter();
+        }
         listaKategorije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String currentCategory = "";
-                if(i != kategorijeAdapter.getCount() - 1)
+                long ID = 0;
+                if(i != kategorijeAdapter.getCount() - 1) {
                     currentCategory = kategorije.get(i).getDocumentID();
-                else
+                    ID = 0;
+                }
+                else {
                     currentCategory = "Svi";
-                filterCategory.onCategorySelected(currentCategory);
+                    ID = kategorije.get(i).getID();
+                }
+                if(isConnected) filterCategory.onCategorySelected(currentCategory);
+                else filterCategory.onCategorySelected(ID);
             }
         });
     }
@@ -64,6 +86,10 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
         kategorije = load;
+        setCategoryAdapter();
+    }
+
+    public void setCategoryAdapter() {
         ArrayList<String> kategorijeZaAdapter = MiscHelper.izdvojiImenaKategorija(kategorije);
         kategorijeZaAdapter.add("Svi");
         kategorijeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, kategorijeZaAdapter);
@@ -73,5 +99,6 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
 
     public interface FilterCategory{
         void onCategorySelected(String categoryName);
+        void onCategorySelected(long ID);
     }
 }
