@@ -35,6 +35,8 @@ import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
+import ba.unsa.etf.rma.sqlite.DatabaseHelper;
+import ba.unsa.etf.rma.sqlite.Query;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
@@ -75,10 +77,16 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     private String lastCategoryAdded = null;
     private static String lastCategoryChosen = null;
 
+    private DatabaseHelper databaseHelper;
+    private Query query;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kviz_akt);
+
+        databaseHelper = new DatabaseHelper(this);
+        query = new Query(databaseHelper.getWritableDatabase());
 
         spinner = (Spinner) findViewById(R.id.spKategorije);
         dodanaPitanjaList = (ListView) findViewById(R.id.lvDodanaPitanja);
@@ -87,9 +95,8 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         sacuvajKviz = (Button) findViewById(R.id.btnDodajKviz);
         importujKviz = (Button) findViewById(R.id.btnImportKviz);
 
-        if(ConnectionHelper.isNetworkAvailable(this)) {
-            new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
-        }
+        if(ConnectionHelper.isNetworkAvailable(this)) new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
+        else readFromDatabase();
 
         dodanaPitanjaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -160,8 +167,8 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(ConnectionHelper.isNetworkAvailable(this))
-            new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
+        if(ConnectionHelper.isNetworkAvailable(this)) new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
+        else readFromDatabase();
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_CATEGORY) {
                 lastCategoryAdded = data.getStringExtra("kategorija");
@@ -192,7 +199,20 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
         }
     }
 
+    public void  readFromDatabase() {
+        kategorije = query.getAllCategories();
+        pitanja = query.getAllQuestions();
+        if (getIntent().getIntExtra("add", 0) == 2) {
+            trenutni = (Kviz) getIntent().getParcelableExtra("updateKviz");
+            imeKviz.setText(trenutni.getNaziv());
+        }
+        izdvojiDodanaPitanja();
+        izdvojiMogucaPitanja();
+        postaviAdapterKategorije();
+    }
+
     private void postaviAdapterKategorije() {
+        kategorijeIme = MiscHelper.izdvojiImenaKategorija(kategorije);
         kategorijeIme.add(0, "Svi");
         kategorijeIme.add("Dodaj kategoriju");
         kategorijeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, kategorijeIme);
@@ -215,11 +235,14 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     }
 
     private void izdvojiDodanaPitanja() {
-        dodanaPitanja.clear();
-        if(trenutni != null) dodanaPitanja.addAll(0, trenutni.dajImenaPitanja());
-        dodanaPitanja.add("Dodaj Pitanje");
-        dodanaAdapter = new DodanaPitanjaAdapter(this, dodanaPitanja);
-        dodanaPitanjaList.setAdapter(dodanaAdapter);
+        if(firstTime) {
+            dodanaPitanja.clear();
+            if (trenutni != null) dodanaPitanja.addAll(0, trenutni.dajImenaPitanja());
+            dodanaPitanja.add("Dodaj Pitanje");
+            dodanaAdapter = new DodanaPitanjaAdapter(this, dodanaPitanja);
+            dodanaPitanjaList.setAdapter(dodanaAdapter);
+            firstTime = false;
+        }
     }
 
     private void izdvojiMogucaPitanja() {
@@ -301,17 +324,13 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         pitanja = load;
-        if(firstTime) {
-            izdvojiDodanaPitanja();
-            firstTime = false;
-        }
+        izdvojiDodanaPitanja();
         izdvojiMogucaPitanja();
     }
 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
         kategorije = load;
-        kategorijeIme = MiscHelper.izdvojiImenaKategorija(kategorije);
         postaviAdapterKategorije();
     }
 
