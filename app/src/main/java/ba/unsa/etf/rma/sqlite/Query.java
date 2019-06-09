@@ -42,7 +42,7 @@ public class Query {
         Kviz kviz = new Kviz();
         kviz.setID(cursor.getLong(0));
         kviz.setNaziv(cursor.getString(1));
-        if(!cursor.isNull(2)) kviz.setKategorija(getCategoryByID(cursor.getLong(2)));
+        if(!cursor.isNull(2) && cursor.getLong(2) != 0) kviz.setKategorija(getCategoryByID(cursor.getLong(2)));
         else kviz.setKategorija(new Kategorija("Svi", "1"));
         kviz.setPitanja(getQuestionsByID(kviz.getID()));
         kviz.setDocumentID(cursor.getString(3));
