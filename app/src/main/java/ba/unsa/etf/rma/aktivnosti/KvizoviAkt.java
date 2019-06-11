@@ -39,6 +39,7 @@ import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.sqlite.DatabaseHelper;
 import ba.unsa.etf.rma.sqlite.Query;
+import ba.unsa.etf.rma.taskovi.AddItemTask;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
@@ -235,6 +236,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         layout.setVisibility(View.GONE);
         ViewHelper.setVisible(spinner, list);
         updateDatabase(load, temp2);
+        updateFirestore();
     }
 
     @Override
@@ -333,6 +335,13 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         queryHelper.addCategories(addCategory);
         queryHelper.addQuizzes(addQuiz);
         queryHelper.updateQuizzes(updateQuiz);
+    }
+
+    public void updateFirestore() {
+        ArrayList<Rang> ranglist = queryHelper.getAllRangLists();
+        ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(ranglist);
+        for(Rang add: entriesToAdd)
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
     }
 
     @Override
