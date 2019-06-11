@@ -30,6 +30,7 @@ import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.fragmenti.DetailFrag;
 import ba.unsa.etf.rma.fragmenti.ListaFrag;
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
+import ba.unsa.etf.rma.helperi.LocalDBHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.helperi.ViewHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
@@ -233,8 +234,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         setQuizAdapter();
         layout.setVisibility(View.GONE);
         ViewHelper.setVisible(spinner, list);
+        updateDatabase(load);
     }
-
 
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
@@ -318,5 +319,13 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
         }
         isPlayable = true;
+    }
+
+    public void updateDatabase(ArrayList<Pitanje> load) {
+        ArrayList<Kviz> localQuiz = queryHelper.getAllQuizzes();
+        ArrayList<Pitanje> addQuestion = (ArrayList<Pitanje>) LocalDBHelper.getEntriesToAdd(load, queryHelper.getAllQuestions());
+        ArrayList<Kategorija> addCategory = (ArrayList<Kategorija>) LocalDBHelper.getEntriesToAdd(kategorije, queryHelper.getAllCategories());
+        ArrayList<Kviz> addQuiz = (ArrayList<Kviz>) LocalDBHelper.getEntriesToAdd(kvizovi, localQuiz);
+        ArrayList<Kviz> updateQuiz = LocalDBHelper.getUpdatedEntries(kvizovi, localQuiz);
     }
 }
