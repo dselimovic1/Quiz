@@ -201,4 +201,20 @@ public class Query {
         result.ID = ID;
     }
 
+    public void addQuizzes(ArrayList<Kviz> list) {
+        for(Kviz k : list) addQuiz(k);
+    }
+
+    public void addCategories(ArrayList<Kategorija> list) {
+        for(Kategorija k : list) addCategory(k);
+    }
+
+    public void addQuestions(ArrayList<Pitanje> list) {
+        for(Pitanje p : list) addQuestion(p);
+    }
+
+    public void updateQuizzes(ArrayList<Kviz> list) {
+        for(Kviz k : list) updateQuiz(k);
+    }
+
 }
