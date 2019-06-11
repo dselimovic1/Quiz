@@ -1,7 +1,5 @@
 package ba.unsa.etf.rma.helperi;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -33,11 +31,11 @@ public class LocalDBHelper {
         for(Kviz next : firestore) {
             for(int i = 0; i < local.size(); i++) {
                 if(next.getDocumentID().equals(local.get(i).getDocumentID()) && MiscHelper.compareForUpdate(next, local.get(i))) {
+                    next.setID(local.get(i).getID());
                     listToUpdate.add(next);
                 }
             }
         }
-        Log.d("LIST TO UPDATE", Integer.toString(listToUpdate.size()));
         return listToUpdate;
     }
 
