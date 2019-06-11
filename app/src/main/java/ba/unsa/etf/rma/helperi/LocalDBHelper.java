@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.helperi;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -27,20 +29,17 @@ public class LocalDBHelper {
     }
 
     public static ArrayList<Kviz> getUpdatedEntries(ArrayList<Kviz> firestore, ArrayList<Kviz> local) {
-        ArrayList<Kviz> updatedEntries = new ArrayList<>(firestore);
-        ListIterator<Kviz> listIterator = updatedEntries.listIterator();
-        while(listIterator.hasNext()) {
-            boolean remove = true;
-            Kviz next = listIterator.next();
-            for(Kviz quiz : local) {
-                if(quiz.getDocumentID() == null) continue;
-                if(next.getDocumentID().equals(quiz.getDocumentID()) && MiscHelper.compareForUpdate(next, quiz)) {
-                    remove = false;
-                    break;
+        ArrayList<Kviz> listToUpdate = new ArrayList<>();
+        for(Kviz next : firestore) {
+            for(int i = 0; i < local.size(); i++) {
+                if(next.getDocumentID().equals(local.get(i).getDocumentID()) && MiscHelper.compareForUpdate(next, local.get(i))) {
+                    listToUpdate.add(next);
                 }
             }
-            if(remove) listIterator.remove();
         }
-        return updatedEntries;
+        Log.d("LIST TO UPDATE", Integer.toString(listToUpdate.size()));
+        return listToUpdate;
     }
+
+
 }

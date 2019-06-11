@@ -234,7 +234,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         setQuizAdapter();
         layout.setVisibility(View.GONE);
         ViewHelper.setVisible(spinner, list);
-        updateDatabase(load);
+        updateDatabase(load, temp2);
     }
 
     @Override
@@ -321,11 +321,23 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         isPlayable = true;
     }
 
-    public void updateDatabase(ArrayList<Pitanje> load) {
+    public void updateDatabase(ArrayList<Pitanje> load, ArrayList<Kviz> kvizovi) {
         ArrayList<Kviz> localQuiz = queryHelper.getAllQuizzes();
+        ArrayList<Kviz> kvizoviUpdate = new ArrayList<>(kvizovi);
+        ArrayList<Kviz> localUpdate = new ArrayList<>(localQuiz);
         ArrayList<Pitanje> addQuestion = (ArrayList<Pitanje>) LocalDBHelper.getEntriesToAdd(load, queryHelper.getAllQuestions());
         ArrayList<Kategorija> addCategory = (ArrayList<Kategorija>) LocalDBHelper.getEntriesToAdd(kategorije, queryHelper.getAllCategories());
         ArrayList<Kviz> addQuiz = (ArrayList<Kviz>) LocalDBHelper.getEntriesToAdd(kvizovi, localQuiz);
-        ArrayList<Kviz> updateQuiz = LocalDBHelper.getUpdatedEntries(kvizovi, localQuiz);
+        ArrayList<Kviz> updateQuiz = LocalDBHelper.getUpdatedEntries(kvizoviUpdate, localUpdate);
+        queryHelper.addQuestions(addQuestion);
+        queryHelper.addCategories(addCategory);
+        queryHelper.addQuizzes(addQuiz);
+        queryHelper.updateQuizzes(updateQuiz);
+    }
+
+    @Override
+    protected void onDestroy() {
+        //databaseHelper.close();
+        super.onDestroy();
     }
 }

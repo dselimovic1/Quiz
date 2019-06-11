@@ -372,4 +372,10 @@ public class DodajKvizAkt extends AppCompatActivity implements GetListTask.OnCat
             finish();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        databaseHelper.close();
+        super.onDestroy();
+    }
 }
