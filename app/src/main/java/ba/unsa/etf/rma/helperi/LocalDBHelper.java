@@ -5,6 +5,7 @@ import java.util.ListIterator;
 
 import ba.unsa.etf.rma.interfejsi.FirestoreStorable;
 import ba.unsa.etf.rma.klase.Kviz;
+import ba.unsa.etf.rma.klase.Rang;
 
 public class LocalDBHelper {
 
@@ -39,5 +40,24 @@ public class LocalDBHelper {
         return listToUpdate;
     }
 
+    public static ArrayList<Rang> rangListsToAdd(ArrayList<Rang> list) {
+        ArrayList<Rang> entriesToAdd = new ArrayList<>();
+        for(Rang r : list) {
+            if(r.getDocumentID() == null) entriesToAdd.add(r);
+        }
+        return entriesToAdd;
+    }
+
+    public static ArrayList<Rang> rangListsToUpdate(ArrayList<Rang> listLocal, ArrayList<Rang> listFirestore) {
+        ArrayList<Rang> entriesToUpdate = new ArrayList<>();
+        for(Rang r : listLocal) {
+            if(r.getDocumentID() == null) continue;
+            for(Rang f : listFirestore) {
+                if(r.getDocumentID().equals(f.getDocumentID()) == false) continue;
+                if(r.getMapa().size() != f.getMapa().size()) entriesToUpdate.add(r);
+            }
+        }
+        return entriesToUpdate;
+    }
 
 }
