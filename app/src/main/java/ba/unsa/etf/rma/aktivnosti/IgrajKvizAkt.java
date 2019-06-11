@@ -14,9 +14,12 @@ import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.fragmenti.InformacijeFrag;
 import ba.unsa.etf.rma.fragmenti.PitanjeFrag;
 import ba.unsa.etf.rma.fragmenti.RangLista;
+import ba.unsa.etf.rma.helperi.ConnectionHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Rang;
+import ba.unsa.etf.rma.sqlite.DatabaseHelper;
+import ba.unsa.etf.rma.sqlite.Query;
 import ba.unsa.etf.rma.taskovi.AddItemTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 import ba.unsa.etf.rma.taskovi.UpdateItemTask;
@@ -25,11 +28,18 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
 
     private Kviz kviz;
     private Rang.Par current = null;
+    private ArrayList<Rang> rangliste;
+
+    private DatabaseHelper databaseHelper;
+    private Query query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_igraj_kviz_akt);
+
+        databaseHelper = new DatabaseHelper(this);
+        query = new Query(databaseHelper.getWritableDatabase());
 
         FragmentManager fm = getSupportFragmentManager();
         InformacijeFrag informacijeFrag = (InformacijeFrag)fm.findFragmentById(R.id.informacijePlace);
@@ -59,12 +69,30 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
 
     @Override
     public void showRangList(Rang.Par par) {
-        new GetListTask(getResources().openRawResource(R.raw.secret), this).execute(Task.TaskType.RANGLIST);
         current = par;
+        if(ConnectionHelper.isNetworkAvailable(this))
+            new GetListTask(getResources().openRawResource(R.raw.secret), this).execute(Task.TaskType.RANGLIST);
+        else {
+            rangliste = query.getAllRangLists();
+            Rang rang = MiscHelper.traziRang(rangliste, kviz.getNaziv());
+            if(rang == null) {
+                rang = new Rang(kviz.getNaziv());
+                rang.dodajRezultat(current);;
+                query.addRangList(rang);
+                query.addResult(rang, current);
+            }
+            else {
+                rang.dodajRezultat(current);
+                query.addResult(rang, current);
+            }
+            current = null;
+            showRangList(rang);
+        }
     }
 
     @Override
     public void loadAllRang(ArrayList<Rang> load) {
+        rangliste = load;
         Rang rang = MiscHelper.traziRang(load, kviz.getNaziv());
         if(rang == null) {
             rang = new Rang(kviz.getNaziv());
@@ -76,11 +104,7 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
             new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(rang);
         }
         current = null;
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("rang", rang);
-        RangLista rangListaFragment = new RangLista();
-        rangListaFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.pitanjePlace, rangListaFragment).commit();
+        showRangList(rang);
     }
 
     public void setAlarm(int numOfQuestions) {
@@ -92,5 +116,19 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
         setAlarmActivity.putExtra(AlarmClock.EXTRA_MINUTES, calendar.get(calendar.MINUTE));
         setAlarmActivity.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
         startActivity(setAlarmActivity);
+    }
+
+    public void showRangList(Rang rang) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("rang", rang);
+        RangLista rangListaFragment = new RangLista();
+        rangListaFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.pitanjePlace, rangListaFragment).commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        databaseHelper.close();
+        super.onDestroy();
     }
 }
