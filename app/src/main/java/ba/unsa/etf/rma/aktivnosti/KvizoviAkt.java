@@ -337,7 +337,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
     @Override
     protected void onDestroy() {
-        //databaseHelper.close();
+        databaseHelper.close();
         super.onDestroy();
     }
 }
