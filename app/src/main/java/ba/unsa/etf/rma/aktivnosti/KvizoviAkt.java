@@ -39,10 +39,8 @@ import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.sqlite.DatabaseHelper;
 import ba.unsa.etf.rma.sqlite.Query;
-import ba.unsa.etf.rma.taskovi.AddItemTask;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
-import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 
 
 public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory, GetListTask.OnQuestionLoaded, GetListTask.OnCategoryLoaded, FilterQuizTask.OnListFiltered, GetListTask.OnRangLoaded {
@@ -232,7 +230,6 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     @Override
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         MiscHelper.azurirajKvizove(kvizovi, load, kategorije);
-        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded)this).execute(Task.TaskType.RANGLIST);
         ArrayList<Kviz> temp2 = new ArrayList<>(kvizovi);
         setQuizAdapter();
         layout.setVisibility(View.GONE);
@@ -336,6 +333,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         queryHelper.addCategories(addCategory);
         queryHelper.addQuizzes(addQuiz);
         queryHelper.updateQuizzes(updateQuiz);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
     }
 
     public void updateFirestore(ArrayList<Rang> load, ArrayList<Rang> rangList) {
@@ -343,10 +341,10 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         ArrayList<Rang> entriesToUpdateLocal = LocalDBHelper.rangListsToUpdate(load, rangList);
         ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(rangList, load);
         ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdate(rangList, load);
-        for(Rang add: entriesToAdd)
+        /*for(Rang add: entriesToAdd)
             new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
         for(Rang update : entriesToUpdate)
-            new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(update);
+            new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(update);*/
         queryHelper.addRanglists(entriesToAddLocal);
         queryHelper.updateRanglists(entriesToUpdateLocal);
     }
