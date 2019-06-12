@@ -60,7 +60,7 @@ public class LocalDBHelper {
         for(Rang r : listLocal) {
             for(Rang f : listFirestore) {
                 if(r.getImeKviza().equals(f.getImeKviza()) == false) continue;
-                if(r.getMapa().size() != f.getMapa().size()) entriesToUpdate.add(r);
+                if(r.getMapa().size() != f.getMapa().size()) entriesToUpdate.add(f);
             }
         }
         return entriesToUpdate;
