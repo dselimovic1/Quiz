@@ -117,6 +117,7 @@ public class Rang implements FirestoreStorable, Serializable {
     public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(RangEntry.COLUMN_NAME, imeKviza);
+        contentValues.put(RangEntry.COLUMN_DOCUMENT_ID, documentID);
         return contentValues;
     }
 
