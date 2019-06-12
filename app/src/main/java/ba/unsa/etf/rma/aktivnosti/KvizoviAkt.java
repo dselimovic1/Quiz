@@ -339,7 +339,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
     }
 
     public void updateFirestore(ArrayList<Rang> load, ArrayList<Rang> rangList) {
-        ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(rangList);
+        ArrayList<Rang> entriesToAddLocal = LocalDBHelper.rangListsToAdd(load, rangList);
+        ArrayList<Rang> entriesToUpdateLocal = LocalDBHelper.rangListsToUpdate(load, rangList);
+        ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(rangList, load);
         ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdate(rangList, load);
         for(Rang add: entriesToAdd)
             new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
