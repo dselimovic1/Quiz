@@ -224,4 +224,11 @@ public class Query {
         }
     }
 
+    public void updateRanglists(ArrayList<Rang> list) {
+        for(Rang r: list) {
+            for(Rang.Par p : r.getMapa().values()) {
+                if(p.ID == 0) addResult(r, p);
+            }
+        }
+    }
 }
