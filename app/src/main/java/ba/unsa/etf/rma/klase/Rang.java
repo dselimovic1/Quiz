@@ -126,15 +126,17 @@ public class Rang implements FirestoreStorable, Serializable {
         public static final String TABLE_NAME = "Rang";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "naziv_kviza";
+        public static final String COLUMN_DOCUMENT_ID = "document_id";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_NAME + " TEXT NOT NULL," +
+                COLUMN_DOCUMENT_ID + " TEXT," +
                 "FOREIGN KEY (" + COLUMN_NAME + ") REFERENCES " + Kviz.KvizEntry.TABLE_NAME +
                 "(" + Kviz.KvizEntry.COLUMN_NAME + ") ON DELETE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
-        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME};
+        public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_DOCUMENT_ID};
     }
 
     public static class ParEntry {
