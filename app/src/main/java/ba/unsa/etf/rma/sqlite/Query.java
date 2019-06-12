@@ -55,6 +55,7 @@ public class Query {
 
     public Rang getRangListFromCursor(Cursor cursor) {
         Rang rang = new Rang(cursor.getLong(0), cursor.getString(1));
+        rang.setDocumentID(cursor.getString(2));
         rang.setHashMap(getResultsByID(rang.getID()));
         return rang;
     }
