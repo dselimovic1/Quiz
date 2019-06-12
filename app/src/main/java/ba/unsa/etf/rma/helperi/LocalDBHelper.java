@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.helperi;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -60,7 +62,12 @@ public class LocalDBHelper {
         for(Rang r : listLocal) {
             for(Rang f : listFirestore) {
                 if(r.getImeKviza().equals(f.getImeKviza()) == false) continue;
-                if(r.getMapa().size() != f.getMapa().size()) entriesToUpdate.add(f);
+                Log.d("NAZIV R", r.getImeKviza());
+                Log.d("NAZIV F", f.getImeKviza());
+                if(r.getMapa().size() != f.getMapa().size()) {
+                    r.setID(f.getID());
+                    entriesToUpdate.add(r);
+                }
             }
         }
         return entriesToUpdate;
