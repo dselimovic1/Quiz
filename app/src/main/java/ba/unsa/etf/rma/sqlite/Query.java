@@ -217,4 +217,11 @@ public class Query {
         for(Kviz k : list) updateQuiz(k);
     }
 
+    public void addRanglists(ArrayList<Rang> list) {
+        for(Rang r : list) {
+            addRangList(r);
+            for(Rang.Par p : r.getMapa().values()) addResult(r, p);
+        }
+    }
+
 }
