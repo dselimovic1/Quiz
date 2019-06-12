@@ -40,10 +40,17 @@ public class LocalDBHelper {
         return listToUpdate;
     }
 
-    public static ArrayList<Rang> rangListsToAdd(ArrayList<Rang> list) {
+    public static ArrayList<Rang> rangListsToAdd(ArrayList<Rang> listLocal, ArrayList<Rang> listFirestore) {
         ArrayList<Rang> entriesToAdd = new ArrayList<>();
-        for(Rang r : list) {
-            if(r.getDocumentID() == null) entriesToAdd.add(r);
+        for(Rang r : listLocal) {
+            boolean add = true;
+            for(Rang f : listFirestore) {
+                if(f.getImeKviza().equals(r.getImeKviza())) {
+                    add = false;
+                    break;
+                }
+            }
+            if(add) entriesToAdd.add(r);
         }
         return entriesToAdd;
     }
@@ -51,9 +58,8 @@ public class LocalDBHelper {
     public static ArrayList<Rang> rangListsToUpdate(ArrayList<Rang> listLocal, ArrayList<Rang> listFirestore) {
         ArrayList<Rang> entriesToUpdate = new ArrayList<>();
         for(Rang r : listLocal) {
-            if(r.getDocumentID() == null) continue;
             for(Rang f : listFirestore) {
-                if(r.getDocumentID().equals(f.getDocumentID()) == false) continue;
+                if(r.getImeKviza().equals(f.getImeKviza()) == false) continue;
                 if(r.getMapa().size() != f.getMapa().size()) entriesToUpdate.add(r);
             }
         }
