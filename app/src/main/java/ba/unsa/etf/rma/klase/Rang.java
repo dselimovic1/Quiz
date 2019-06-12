@@ -134,7 +134,7 @@ public class Rang implements FirestoreStorable, Serializable {
                 COLUMN_NAME + " TEXT NOT NULL," +
                 COLUMN_DOCUMENT_ID + " TEXT," +
                 "FOREIGN KEY (" + COLUMN_NAME + ") REFERENCES " + Kviz.KvizEntry.TABLE_NAME +
-                "(" + Kviz.KvizEntry.COLUMN_NAME + ") ON DELETE CASCADE);";
+                "(" + Kviz.KvizEntry.COLUMN_NAME + ") ON DELETE CASCADE ON UPDATE CASCADE);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
         public static final String[] PROJECTION = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_DOCUMENT_ID};
