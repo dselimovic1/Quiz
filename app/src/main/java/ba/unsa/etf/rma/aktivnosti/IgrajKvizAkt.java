@@ -85,7 +85,6 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
                 rang.dodajRezultat(current);
                 query.addResult(rang, current);
             }
-            current = null;
             showRangList(rang);
         }
     }
@@ -103,7 +102,6 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
             rang.dodajRezultat(current);
             new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(rang);
         }
-        current = null;
         showRangList(rang);
     }
 
