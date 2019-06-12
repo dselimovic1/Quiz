@@ -347,6 +347,8 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
         for(Rang update : entriesToUpdate)
             new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(update);
+        queryHelper.addRanglists(entriesToAddLocal);
+        queryHelper.updateRanglists(entriesToUpdateLocal);
     }
 
     @Override
