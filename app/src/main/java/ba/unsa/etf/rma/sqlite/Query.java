@@ -251,6 +251,18 @@ public class Query {
         return p.getID();
     }
 
+    public long setCategoryIDByName(String categoryName) {
+        Kategorija k = null;
+        String selection = Kategorija.KategorijaEntry.PROJECTION[1] + " = ?";
+        String[] args = new String[]{categoryName};
+        Cursor cursor = database.query(Kategorija.KategorijaEntry.TABLE_NAME, Kategorija.KategorijaEntry.PROJECTION, selection, args, null, null, null);
+        while(cursor.moveToNext()) {
+            k = getCategoryFromCursor(cursor);
+        }
+        cursor.close();
+        return k.getID();
+    }
+
     public Kviz setQuestionIDs(Kviz kviz) {
         for(Pitanje p : kviz.getPitanja()) {
             p.setID(setQuestionIDByName(p.getNaziv()));
@@ -261,6 +273,8 @@ public class Query {
     public ArrayList<Kviz> setEntriesToUpdate(ArrayList<Kviz> entries) {
         for(Kviz k : entries) {
             k = setQuestionIDs(k);
+            if(k.getKategorija().getNaziv().equals("Svi") == false)
+                k.getKategorija().setID(setCategoryIDByName(k.getKategorija().getNaziv()));
         }
         return entries;
     }
