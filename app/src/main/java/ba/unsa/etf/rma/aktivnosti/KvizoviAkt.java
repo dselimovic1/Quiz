@@ -39,6 +39,7 @@ import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.sqlite.DatabaseHelper;
 import ba.unsa.etf.rma.sqlite.Query;
+import ba.unsa.etf.rma.taskovi.AddItemTask;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
 
@@ -341,9 +342,9 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         ArrayList<Rang> entriesToUpdateLocal = LocalDBHelper.rangListsToUpdate(load, rangList);
         ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(rangList, load);
         ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdate(rangList, load);
-        /*for(Rang add: entriesToAdd)
+        for(Rang add: entriesToAdd)
             new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
-        for(Rang update : entriesToUpdate)
+        /*for(Rang update : entriesToUpdate)
             new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(update);*/
         queryHelper.addRanglists(entriesToAddLocal);
         queryHelper.updateRanglists(entriesToUpdateLocal);
