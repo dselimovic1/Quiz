@@ -183,7 +183,7 @@ public class Kviz implements Parcelable, FirestoreStorable {
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COLUMN_NAME + " TEXT NOT NULL," +
+                COLUMN_NAME + " TEXT UNIQUE," +
                 COLUMN_CATEGORY_ID + " INTEGER," +
                 DOCUMENT_ID + " TEXT NOT NULL);";
                 /*"FOREIGN KEY (" + COLUMN_CATEGORY_ID + ") REFERENCES " + Kategorija.KategorijaEntry.TABLE_NAME +
