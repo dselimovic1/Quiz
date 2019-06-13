@@ -185,7 +185,7 @@ public class Query {
         String updateClause = Kviz.KvizEntry.COLUMN_ID + " = ?";
         String[] whereArgs = new String[]{Long.toString(quiz.getID())};
         database.delete(Kviz.PitanjaKvizaEntry.TABLE_NAME, whereClause, whereArgs);
-        int ok = database.update(Kviz.KvizEntry.TABLE_NAME, quiz.getContentValues(), updateClause, whereArgs);
+        database.update(Kviz.KvizEntry.TABLE_NAME, quiz.getContentValues(), updateClause, whereArgs);
         for(Pitanje question : quiz.getPitanja()) {
             database.insert(Kviz.PitanjaKvizaEntry.TABLE_NAME, null, quiz.setContentValuesForQuestion(question.getID()));
         }
@@ -237,5 +237,31 @@ public class Query {
         for(Rang r: list) {
             updateRanglist(r);
         }
+    }
+
+    public long setQuestionIDByName(String questionName) {
+        Pitanje p = null;
+        String selection = Pitanje.PitanjeEntry.PROJECTION[1] + " = ?";
+        String[] args = new String[]{questionName};
+        Cursor cursor = database.query(Pitanje.PitanjeEntry.TABLE_NAME, Pitanje.PitanjeEntry.PROJECTION, selection, args, null, null, null);
+        while(cursor.moveToNext()) {
+            p = getQuestionFromCursor(cursor);
+        }
+        cursor.close();
+        return p.getID();
+    }
+
+    public Kviz setQuestionIDs(Kviz kviz) {
+        for(Pitanje p : kviz.getPitanja()) {
+            p.setID(setQuestionIDByName(p.getNaziv()));
+        }
+        return kviz;
+    }
+
+    public ArrayList<Kviz> setEntriesToUpdate(ArrayList<Kviz> entries) {
+        for(Kviz k : entries) {
+            k = setQuestionIDs(k);
+        }
+        return entries;
     }
 }
