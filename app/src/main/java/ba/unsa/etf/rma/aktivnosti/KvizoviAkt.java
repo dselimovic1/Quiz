@@ -332,6 +332,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         queryHelper.addQuestions(addQuestion);
         queryHelper.addCategories(addCategory);
         queryHelper.addQuizzes(addQuiz);
+        updateQuiz = queryHelper.setEntriesToUpdate(updateQuiz);
         queryHelper.updateQuizzes(updateQuiz);
         new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
     }
