@@ -42,4 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             onCreate(sqLiteDatabase);
         }
     }
+
+    @Override
+    public void onConfigure(SQLiteDatabase sqLiteDatabase) {
+        super.onConfigure(sqLiteDatabase);
+        sqLiteDatabase.setForeignKeyConstraintsEnabled(true);
+    }
 }
