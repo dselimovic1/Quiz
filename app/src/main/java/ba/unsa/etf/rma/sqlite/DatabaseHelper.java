@@ -13,7 +13,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "baza.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String PRAGMA = "PRAGMA foreign_keys = ON;";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,14 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(Kviz.KvizEntry.DROP_TABLE);
             sqLiteDatabase.execSQL(Kategorija.KategorijaEntry.DROP_TABLE);
             onCreate(sqLiteDatabase);
-        }
-    }
-
-    @Override
-    public void onOpen(SQLiteDatabase sqLiteDatabase) {
-        super.onOpen(sqLiteDatabase);
-        if(!sqLiteDatabase.isReadOnly()) {
-            sqLiteDatabase.execSQL(PRAGMA);
         }
     }
 }
