@@ -201,6 +201,15 @@ public class Query {
         result.ID = ID;
     }
 
+    public void updateRanglist(Rang rang) {
+        String where = Rang.ParEntry.COLUMN_RANG_ID + " = ?";
+        String[] whereArgs = new String[]{Long.toString(rang.getID())};
+        database.delete(Rang.ParEntry.TABLE_NAME, where, whereArgs);
+        for(Rang.Par p : rang.getMapa().values()) {
+            database.insert(Rang.ParEntry.TABLE_NAME, null, p.getContentValues(rang.getID()));
+        }
+    }
+
     public void addQuizzes(ArrayList<Kviz> list) {
         for(Kviz k : list) addQuiz(k);
     }
@@ -226,9 +235,7 @@ public class Query {
 
     public void updateRanglists(ArrayList<Rang> list) {
         for(Rang r: list) {
-            for(Rang.Par p : r.getMapa().values()) {
-                if(p.ID == 0) addResult(r, p);
-            }
+            updateRanglist(r);
         }
     }
 }
