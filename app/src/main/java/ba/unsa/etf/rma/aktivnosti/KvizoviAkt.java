@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -307,6 +308,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         Uri uri = CalendarContract.Events.CONTENT_URI;
         String[] selectionArgs = new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())};
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Nemate pristup kalendaru!", Toast.LENGTH_LONG);
             return;
         }
         Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
