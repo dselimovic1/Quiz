@@ -1,9 +1,12 @@
 package ba.unsa.etf.rma.fragmenti;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +40,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
 
     private static final int ADD_QUIZ = 1;
     private static final int UPDATE_QUIZ = 2;
+    private static final int PERMISSION_REQUEST = 0;
 
     private ArrayList<Pitanje> pitanja;
     private ArrayList<Kategorija> kategorije;
@@ -195,6 +199,15 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
 
     public interface CategoryAdd {
         void onCategoryAdded();
+    }
+
+    public void getPermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CALENDAR}, PERMISSION_REQUEST);
+        }
+        else {
+            checkEvents();
+        }
     }
 
     @Override
