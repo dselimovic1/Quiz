@@ -47,6 +47,9 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     private CategoryAdd categoryAdd;
 
     private boolean isConnected = false;
+    private boolean isPlayable = true;
+    private long nextEvent = 0;
+    private int numOfQuestions = 0;
 
     private DatabaseHelper databaseHelper;
     private Query query;
