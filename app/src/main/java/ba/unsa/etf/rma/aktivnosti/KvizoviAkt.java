@@ -39,8 +39,10 @@ import ba.unsa.etf.rma.klase.Pitanje;
 import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.sqlite.DatabaseHelper;
 import ba.unsa.etf.rma.sqlite.Query;
+import ba.unsa.etf.rma.taskovi.AddItemTask;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
+import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 
 
 public class KvizoviAkt extends AppCompatActivity implements DetailFrag.CategoryAdd, ListaFrag.FilterCategory, GetListTask.OnQuestionLoaded, GetListTask.OnCategoryLoaded, FilterQuizTask.OnListFiltered, GetListTask.OnRangLoaded {
@@ -339,13 +341,13 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
 
     public void updateFirestore(ArrayList<Rang> load, ArrayList<Rang> rangList) {
         ArrayList<Rang> entriesToAddLocal = LocalDBHelper.rangListsToAdd(load, rangList);
-        ArrayList<Rang> entriesToUpdateLocal = LocalDBHelper.rangListsToUpdate(load, rangList);
+        ArrayList<Rang> entriesToUpdateLocal = LocalDBHelper.rangListsToUpdate(load, rangList, false);
         ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(rangList, load);
-        ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdate(rangList, load);
-        /*for(Rang add: entriesToAdd)
+        ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdate(rangList, load, true);
+        for(Rang add: entriesToAdd)
             new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
         for(Rang update : entriesToUpdate)
-            new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(update);*/
+            new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(update);
         queryHelper.addRanglists(entriesToAddLocal);
         queryHelper.updateRanglists(entriesToUpdateLocal);
     }
