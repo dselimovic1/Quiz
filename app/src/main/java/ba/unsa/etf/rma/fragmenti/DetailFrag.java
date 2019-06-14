@@ -70,8 +70,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     private DatabaseHelper databaseHelper;
     private Query query;
 
-    public DetailFrag() {
-    }
+    public DetailFrag() { }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
