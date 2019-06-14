@@ -106,9 +106,10 @@ public class IgrajKvizAkt extends AppCompatActivity implements PitanjeFrag.SendD
     }
 
     public void setAlarm(int numOfQuestions) {
+        if(numOfQuestions == 0) return;
         Calendar calendar = Calendar.getInstance();
         calendar.setLenient(true);
-        calendar.add(Calendar.MINUTE, numOfQuestions / 2);
+        calendar.add(Calendar.MINUTE, (numOfQuestions + 1) / 2);
         Intent setAlarmActivity = new Intent(AlarmClock.ACTION_SET_ALARM);
         setAlarmActivity.putExtra(AlarmClock.EXTRA_HOUR, calendar.get(calendar.HOUR_OF_DAY));
         setAlarmActivity.putExtra(AlarmClock.EXTRA_MINUTES, calendar.get(calendar.MINUTE));
