@@ -60,6 +60,10 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     private long nextEvent = 0;
     private int numOfQuestions = 0;
 
+    private static final String[] INSTANCE_PROJECTION = new String[]{CalendarContract.Events.DTSTART};
+    private static final String SELECTION = INSTANCE_PROJECTION[0] + " >= ?";
+    private static final String SORT_ORDER = INSTANCE_PROJECTION[0] + " ASC";
+
     private DatabaseHelper databaseHelper;
     private Query query;
 
