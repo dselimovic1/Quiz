@@ -19,9 +19,7 @@ public class InformacijeFrag extends Fragment {
     private TextView procenat;
     private Button btnZavrsiKviz;
 
-    public InformacijeFrag() {
-
-    }
+    public InformacijeFrag() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
