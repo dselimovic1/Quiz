@@ -34,8 +34,7 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
     private DatabaseHelper databaseHelper;
     private Query query;
 
-    public ListaFrag() {
-    }
+    public ListaFrag() { }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
