@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,9 +119,15 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if(position == kvizovi.size() - 1) return;
-                Intent intent = new Intent(getActivity(), IgrajKvizAkt.class);
-                intent.putExtra("kviz",kvizovi.get(position));
-                startActivity(intent);
+                numOfQuestions = kvizovi.get(position).getPitanja().size();
+                getPermission();
+                if(isPlayable) {
+                    Intent intent = new Intent(getActivity(), IgrajKvizAkt.class);
+                    intent.putExtra("kviz", kvizovi.get(position));
+                    startActivity(intent);
+                } else {
+                    showAlertDialog("Imate događaj u kalendaru za " + nextEvent + " minuta!");
+                }
             }
         });
     }
@@ -233,7 +240,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
         Uri uri = CalendarContract.Events.CONTENT_URI;
         String[] selectionArgs = new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())};
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            Toast.makeText(getContext(), "Nemate dozvolu za pristup kalendaru!", Toast.LENGTH_LONG);
         }
         Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
         if(cursor != null && cursor.getCount() >= 1) {
