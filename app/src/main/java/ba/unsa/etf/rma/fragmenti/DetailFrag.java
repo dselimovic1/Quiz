@@ -193,4 +193,10 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     public interface CategoryAdd {
         void onCategoryAdded();
     }
+
+    @Override
+    public void onDestroy() {
+        databaseHelper.close();
+        super.onDestroy();
+    }
 }
