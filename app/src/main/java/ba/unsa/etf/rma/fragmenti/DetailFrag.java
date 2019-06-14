@@ -3,6 +3,7 @@ package ba.unsa.etf.rma.fragmenti;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -254,6 +256,18 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
 
         }
         isPlayable = true;
+    }
+
+    private void showAlertDialog(String message) {
+        final AlertDialog alert = new AlertDialog.Builder(getContext()).create();
+        alert.setMessage(message);
+        alert.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alert.cancel();
+            }
+        });
+        alert.show();
     }
 
     @Override
