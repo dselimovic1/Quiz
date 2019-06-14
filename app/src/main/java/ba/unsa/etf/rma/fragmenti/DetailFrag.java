@@ -19,16 +19,20 @@ import ba.unsa.etf.rma.aktivnosti.DodajKvizAkt;
 import ba.unsa.etf.rma.aktivnosti.IgrajKvizAkt;
 import ba.unsa.etf.rma.enumi.Task;
 import ba.unsa.etf.rma.helperi.ConnectionHelper;
+import ba.unsa.etf.rma.helperi.LocalDBHelper;
 import ba.unsa.etf.rma.helperi.MiscHelper;
 import ba.unsa.etf.rma.klase.Kategorija;
 import ba.unsa.etf.rma.klase.Kviz;
 import ba.unsa.etf.rma.klase.Pitanje;
+import ba.unsa.etf.rma.klase.Rang;
 import ba.unsa.etf.rma.sqlite.DatabaseHelper;
 import ba.unsa.etf.rma.sqlite.Query;
+import ba.unsa.etf.rma.taskovi.AddItemTask;
 import ba.unsa.etf.rma.taskovi.FilterQuizTask;
 import ba.unsa.etf.rma.taskovi.GetListTask;
+import ba.unsa.etf.rma.taskovi.UpdateItemTask;
 
-public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, FilterQuizTask.OnListFiltered {
+public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded, GetListTask.OnQuestionLoaded, FilterQuizTask.OnListFiltered, GetListTask.OnRangLoaded {
 
 
     private static final int ADD_QUIZ = 1;
@@ -128,7 +132,9 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         pitanja = load;
         MiscHelper.azurirajKvizove(kvizovi, pitanja, kategorije);
+        ArrayList<Kviz> temp = kvizovi;
         setGridAdapter();
+        updateDatabase(load, temp);
     }
 
     @Override
@@ -147,6 +153,41 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
         kvizovi.add(new Kviz("Dodaj Kviz", null, new Kategorija(null, "671")));
         adapter = new GridAdapter(getContext(), kvizovi);
         kvizGrid.setAdapter(adapter);
+    }
+
+    @Override
+    public void loadAllRang(ArrayList<Rang> load) {
+        ArrayList<Rang> rangList = query.getAllRangLists();
+        updateFirestore(load, rangList);
+    }
+
+    public void updateDatabase(ArrayList<Pitanje> load, ArrayList<Kviz> kvizovi) {
+        ArrayList<Kviz> localQuiz = query.getAllQuizzes();
+        ArrayList<Kviz> kvizoviUpdate = new ArrayList<>(kvizovi);
+        ArrayList<Kviz> localUpdate = new ArrayList<>(localQuiz);
+        ArrayList<Pitanje> addQuestion = (ArrayList<Pitanje>) LocalDBHelper.getEntriesToAdd(load, query.getAllQuestions());
+        ArrayList<Kategorija> addCategory = (ArrayList<Kategorija>) LocalDBHelper.getEntriesToAdd(kategorije, query.getAllCategories());
+        ArrayList<Kviz> addQuiz = (ArrayList<Kviz>) LocalDBHelper.getEntriesToAdd(kvizovi, localQuiz);
+        ArrayList<Kviz> updateQuiz = LocalDBHelper.getUpdatedEntries(kvizoviUpdate, localUpdate);
+        query.addQuestions(addQuestion);
+        query.addCategories(addCategory);
+        query.addQuizzes(addQuiz);
+        updateQuiz = query.setEntriesToUpdate(updateQuiz);
+        query.updateQuizzes(updateQuiz);
+        new GetListTask(getResources().openRawResource(R.raw.secret), (GetListTask.OnRangLoaded) this).execute(Task.TaskType.RANGLIST);
+    }
+
+    public void updateFirestore(ArrayList<Rang> load, ArrayList<Rang> rangList) {
+        ArrayList<Rang> entriesToAddLocal = LocalDBHelper.rangListsToAdd(load, rangList);
+        ArrayList<Rang> entriesToUpdateLocal = LocalDBHelper.rangListsToUpdate(load, rangList, false);
+        ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(rangList, load);
+        ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdate(rangList, load, true);
+        for(Rang add: entriesToAdd)
+            new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
+        for(Rang update : entriesToUpdate)
+            new UpdateItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(update);
+        query.addRanglists(entriesToAddLocal);
+        query.updateRanglists(entriesToUpdateLocal);
     }
 
     public interface CategoryAdd {
