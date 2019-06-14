@@ -101,4 +101,10 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
         void onCategorySelected(String categoryName);
         void onCategorySelected(long ID);
     }
+
+    @Override
+    public void onDestroy() {
+        databaseHelper.close();
+        super.onDestroy();
+    }
 }
