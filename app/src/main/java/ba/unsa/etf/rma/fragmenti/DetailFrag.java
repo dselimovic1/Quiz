@@ -242,6 +242,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
         String[] selectionArgs = new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())};
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(getContext(), "Nemate dozvolu za pristup kalendaru!", Toast.LENGTH_LONG);
+            return;
         }
         Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
         if(cursor != null && cursor.getCount() >= 1) {
