@@ -2,10 +2,14 @@ package ba.unsa.etf.rma.fragmenti;
 
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ba.unsa.etf.rma.R;
 import ba.unsa.etf.rma.adapteri.GridAdapter;
@@ -218,6 +223,28 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
             }
         }
     }
+
+    public void checkEvents() {
+        ContentResolver cr = getActivity().getContentResolver();
+        Uri uri = CalendarContract.Events.CONTENT_URI;
+        String[] selectionArgs = new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())};
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Cursor cursor = cr.query(uri, INSTANCE_PROJECTION, SELECTION, selectionArgs, SORT_ORDER);
+        if(cursor != null && cursor.getCount() >= 1) {
+            long ID = MiscHelper.getFirstEventTime(cursor);
+            cursor.close();
+            nextEvent = MiscHelper.getDifferenceInMinutes(ID);
+            if(nextEvent < numOfQuestions / 2) {
+                isPlayable = false;
+                return;
+            }
+
+        }
+        isPlayable = true;
+    }
+
     @Override
     public void onDestroy() {
         databaseHelper.close();
