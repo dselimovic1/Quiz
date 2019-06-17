@@ -315,7 +315,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         if(cursor != null && cursor.getCount() >= 1) {
             long ID = MiscHelper.getFirstEventTime(cursor);
             cursor.close();
-            nextEvent = MiscHelper.getDifferenceInMinutes(ID);
+            nextEvent = MiscHelper.getDifferenceInMinutes(ID) + 1;
             if(nextEvent < numOfQuestions / 2) {
                 isPlayable = false;
                 return;
