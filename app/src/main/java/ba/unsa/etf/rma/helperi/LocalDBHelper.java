@@ -70,4 +70,19 @@ public class LocalDBHelper {
         return entriesToUpdate;
     }
 
+    public static ArrayList<Rang> rangListsToUpdateFir(ArrayList<Rang> listLocal, ArrayList<Rang> listFirestore, boolean document) {
+        ArrayList<Rang> entriesToUpdate = new ArrayList<>();
+        for(Rang r : listLocal) {
+            for(Rang f : listFirestore) {
+                if(r.getImeKviza().equals(f.getImeKviza()) == false) continue;
+                if(r.getMapa().size() > f.getMapa().size()) {
+                    if(!document) r.setID(f.getID());
+                    else r.setDocumentID(f.getDocumentID());
+                    entriesToUpdate.add(r);
+                }
+            }
+        }
+        return entriesToUpdate;
+    }
+
 }

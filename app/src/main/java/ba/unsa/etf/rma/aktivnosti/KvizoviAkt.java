@@ -345,7 +345,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         ArrayList<Rang> entriesToAddLocal = LocalDBHelper.rangListsToAdd(load, rangList);
         ArrayList<Rang> entriesToUpdateLocal = LocalDBHelper.rangListsToUpdate(load, rangList, false);
         ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(rangList, load);
-        ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdate(rangList, load, true);
+        ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdateFir(rangList, load, true);
         for(Rang add: entriesToAdd)
             new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
         for(Rang update : entriesToUpdate)
