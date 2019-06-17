@@ -89,10 +89,10 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
         kvizGrid = (GridView)getView().findViewById(R.id.gridKvizovi);
         isConnected = ConnectionHelper.isNetworkAvailable(getContext());
         if(isConnected)  {
-            new FilterQuizTask(getActivity().getResources().openRawResource(R.raw.secret), this).execute(getArguments().getString("filter"));
+            new FilterQuizTask(getContext().getResources().openRawResource(R.raw.secret), this).execute(getArguments().getString("filter"));
         }
         else {
-            long ID = getArguments().getLong("filter");
+            long ID = getArguments().getLong("filterLong");
             if(ID == 0) kvizovi = query.getAllQuizzes();
             else kvizovi = query.getQuizzesByCategory(ID);
             setGridAdapter();
@@ -144,7 +144,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
         categoryAdd.onCategoryAdded();
         isConnected = ConnectionHelper.isNetworkAvailable(getContext());
         if(isConnected) {
-            new FilterQuizTask(getActivity().getResources().openRawResource(R.raw.secret), this).execute("Svi");
+            new FilterQuizTask(getContext().getResources().openRawResource(R.raw.secret), this).execute("Svi");
         }
         else {
             kvizovi = query.getAllQuizzes();
@@ -156,7 +156,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     public void loadAllQuestion(ArrayList<Pitanje> load) {
         pitanja = load;
         MiscHelper.azurirajKvizove(kvizovi, pitanja, kategorije);
-        ArrayList<Kviz> temp = kvizovi;
+        ArrayList<Kviz> temp = new ArrayList<>(kvizovi);
         setGridAdapter();
         updateDatabase(load, temp);
     }
@@ -164,13 +164,13 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     @Override
     public void loadAllCategory(ArrayList<Kategorija> load) {
         kategorije = load;
-        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Task.TaskType.QUESTION);
+        new GetListTask(getContext().getResources().openRawResource(R.raw.secret), (GetListTask.OnQuestionLoaded) this).execute(Task.TaskType.QUESTION);
     }
 
     @Override
     public void filterList(ArrayList<Kviz> load) {
         kvizovi = load;
-        new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Task.TaskType.CATEGORY);
+        new GetListTask(getContext().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Task.TaskType.CATEGORY);
     }
 
     public void setGridAdapter() {
@@ -205,7 +205,7 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
         ArrayList<Rang> entriesToAddLocal = LocalDBHelper.rangListsToAdd(load, rangList);
         ArrayList<Rang> entriesToUpdateLocal = LocalDBHelper.rangListsToUpdate(load, rangList, false);
         ArrayList<Rang> entriesToAdd = LocalDBHelper.rangListsToAdd(rangList, load);
-        ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdate(rangList, load, true);
+        ArrayList<Rang> entriesToUpdate = LocalDBHelper.rangListsToUpdateFir(rangList, load, true);
         for(Rang add: entriesToAdd)
             new AddItemTask(getResources().openRawResource(R.raw.secret), Task.TaskType.RANGLIST).execute(add);
         for(Rang update : entriesToUpdate)
@@ -271,8 +271,8 @@ public class DetailFrag extends Fragment implements GetListTask.OnCategoryLoaded
     }
 
     @Override
-    public void onDestroy() {
+    public void onDetach() {
         databaseHelper.close();
-        super.onDestroy();
+        super.onDetach();
     }
 }

@@ -52,7 +52,7 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
         listaKategorije = (ListView)getView().findViewById(R.id.listaKategorija);
         isConnected = ConnectionHelper.isNetworkAvailable(getActivity());
         if(isConnected) {
-            new GetListTask(getActivity().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Task.TaskType.CATEGORY);
+            new GetListTask(getContext().getResources().openRawResource(R.raw.secret), (GetListTask.OnCategoryLoaded) this).execute(Task.TaskType.CATEGORY);
         }
         else {
             kategorije = query.getAllCategories();
@@ -65,11 +65,11 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
                 long ID = 0;
                 if(i != kategorijeAdapter.getCount() - 1) {
                     currentCategory = kategorije.get(i).getDocumentID();
-                    ID = 0;
+                    ID = kategorije.get(i).getID();
                 }
                 else {
                     currentCategory = "Svi";
-                    ID = kategorije.get(i).getID();
+                    ID = 0;
                 }
                 if(isConnected) filterCategory.onCategorySelected(currentCategory);
                 else filterCategory.onCategorySelected(ID);
@@ -102,8 +102,8 @@ public class ListaFrag extends Fragment implements GetListTask.OnCategoryLoaded 
     }
 
     @Override
-    public void onDestroy() {
+    public void onDetach() {
         databaseHelper.close();
-        super.onDestroy();
+        super.onDetach();
     }
 }

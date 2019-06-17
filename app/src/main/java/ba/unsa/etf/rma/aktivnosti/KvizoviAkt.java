@@ -174,7 +174,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
             }
             Bundle bundle = new Bundle();
             bundle.putString("filter", "Svi");
-            bundle.putLong("filter", 0);
+            bundle.putLong("filterLong", 0);
             detailFrag.setArguments(bundle);
             fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
         }
@@ -225,7 +225,7 @@ public class KvizoviAkt extends AppCompatActivity implements DetailFrag.Category
         FragmentManager fm = getSupportFragmentManager();
         DetailFrag detailFrag = new DetailFrag();
         Bundle bundle = new Bundle();
-        bundle.putLong("filter", ID);
+        bundle.putLong("filterLong", ID);
         detailFrag.setArguments(bundle);
         fm.beginTransaction().replace(R.id.detailPlace, detailFrag).commit();
     }
